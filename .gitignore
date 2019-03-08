@@ -1,3 +1,10 @@
+#Downloaded data files
+
+recommendation/ml-20m.zip
+translation/raw_data/
+translation/tensorflow/newstest2014.de
+translation/tensorflow/newstest2014.en
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
