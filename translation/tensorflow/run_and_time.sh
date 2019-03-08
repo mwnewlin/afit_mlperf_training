@@ -3,6 +3,9 @@
 # This script runs preprocessing on the downloaded data
 # and times (exlcusively) training to the target accuracy.
 
+# Get the directory that this script is ran from
+export SOURCE_DIR=${SOURCE_DIR:="$(dirname $(readlink -f "$0"))"}
+
 # To use the script:
 # run_and_time.sh <random seed 1-5>
 
@@ -19,20 +22,21 @@ export MLPERF_COMPLIANCE_PKG=${MLPERF_COMPLIANCE_PKG:-mlperf_compliance}
 # The mlperf_compliance package is used for compliance logging.
 pip3 install ${MLPERF_COMPLIANCE_PKG}
 
+#  Set SEED default to -1
+SEED=${1:-1}
+
 # Run preprocessing (not timed)
 # TODO: Seed not currently used but will be in a future PR
-. run_preprocessing.sh ${SEED}
+. ${SOURCE_DIR}/run_preprocessing.sh ${SEED}
 
 # Start timing
 START=$(date +%s)
 START_FMT=$(date +%Y-%m-%d\ %r)
 echo "STARTING TIMING RUN AT ${START_FMT}"
 
-# Run benchmark (training)
-SEED=${1:-1}
 
 echo "Running benchmark with seed ${SEED}"
-. run_training.sh ${SEED} ${TARGET_UNCASED_BLEU_SCORE}
+. ${SOURCE_DIR}/run_training.sh ${SEED} ${TARGET_UNCASED_BLEU_SCORE}
 
 RET_CODE=$?; if [[ ${RET_CODE} != 0 ]]; then exit ${RET_CODE}; fi
 

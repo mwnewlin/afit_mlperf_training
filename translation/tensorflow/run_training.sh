@@ -5,10 +5,23 @@ set -e
 SEED=$1
 QUALITY=$2
 
-cd /research/transformer
+# Get the directory that this script is ran from
+export SOURCE_DIR=${SOURCE_DIR:="$(dirname $(readlink -f "$0"))"}
 
-export PYTHONPATH=/research/transformer/transformer:${PYTHONPATH}
+#cd /research/transformer
+
+export PYTHONPATH=${SOURCE_DIR}/transformer:${PYTHONPATH}
 # Add compliance to PYTHONPATH
 # export PYTHONPATH=/mlperf/training/compliance:${PYTHONPATH}
 
-python3 transformer/transformer_main.py --random_seed=${SEED} --data_dir=processed_data/ --model_dir=model --params=big --bleu_threshold ${QUALITY} --bleu_source=newstest2014.en --bleu_ref=newstest2014.de
+# You might need to switch the model from  'big' to 'base'
+# if your GPU starts OOMing
+# See: https://github.com/mlperf/training/issues/52
+
+python3 ${SOURCE_DIR}/transformer/transformer_main.py --random_seed=${SEED} \
+  --data_dir=${SOURCE_DIR}/processed_data/ \
+  --model_dir=model \
+  --params=base \
+  --bleu_threshold ${QUALITY} \
+  --bleu_source=${SOURCE_DIR}/newstest2014.en \
+  --bleu_ref=${SOURCE_DIR}/newstest2014.de

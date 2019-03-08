@@ -2,7 +2,8 @@
 object_detection/coco_annotations_minival.tgz
 object_detection/train2014.zip
 recommendation/ml-20m.zip
-translation/raw_data/
+single_stage_detector/coco/
+translation/tensorflow/raw_data/
 translation/tensorflow/newstest2014.de
 translation/tensorflow/newstest2014.en
 

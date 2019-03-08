@@ -1,5 +1,6 @@
 #!/bin/bash
 
+cd tensorflow
 set -e
 ACTUAL_TEST=`cat tensorflow/newstest2014.en | md5sum`
 EXPECTED_TEST='dabf51a9c02b2235632f3cee75c72d49  -'
