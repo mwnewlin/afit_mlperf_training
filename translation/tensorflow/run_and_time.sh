@@ -20,7 +20,7 @@ export MLPERF_COMPLIANCE_PKG=${MLPERF_COMPLIANCE_PKG:-mlperf_compliance}
 
 # Install mlperf_compliance package.
 # The mlperf_compliance package is used for compliance logging.
-pip3 install ${MLPERF_COMPLIANCE_PKG}
+pip install ${MLPERF_COMPLIANCE_PKG}
 
 #  Set SEED default to -1
 SEED=${1:-1}
