@@ -7,7 +7,7 @@ SOURCE_DIR=${SOURCE_DIR:="$(dirname $(readlink -f "$0"))"}
 
 SEED=$1
 
-cd /research/transformer
+#cd /research/transformer
 
 # TODO: Add SEED to process_data.py since this uses a random generator (future PR)
 export PYTHONPATH=${SOURCE_DIR}/transformer:${PYTHONPATH}
