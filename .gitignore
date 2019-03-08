@@ -1,5 +1,6 @@
-#Downloaded data files
-
+# Downloaded data files
+object_detection/coco_annotations_minival.tgz
+object_detection/train2014.zip
 recommendation/ml-20m.zip
 translation/raw_data/
 translation/tensorflow/newstest2014.de
