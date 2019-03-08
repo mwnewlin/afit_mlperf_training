@@ -151,7 +151,8 @@ class SpectrogramDataset(Dataset, SpectrogramParser):
         self.ids = ids
         self.size = len(ids)
         self.labels_map = dict([(labels[i], i) for i in range(len(labels))])
-        super(SpectrogramDataset, self).__init__(audio_conf, normalize, augment)
+        super(SpectrogramDataset, self).__init__(
+            audio_conf, normalize, augment)
 
     def __getitem__(self, index):
         sample = self.ids[index]
@@ -163,11 +164,13 @@ class SpectrogramDataset(Dataset, SpectrogramParser):
     def parse_transcript(self, transcript_path):
         with open(transcript_path, 'r') as transcript_file:
             transcript = transcript_file.read().replace('\n', '')
-        transcript = list(filter(None, [self.labels_map.get(x) for x in list(transcript)]))
+        transcript = list(
+            filter(None, [self.labels_map.get(x) for x in list(transcript)]))
         return transcript
 
     def __len__(self):
         return self.size
+
 
 class SpectrogramAndPathDataset(SpectrogramDataset):
     def __getitem__(self, index):
@@ -177,12 +180,13 @@ class SpectrogramAndPathDataset(SpectrogramDataset):
         transcript = self.parse_transcript(transcript_path)
         return spect, transcript, audio_path
 
+
 class SpectrogramAndLogitsDataset(SpectrogramDataset):
     def __getitem__(self, index):
         sample = self.ids[index]
         audio_path, transcript_path = sample[0], sample[1]
         logit_path = os.path.join(
-        os.path.split(os.path.split(audio_path)[0])[0],
+            os.path.split(os.path.split(audio_path)[0])[0],
             "logits",
             os.path.splitext(os.path.split(audio_path)[1])[0] + ".pth"
         )
@@ -190,6 +194,7 @@ class SpectrogramAndLogitsDataset(SpectrogramDataset):
         transcript = self.parse_transcript(transcript_path)
         logits = torch.load(logit_path)
         return spect, transcript, audio_path, logits
+
 
 def _collate_fn_logits(batch):
     def func(p):
@@ -224,10 +229,11 @@ def _collate_fn_logits(batch):
         input_percentages[x] = seq_length / float(max_seqlength)
         target_sizes[x] = len(target)
         targets.extend(target)
-        logits[x,:logit.size(0)].copy_(logit)
+        logits[x, :logit.size(0)].copy_(logit)
 
     targets = torch.IntTensor(targets)
     return inputs, targets, input_percentages, target_sizes, paths, logits
+
 
 def _collate_fn_paths(batch):
     def func(p):
@@ -254,6 +260,7 @@ def _collate_fn_paths(batch):
         targets.extend(target)
     targets = torch.IntTensor(targets)
     return inputs, targets, input_percentages, target_sizes, paths, None
+
 
 def _collate_fn(batch):
     def func(p):
@@ -288,6 +295,7 @@ class AudioDataLoader(DataLoader):
         super(AudioDataLoader, self).__init__(*args, **kwargs)
         self.collate_fn = _collate_fn
 
+
 class AudioDataAndLogitsLoader(DataLoader):
     def __init__(self, *args, **kwargs):
         """
@@ -295,6 +303,7 @@ class AudioDataAndLogitsLoader(DataLoader):
         """
         super(AudioDataAndLogitsLoader, self).__init__(*args, **kwargs)
         self.collate_fn = _collate_fn_logits
+
 
 class AudioDataAndPathsLoader(DataLoader):
     def __init__(self, *args, **kwargs):
@@ -304,16 +313,18 @@ class AudioDataAndPathsLoader(DataLoader):
         super(AudioDataAndPathsLoader, self).__init__(*args, **kwargs)
         self.collate_fn = _collate_fn_paths
 
+
 def augment_audio_with_sox(path, sample_rate, tempo, gain):
     """
     Changes tempo and gain of the recording with sox and loads it.
     """
     with NamedTemporaryFile(suffix=".wav") as augmented_file:
         augmented_filename = augmented_file.name
-        sox_augment_params = ["tempo", "{:.3f}".format(tempo), "gain", "{:.3f}".format(gain)]
+        sox_augment_params = ["tempo", "{:.3f}".format(
+            tempo), "gain", "{:.3f}".format(gain)]
         sox_params = "sox \"{}\" -r {} -c 1 -b 16 {} {} >/dev/null 2>&1".format(path, sample_rate,
-                                                                            augmented_filename,
-                                                                            " ".join(sox_augment_params))
+                                                                                augmented_filename,
+                                                                                " ".join(sox_augment_params))
         os.system(sox_params)
         y = load_audio(augmented_filename)
         return y

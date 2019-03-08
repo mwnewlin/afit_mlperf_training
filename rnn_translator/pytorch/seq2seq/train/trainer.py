@@ -160,16 +160,22 @@ class Seq2SeqTrainer:
                 log += [f'{phase} [{self.epoch}][{i}/{len(data_loader)}]']
                 log += [f'Time {batch_time.val:.3f} ({batch_time.avg:.3f})']
                 log += [f'Data {data_time.val:.3f} ({data_time.avg:.3f})']
-                log += [f'Tok/s {tot_tok_time.val:.0f} ({tot_tok_time.avg:.0f})']
+                log += [
+                    f'Tok/s {tot_tok_time.val:.0f} ({tot_tok_time.avg:.0f})']
                 if self.verbose:
-                    log += [f'Src tok/s {src_tok_time.val:.0f} ({src_tok_time.avg:.0f})']
-                    log += [f'Tgt tok/s {tgt_tok_time.val:.0f} ({tgt_tok_time.avg:.0f})']
-                    log += [f'Loss/sentence {losses_per_sentence.val:.1f} ({losses_per_sentence.avg:.1f})']
-                log += [f'Loss/tok {losses_per_token.val:.8f} ({losses_per_token.avg:.8f})']
+                    log += [
+                        f'Src tok/s {src_tok_time.val:.0f} ({src_tok_time.avg:.0f})']
+                    log += [
+                        f'Tgt tok/s {tgt_tok_time.val:.0f} ({tgt_tok_time.avg:.0f})']
+                    log += [
+                        f'Loss/sentence {losses_per_sentence.val:.1f} ({losses_per_sentence.avg:.1f})']
+                log += [
+                    f'Loss/tok {losses_per_token.val:.8f} ({losses_per_token.avg:.8f})']
                 log = '\t'.join(log)
                 logging.info(log)
 
-            save_chkpt = (self.save_counter % self.save_freq) == (self.save_freq - 1)
+            save_chkpt = (self.save_counter %
+                          self.save_freq) == (self.save_freq - 1)
             if training and save_chkpt:
                 self.save_counter = 0
                 self.save_info['iteration'] = i

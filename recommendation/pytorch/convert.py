@@ -46,7 +46,8 @@ def main():
 
     print("Filtering out users with less than {} ratings".format(MIN_RATINGS))
     grouped = df.groupby(USER_COLUMN)
-    mlperf_log.ncf_print(key=mlperf_log.PREPROC_HP_MIN_RATINGS, value=MIN_RATINGS)
+    mlperf_log.ncf_print(
+        key=mlperf_log.PREPROC_HP_MIN_RATINGS, value=MIN_RATINGS)
     df = grouped.filter(lambda x: len(x) >= MIN_RATINGS)
 
     print("Mapping original user and item IDs to new sequential IDs")
@@ -76,14 +77,16 @@ def main():
 
     print("Generating {} negative samples for each user"
           .format(args.negatives))
-    mlperf_log.ncf_print(key=mlperf_log.PREPROC_HP_NUM_EVAL, value=args.negatives)
+    mlperf_log.ncf_print(
+        key=mlperf_log.PREPROC_HP_NUM_EVAL, value=args.negatives)
 
     # The default of np.random.choice is replace=True
-    mlperf_log.ncf_print(key=mlperf_log.PREPROC_HP_SAMPLE_EVAL_REPLACEMENT, value=True)
+    mlperf_log.ncf_print(
+        key=mlperf_log.PREPROC_HP_SAMPLE_EVAL_REPLACEMENT, value=True)
 
-    #===========================================================================
-    #== First random operation triggers the clock start. =======================
-    #===========================================================================
+    # ===========================================================================
+    # == First random operation triggers the clock start. =======================
+    # ===========================================================================
     mlperf_log.ncf_print(key=mlperf_log.RUN_START)
     mlperf_log.ncf_print(key=mlperf_log.INPUT_STEP_EVAL_NEG_GEN)
 
@@ -103,7 +106,8 @@ def main():
     df_train_ratings.to_csv(os.path.join(args.output, TRAIN_RATINGS_FILENAME),
                             index=False, header=False, sep='\t')
 
-    mlperf_log.ncf_print(key=mlperf_log.INPUT_SIZE, value=len(df_train_ratings))
+    mlperf_log.ncf_print(key=mlperf_log.INPUT_SIZE,
+                         value=len(df_train_ratings))
 
     df_test_ratings = pd.DataFrame(test_ratings)
     df_test_ratings['fake_rating'] = 1

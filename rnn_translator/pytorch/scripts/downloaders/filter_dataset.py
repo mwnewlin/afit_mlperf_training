@@ -2,6 +2,7 @@ import argparse
 import string
 from collections import Counter
 
+
 def parse_args():
     parser = argparse.ArgumentParser(description='Clean dataset')
     parser.add_argument('-f1', '--file1', help='file1')
@@ -12,6 +13,7 @@ def parse_args():
 def save_output(fname, data):
     with open(fname, 'w') as f:
         f.writelines(data)
+
 
 def main():
     args = parse_args()

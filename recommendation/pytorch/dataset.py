@@ -12,7 +12,8 @@ class CFTrainDataset(torch.utils.data.dataset.Dataset):
         self._load_train_matrix(train_fname)
         self.nb_neg = nb_neg
 
-        mlperf_log.ncf_print(key=mlperf_log.INPUT_STEP_TRAIN_NEG_GEN, value=nb_neg)
+        mlperf_log.ncf_print(
+            key=mlperf_log.INPUT_STEP_TRAIN_NEG_GEN, value=nb_neg)
         mlperf_log.ncf_print(key=mlperf_log.INPUT_HP_SAMPLE_TRAIN_REPLACEMENT)
 
     def _load_train_matrix(self, train_fname):
@@ -26,7 +27,7 @@ class CFTrainDataset(torch.utils.data.dataset.Dataset):
 
         self.data = list(filter(lambda x: x[2], data))
         self.mat = scipy.sparse.dok_matrix(
-                (self.nb_users, self.nb_items), dtype=np.float32)
+            (self.nb_users, self.nb_items), dtype=np.float32)
         for user, item, _ in data:
             self.mat[user, item] = 1.
 

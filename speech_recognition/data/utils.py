@@ -30,8 +30,10 @@ def create_manifest(data_path, tag, ordered=True):
     counter = 0
     with io.FileIO(manifest_path, "w") as file:
         for wav_path in file_paths:
-            transcript_path = wav_path.replace('/wav/', '/txt/').replace('.wav', '.txt')
-            sample = os.path.abspath(wav_path) + ',' + os.path.abspath(transcript_path) + '\n'
+            transcript_path = wav_path.replace(
+                '/wav/', '/txt/').replace('.wav', '.txt')
+            sample = os.path.abspath(wav_path) + ',' + \
+                os.path.abspath(transcript_path) + '\n'
             file.write(sample.encode('utf-8'))
             counter += 1
             update_progress(counter / float(size))

@@ -11,12 +11,14 @@ PATH = os.path.join(DIR, URL.split('/')[-1])
 CHUNK_SIZE = 4096
 
 # Download the dataset
+
+
 def download():
     if not os.path.exists(DIR):
         os.makedirs(DIR)
 
     retry = 0
-    retry_limit = 3 
+    retry_limit = 3
     while not os.path.exists(PATH):
         if retry < retry_limit:
             retry += 1
@@ -35,6 +37,7 @@ def download():
                     f.write(data)
 
     print("Download successful!")
+
 
 if __name__ == "__main__":
     download()

@@ -19,7 +19,6 @@ from __future__ import division
 from __future__ import print_function
 
 
-
 import tensorflow as tf
 
 import test_util
@@ -27,18 +26,18 @@ import test_util
 
 class TestUtilTest(tf.test.TestCase):
 
-  def test_random_binary_sparse_matrix(self):
-    num_rows = 16
-    num_cols = 32
-    num_non_zeros = 100
+    def test_random_binary_sparse_matrix(self):
+        num_rows = 16
+        num_cols = 32
+        num_non_zeros = 100
 
-    sparse_matrix = test_util.random_binary_sparse_matrix(
-        num_non_zeros, num_rows, num_cols)
+        sparse_matrix = test_util.random_binary_sparse_matrix(
+            num_non_zeros, num_rows, num_cols)
 
-    self.assertEqual(sparse_matrix.shape[0], num_rows)
-    self.assertEqual(sparse_matrix.shape[1], num_cols)
-    self.assertEqual(sparse_matrix.nnz, num_non_zeros)
+        self.assertEqual(sparse_matrix.shape[0], num_rows)
+        self.assertEqual(sparse_matrix.shape[1], num_cols)
+        self.assertEqual(sparse_matrix.nnz, num_non_zeros)
 
 
 if __name__ == "__main__":
-  tf.test.main()
+    tf.test.main()

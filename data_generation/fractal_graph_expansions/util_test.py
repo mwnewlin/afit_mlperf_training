@@ -19,7 +19,6 @@ from __future__ import division
 from __future__ import print_function
 
 
-
 import numpy as np
 import tensorflow as tf
 
@@ -30,28 +29,29 @@ from test_util import sparse_to_df
 
 class UtilTest(tf.test.TestCase):
 
-  def test_convert_df_to_sparse_matrix(self):
-    np.random.seed(0)
+    def test_convert_df_to_sparse_matrix(self):
+        np.random.seed(0)
 
-    num_rows = 16
-    num_cols = 32
-    num_non_zeros = 40
+        num_rows = 16
+        num_cols = 32
+        num_non_zeros = 40
 
-    sparse_matrix = random_binary_sparse_matrix(
-        num_non_zeros, num_rows, num_cols)
+        sparse_matrix = random_binary_sparse_matrix(
+            num_non_zeros, num_rows, num_cols)
 
-    sparse_matrix_as_df = sparse_to_df(sparse_matrix)
-    sparse_matrix_as_df["data"] = 1.0
+        sparse_matrix_as_df = sparse_to_df(sparse_matrix)
+        sparse_matrix_as_df["data"] = 1.0
 
-    sparse_matrix_as_df_as_sparse = util.convert_df_to_sparse_matrix(
-        sparse_matrix_as_df, shape=(num_rows, num_cols))
+        sparse_matrix_as_df_as_sparse = util.convert_df_to_sparse_matrix(
+            sparse_matrix_as_df, shape=(num_rows, num_cols))
 
-    self.assertEqual(sparse_matrix.shape, sparse_matrix_as_df_as_sparse.shape)
+        self.assertEqual(sparse_matrix.shape,
+                         sparse_matrix_as_df_as_sparse.shape)
 
-    # Check that there are no non-zeros in the inequality boolean matrix.
-    self.assertEqual(
-        (sparse_matrix != sparse_matrix_as_df_as_sparse).nnz, 0)
+        # Check that there are no non-zeros in the inequality boolean matrix.
+        self.assertEqual(
+            (sparse_matrix != sparse_matrix_as_df_as_sparse).nnz, 0)
 
 
 if __name__ == "__main__":
-  tf.test.main()
+    tf.test.main()

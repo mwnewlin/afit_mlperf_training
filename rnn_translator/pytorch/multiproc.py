@@ -3,6 +3,7 @@ import subprocess
 
 import torch
 
+
 def main():
     argslist = list(sys.argv)[1:]
     world_size = torch.cuda.device_count()
@@ -22,7 +23,8 @@ def main():
             argslist.append('--rank')
             argslist.append(str(i))
         stdout = None if i == 0 else subprocess.DEVNULL
-        worker = subprocess.Popen([str(sys.executable)] + argslist, stdout=stdout)
+        worker = subprocess.Popen(
+            [str(sys.executable)] + argslist, stdout=stdout)
         workers.append(worker)
 
     returncode = 0

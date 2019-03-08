@@ -219,5 +219,6 @@ def main():
           f'Avg enc tok/s: {enc_tok_per_sec.avg:.0f}\t'
           f'Avg dec tok/s: {dec_tok_per_sec.avg:.0f}')
 
+
 if __name__ == '__main__':
     main()

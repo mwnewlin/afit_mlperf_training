@@ -39,7 +39,8 @@ class Translator(object):
         batch_size = len(input_sentences)
         beam_size = self.beam_size
 
-        src_tok = [torch.tensor(self.tok.segment(line)) for line in input_sentences]
+        src_tok = [torch.tensor(self.tok.segment(line))
+                   for line in input_sentences]
 
         bos = [self.insert_target_start] * (batch_size * beam_size)
         bos = torch.LongTensor(bos)

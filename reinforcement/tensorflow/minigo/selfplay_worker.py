@@ -61,7 +61,7 @@ HOLDOUT_PCT = goparams.HOLDOUT_PCT
 
 def print_flags():
     flags = {
-        #'BUCKET_NAME': BUCKET_NAME,
+        # 'BUCKET_NAME': BUCKET_NAME,
         'BASE_DIR': BASE_DIR,
         'MODELS_DIR': MODELS_DIR,
         'SELFPLAY_DIR': SELFPLAY_DIR,
@@ -160,7 +160,6 @@ def selfplay_cache_model(network, model_name, readouts=goparams.SP_READOUTS, ver
     )
 
 
-
 def gather():
     print("Gathering game output...")
     main.gather(input_directory=SELFPLAY_DIR,
@@ -174,10 +173,10 @@ def train():
     print("New model will be {}".format(new_model_name))
     load_file = os.path.join(MODELS_DIR, model_name)
     save_file = os.path.join(MODELS_DIR, new_model_name)
-    #try:
+    # try:
     main.train(ESTIMATOR_WORKING_DIR, TRAINING_CHUNK_DIR, save_file,
                generation_num=model_num + 1)
-    #except:
+    # except:
     #    print("Got an error training, muddling on...")
     #    logging.exception("Train error")
 
@@ -212,7 +211,7 @@ def echo():
 
 
 def selfplay_hook(args):
-  selfplay(**args)
+    selfplay(**args)
 
 
 def selfplay_laod_model(model_name):
@@ -236,26 +235,27 @@ def rl_loop():
         dual_net.TRAIN_BATCH_SIZE = 16
         dual_net.EXAMPLES_PER_GENERATION = 64
 
-        #monkeypatch the shuffle buffer size so we don't spin forever shuffling up positions.
+        # monkeypatch the shuffle buffer size so we don't spin forever shuffling up positions.
         preprocessing.SHUFFLE_BUFFER_SIZE = 1000
 
     _, model_name = get_latest_model()
     network = selfplay_laod_model(model_name)
+
     def count_games():
-      # returns number of games in the selfplay directory
-      if not os.path.exists(os.path.join(SELFPLAY_DIR, model_name)):
-        # directory not existing implies no games have been played yet
-        return 0
-      return len(gfile.Glob(os.path.join(SELFPLAY_DIR, model_name, '*.zz')))
+        # returns number of games in the selfplay directory
+        if not os.path.exists(os.path.join(SELFPLAY_DIR, model_name)):
+            # directory not existing implies no games have been played yet
+            return 0
+        return len(gfile.Glob(os.path.join(SELFPLAY_DIR, model_name, '*.zz')))
 
     while count_games() < goparams.MAX_GAMES_PER_GENERATION:
-      selfplay_cache_model(network, model_name)
+        selfplay_cache_model(network, model_name)
 
     print('Stopping selfplay after finding {} games played.'.format(count_games()))
 
 
 if __name__ == '__main__':
-    #tf.logging.set_verbosity(tf.logging.INFO)
+    # tf.logging.set_verbosity(tf.logging.INFO)
     seed = int(sys.argv[2])
     print('Self play worker: setting random seed = ', seed)
     random.seed(seed)
@@ -267,7 +267,8 @@ if __name__ == '__main__':
     log.setLevel(logging.DEBUG)
 
     # create formatter and add it to the handlers
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
     # create file handler which logs even debug messages
     fh = logging.FileHandler('tensorflow.log')

@@ -16,7 +16,7 @@
 import setuptools
 
 with open("README.md", "r") as f:
-  long_description = f.read()
+    long_description = f.read()
 
 setuptools.setup(
     name="mlperf_compliance",
@@ -29,10 +29,10 @@ setuptools.setup(
     url="https://github.com/mlperf/training/tree/master/compliance",
     packages=['mlperf_compliance'],
     classifiers=[
-      "Programming Language :: Python :: 2",
-      "Programming Language :: Python :: 3",
-      "License :: OSI Approved :: Apache Software License",
-      "Operating System :: OS Independent",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: Apache Software License",
+        "Operating System :: OS Independent",
     ],
     license='Apache 2.0',
 )

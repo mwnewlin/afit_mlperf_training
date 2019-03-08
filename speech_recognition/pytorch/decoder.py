@@ -129,7 +129,8 @@ class Decoder(object):
 class BeamCTCDecoder(Decoder):
     def __init__(self, labels, beam_width=20, top_paths=1, blank_index=0, space_index=28, lm_path=None, trie_path=None,
                  lm_alpha=None, lm_beta1=None, lm_beta2=None):
-        super(BeamCTCDecoder, self).__init__(labels, blank_index=blank_index, space_index=space_index)
+        super(BeamCTCDecoder, self).__init__(
+            labels, blank_index=blank_index, space_index=space_index)
         self._beam_width = beam_width
         self._top_n = top_paths
 
@@ -169,5 +170,6 @@ class GreedyDecoder(Decoder):
             strings: sequences of the model's best guess for the transcription on inputs
         """
         _, max_probs = torch.max(probs.transpose(0, 1), 2)
-        strings = self.convert_to_strings(max_probs.view(max_probs.size(0), max_probs.size(1)), sizes)
+        strings = self.convert_to_strings(max_probs.view(
+            max_probs.size(0), max_probs.size(1)), sizes)
         return self.process_strings(strings, remove_repetitions=True)

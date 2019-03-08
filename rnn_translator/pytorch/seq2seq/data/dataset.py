@@ -29,9 +29,9 @@ def build_collate_fn(batch_first=False, sort=False):
     def collate(seqs):
         src_seqs, tgt_seqs = zip(*seqs)
         if sort:
-            key = lambda item: len(item[1])
+            def key(item): return len(item[1])
             indices, src_seqs = zip(*sorted(enumerate(src_seqs), key=key,
-                                        reverse=True))
+                                            reverse=True))
             tgt_seqs = [tgt_seqs[idx] for idx in indices]
         else:
             indices = range(len(src_seqs))

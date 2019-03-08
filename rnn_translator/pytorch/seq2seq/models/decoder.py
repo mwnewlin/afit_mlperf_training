@@ -77,7 +77,7 @@ class ResidualRecurrentDecoder(nn.Module):
             self.embedder = embedder
         else:
             self.embedder = nn.Embedding(vocab_size, hidden_size,
-                                        padding_idx=config.PAD)
+                                         padding_idx=config.PAD)
 
         self.classifier = Classifier(hidden_size, vocab_size, math)
         self.dropout = nn.Dropout(p=dropout)

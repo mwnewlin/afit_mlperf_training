@@ -61,7 +61,8 @@ class BahdanauAttention(nn.Module):
         else:
             max_len = context.size(0)
 
-        indices = torch.arange(0, max_len, dtype=torch.int64, device=context.device)
+        indices = torch.arange(
+            0, max_len, dtype=torch.int64, device=context.device)
         self.mask = indices >= (context_len.unsqueeze(1))
 
     def calc_score(self, att_query, att_keys):

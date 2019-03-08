@@ -29,6 +29,7 @@ def get_checkpoints(path):
     checkpoints = glob.glob(os.path.join(path, '*.pth'))
     return checkpoints
 
+
 def main():
     # Add parent folder to sys.path
     sys.path.insert(1, os.path.join(sys.path[0], '..'))
@@ -43,6 +44,7 @@ def main():
         chkpt['optimizer'] = None
         output_file = checkpoint.replace('pth', args.suffix + '.pth')
         torch.save(chkpt, output_file)
+
 
 if __name__ == "__main__":
     main()

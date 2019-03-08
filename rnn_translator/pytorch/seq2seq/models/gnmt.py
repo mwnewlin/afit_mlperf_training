@@ -23,7 +23,8 @@ class GNMT(Seq2Seq):
                               value=dropout)
 
         if share_embedding:
-            embedder = nn.Embedding(vocab_size, hidden_size, padding_idx=config.PAD)
+            embedder = nn.Embedding(
+                vocab_size, hidden_size, padding_idx=config.PAD)
         else:
             embedder = None
 
@@ -34,8 +35,6 @@ class GNMT(Seq2Seq):
         self.decoder = ResidualRecurrentDecoder(vocab_size, hidden_size,
                                                 num_layers, bias, dropout,
                                                 batch_first, math, embedder)
-
-
 
     def forward(self, input_encoder, input_enc_len, input_decoder):
         context = self.encode(input_encoder, input_enc_len)

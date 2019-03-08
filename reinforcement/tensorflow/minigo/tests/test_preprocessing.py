@@ -46,7 +46,8 @@ class TestPreprocessing(test_utils.MiniGoUnitTest):
         with tf.Session() as sess:
             while True:
                 try:
-                    pos_value, label_values = sess.run([pos_tensor, label_tensors])
+                    pos_value, label_values = sess.run(
+                        [pos_tensor, label_tensors])
                     recovered_data.append((
                         pos_value,
                         label_values['pi_tensor'],

@@ -12,6 +12,8 @@ import random
 import argparse
 
 # Define the architecture for the convolution model
+
+
 def convolution_net(data, label, input_dim, class_dim=2, emb_dim=1024,
                     hid_dim=1024):
     # First layer is an embedding layer, which serves as a lookup table for
@@ -20,7 +22,7 @@ def convolution_net(data, label, input_dim, class_dim=2, emb_dim=1024,
         input=data, size=[input_dim, emb_dim], is_sparse=True)
 
     # Output of embedding layer is fed to 2 independent sequence_conv_pool
-    # layers. The sequence_conv_pool layer is a combination of a sequence- 
+    # layers. The sequence_conv_pool layer is a combination of a sequence-
     # convolution layer and a sequence pooling layer
     conv_3 = fluid.nets.sequence_conv_pool(
         input=emb,
@@ -97,8 +99,8 @@ def train(word_dict,
     target_val_acc = quality
 
     # Seed for batch producer
-    random.seed(seed) 
-    
+    random.seed(seed)
+
     # Seed for weight initialization
     fluid.default_startup_program().random_seed = seed
 
@@ -114,7 +116,8 @@ def train(word_dict,
     test_program = fluid.default_main_program().clone(for_test=True)
 
     # Setup Adam optimizer
-    adam = fluid.optimizer.Adam(learning_rate=0.0005) #Learning rate of 5e-4 works for conv models and 2e-3 for LSTM model
+    # Learning rate of 5e-4 works for conv models and 2e-3 for LSTM model
+    adam = fluid.optimizer.Adam(learning_rate=0.0005)
 
     optimize_ops, params_grads = adam.minimize(cost)
 
@@ -128,46 +131,47 @@ def train(word_dict,
     place = fluid.CUDAPlace(0) if use_cuda else fluid.CPUPlace()
     exe = fluid.Executor(place)
     feeder = fluid.DataFeeder(feed_list=[data, label], place=place)
-    
+
     # Create reader to iterate over validation set
     test_reader = paddle.batch(
-                    paddle.dataset.imdb.test(word_dict), batch_size=BATCH_SIZE)
+        paddle.dataset.imdb.test(word_dict), batch_size=BATCH_SIZE)
 
     def train_loop(main_program):
         exe.run(fluid.default_startup_program())
 
         for pass_id in xrange(PASS_NUM):
             train_loss_set = []
-            train_acc_set = []  
-   
+            train_acc_set = []
+
             # Calculate average training loss and accuracy
             # across all mini-batches in the training set
             for batch_id, data in enumerate(train_reader()):
                 cost_val, acc_val = exe.run(main_program,
                                             feed=feeder.feed(data),
                                             fetch_list=[cost, acc_out])
-		train_loss_set.append(float(cost_val))
-		train_acc_set.append(float(acc_val)) 
-	    train_loss = np.array(train_loss_set).mean()
+                train_loss_set.append(float(cost_val))
+                train_acc_set.append(float(acc_val))
+            train_loss = np.array(train_loss_set).mean()
             train_acc = np.array(train_acc_set).mean() * 100
 
-            # Calculate average valication loss and accuracy 
+            # Calculate average valication loss and accuracy
             # across all mini-batches in the validation set
             acc_set = []
             avg_loss_set = []
             for tid, test_data in enumerate(test_reader()):
                 avg_loss_np, acc_np = exe.run(
-                            program=test_program,
-                            feed=feeder.feed(test_data),
-                            fetch_list=[cost, acc_out])
+                    program=test_program,
+                    feed=feeder.feed(test_data),
+                    fetch_list=[cost, acc_out])
                 acc_set.append(float(acc_np))
                 avg_loss_set.append(float(avg_loss_np))
-            acc_val = np.array(acc_set).mean() * 100 
+            acc_val = np.array(acc_set).mean() * 100
             avg_loss_val = np.array(avg_loss_set).mean()
-            print("Epoch =", pass_id, ", train-accuracy =", train_acc, ", train-loss =", train_loss, ", validation-accuracy =", acc_val, ", validation-loss =", avg_loss_val)
+            print("Epoch =", pass_id, ", train-accuracy =", train_acc, ", train-loss =",
+                  train_loss, ", validation-accuracy =", acc_val, ", validation-loss =", avg_loss_val)
 
             if acc_val > target_val_acc:
-                ## Exit the program on reaching desired accuracy value
+                # Exit the program on reaching desired accuracy value
                 break
 
     train_loop(fluid.default_main_program())
@@ -208,7 +212,7 @@ if __name__ == '__main__':
     if args.model == 'conv':
         main(word_dict,
              net_method=convolution_net,
-             use_cuda=True, # Runs on CPU if "False"
+             use_cuda=True,  # Runs on CPU if "False"
              seed=args.seed,
              quality=args.target_quality,
              save_dirname="understand_sentiment_conv.inference.model")

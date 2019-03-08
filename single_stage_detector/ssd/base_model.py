@@ -11,28 +11,31 @@ from collections import OrderedDict
 
 from torchvision.models.resnet import resnet18, resnet34, resnet50
 
+
 def _ModifyConvStrideDilation(conv, stride=(1, 1), padding=None):
     conv.stride = stride
 
     if padding is not None:
         conv.padding = padding
 
+
 def _ModifyBlock(block, bottleneck=False, **kwargs):
     for m in list(block.children()):
         if bottleneck:
-           _ModifyConvStrideDilation(m.conv2, **kwargs)
+            _ModifyConvStrideDilation(m.conv2, **kwargs)
         else:
-           _ModifyConvStrideDilation(m.conv1, **kwargs)
+            _ModifyConvStrideDilation(m.conv1, **kwargs)
 
         if m.downsample is not None:
             # need to make sure no padding for the 1x1 residual connection
-            _ModifyConvStrideDilation(list(m.downsample.children())[0], **kwargs)
+            _ModifyConvStrideDilation(
+                list(m.downsample.children())[0], **kwargs)
+
 
 class ResNet18(nn.Module):
     def __init__(self):
         super().__init__()
         rn18 = resnet18(pretrained=True)
-
 
         # discard last Resnet block, avrpooling and classification FC
         # layer1 = up to and including conv3 block
@@ -43,7 +46,7 @@ class ResNet18(nn.Module):
         # modify conv4 if necessary
         # Always deal with stride in first block
         modulelist = list(self.layer2.children())
-        _ModifyBlock(modulelist[0], stride=(1,1))
+        _ModifyBlock(modulelist[0], stride=(1, 1))
 
     def forward(self, data):
         layer1_activation = self.layer1(data)
@@ -52,6 +55,7 @@ class ResNet18(nn.Module):
 
         # Only need the output of conv4
         return [layer2_activation]
+
 
 class ResNet34(nn.Module):
     def __init__(self):
@@ -64,8 +68,7 @@ class ResNet34(nn.Module):
         # modify conv4 if necessary
         # Always deal with stride in first block
         modulelist = list(self.layer2.children())
-        _ModifyBlock(modulelist[0], stride=(1,1))
-
+        _ModifyBlock(modulelist[0], stride=(1, 1))
 
     def forward(self, data):
         layer1_activation = self.layer1(data)
@@ -74,22 +77,24 @@ class ResNet34(nn.Module):
 
         return [layer2_activation]
 
+
 class L2Norm(nn.Module):
     """
        Scale shall be learnable according to original paper
        scale: initial scale number
        chan_num: L2Norm channel number (norm over all channels)
     """
+
     def __init__(self, scale=20, chan_num=512):
         super(L2Norm, self).__init__()
         # Scale across channels
         self.scale = \
-            nn.Parameter(torch.Tensor([scale]*chan_num).view(1, chan_num, 1, 1))
+            nn.Parameter(torch.Tensor(
+                [scale]*chan_num).view(1, chan_num, 1, 1))
 
     def forward(self, data):
         # normalize accross channel
         return self.scale*data*data.pow(2).sum(dim=1, keepdim=True).clamp(min=1e-12).rsqrt()
-
 
 
 def tailor_module(src_model, src_dir, tgt_model, tgt_dir):
@@ -110,12 +115,14 @@ def tailor_module(src_model, src_dir, tgt_model, tgt_dir):
     #diff_keys = state.keys() - target_model.state_dict().keys()
     #print("Different Keys:", diff_keys)
     # Remove unecessary keys
-    #for k in diff_keys:
+    # for k in diff_keys:
     #    state.pop(k)
     tgt_model.load_state_dict(state)
     torch.save(tgt_model.state_dict(), tgt_dir)
 
 # Default vgg16 in pytorch seems different from ssd
+
+
 def make_layers(cfg, batch_norm=False):
     layers = []
     in_channels = 3
@@ -134,6 +141,7 @@ def make_layers(cfg, batch_norm=False):
             in_channels = v
     return layers
 
+
 class Loss(nn.Module):
     """
         Implements the loss as the sum of the followings:
@@ -148,8 +156,8 @@ class Loss(nn.Module):
         self.scale_wh = 1.0/dboxes.scale_wh
 
         self.sl1_loss = nn.SmoothL1Loss(reduce=False)
-        self.dboxes = nn.Parameter(dboxes(order="xywh").transpose(0, 1).unsqueeze(dim = 0),
-            requires_grad=False)
+        self.dboxes = nn.Parameter(dboxes(order="xywh").transpose(0, 1).unsqueeze(dim=0),
+                                   requires_grad=False)
         # Two factor are from following links
         # http://jany.st/post/2017-11-05-single-shot-detector-ssd-from-scratch-in-tensorflow.html
         self.con_loss = nn.CrossEntropyLoss(reduce=False)
@@ -158,7 +166,8 @@ class Loss(nn.Module):
         """
             Generate Location Vectors
         """
-        gxy = self.scale_xy*(loc[:, :2, :] - self.dboxes[:, :2, :])/self.dboxes[:, 2:, ]
+        gxy = self.scale_xy * \
+            (loc[:, :2, :] - self.dboxes[:, :2, :])/self.dboxes[:, 2:, ]
         gwh = self.scale_wh*(loc[:, 2:, :]/self.dboxes[:, 2:, :]).log()
 
         return torch.cat((gxy, gwh), dim=1).contiguous()
@@ -203,4 +212,3 @@ class Loss(nn.Module):
 
         ret = (total_loss*num_mask/pos_num).mean(dim=0)
         return ret
-

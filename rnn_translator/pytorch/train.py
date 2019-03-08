@@ -104,9 +104,9 @@ def parse_args():
 
     bucketing_parser = training.add_mutually_exclusive_group(required=False)
     bucketing_parser.add_argument('--bucketing', dest='bucketing', action='store_true',
-                             help='enables bucketing (use \'--no-bucketing\' to disable)')
+                                  help='enables bucketing (use \'--no-bucketing\' to disable)')
     bucketing_parser.add_argument('--no-bucketing', dest='bucketing', action='store_false',
-                             help=argparse.SUPPRESS)
+                                  help=argparse.SUPPRESS)
     bucketing_parser.set_defaults(bucketing=True)
 
     # validation
@@ -119,14 +119,13 @@ def parse_args():
                             help='minimum sequence length for validation')
 
     validation.add_argument('--beam-size', default=5, type=int,
-                        help='beam size')
+                            help='beam size')
     validation.add_argument('--len-norm-factor', default=0.6, type=float,
-                        help='length normalization factor')
+                            help='length normalization factor')
     validation.add_argument('--cov-penalty-factor', default=0.1, type=float,
-                        help='coverage penalty factor')
+                            help='coverage penalty factor')
     validation.add_argument('--len-norm-const', default=5.0, type=float,
-                        help='length normalization constant')
-
+                            help='length normalization constant')
 
     # checkpointing
     checkpoint = parser.add_argument_group('checkpointing setup')
@@ -322,7 +321,6 @@ def main():
     mlperf_log.gnmt_print(key=mlperf_log.INPUT_SIZE,
                           value=train_loader.sampler.num_samples)
 
-
     val_loader = val_data.get_loader(batch_size=args.eval_batch_size,
                                      batch_first=batch_first,
                                      shuffle=False,
@@ -397,7 +395,8 @@ def main():
                     batch_size = src.size(1)
                 beam_size = args.beam_size
 
-                bos = [translator.insert_target_start] * (batch_size * beam_size)
+                bos = [translator.insert_target_start] * \
+                    (batch_size * beam_size)
                 bos = torch.LongTensor(bos)
                 if translator.batch_first:
                     bos = bos.view(-1, 1)
@@ -419,7 +418,8 @@ def main():
                         generator = translator.generator.greedy_search
                     else:
                         generator = translator.generator.beam_search
-                    preds, lengths, counter = generator(batch_size, bos, context)
+                    preds, lengths, counter = generator(
+                        batch_size, bos, context)
 
                 preds = preds.cpu()
                 lengths = lengths.cpu()
@@ -449,7 +449,8 @@ def main():
                                stdout=detok_eval_file, stderr=subprocess.DEVNULL)
 
             # run sacrebleu
-            reference_path = os.path.join(args.dataset_dir, config.TGT_TEST_TARGET_FNAME)
+            reference_path = os.path.join(
+                args.dataset_dir, config.TGT_TEST_TARGET_FNAME)
             sacrebleu = subprocess.run([f'sacrebleu --input {detok_eval_path} \
                                         {reference_path} --score-only -lc --tokenize intl'],
                                        stdout=subprocess.PIPE, shell=True)
@@ -477,8 +478,9 @@ def main():
             break
 
     mlperf_log.gnmt_print(key=mlperf_log.RUN_STOP,
-                         value={"success": bool(break_training)})
+                          value={"success": bool(break_training)})
     mlperf_log.gnmt_print(key=mlperf_log.RUN_FINAL)
+
 
 if __name__ == '__main__':
     main()

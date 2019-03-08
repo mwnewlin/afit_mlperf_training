@@ -57,7 +57,8 @@ class Fp16Optimizer:
         if update:
             if math.isfinite(norm):
                 optimizer.step()
-                self.set_weights(self.fp16_model.parameters(), self.fp32_params)
+                self.set_weights(self.fp16_model.parameters(),
+                                 self.fp32_params)
                 self.since_last_invalid += 1
             else:
                 self.loss_scale /= self.dls_downscale

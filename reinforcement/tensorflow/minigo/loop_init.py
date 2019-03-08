@@ -44,7 +44,7 @@ from mlperf_compliance import mlperf_log
 
 #BASE_DIR = "gs://{}".format(BUCKET_NAME)
 BASE_DIR = goparams.BASE_DIR
-if os.path.isdir(BASE_DIR): # if it already exists, delete it.
+if os.path.isdir(BASE_DIR):  # if it already exists, delete it.
     shutil.rmtree(BASE_DIR, ignore_errors=True)
 os.system('mkdir ' + BASE_DIR)
 
@@ -67,7 +67,7 @@ HOLDOUT_PCT = goparams.HOLDOUT_PCT
 
 def print_flags():
     flags = {
-        #'BUCKET_NAME': BUCKET_NAME,
+        # 'BUCKET_NAME': BUCKET_NAME,
         'BASE_DIR': BASE_DIR,
         'MODELS_DIR': MODELS_DIR,
         'SELFPLAY_DIR': SELFPLAY_DIR,
@@ -108,16 +108,15 @@ def main_fn():
         dual_net.TRAIN_BATCH_SIZE = 16
         dual_net.EXAMPLES_PER_GENERATION = 64
 
-        #monkeypatch the shuffle buffer size so we don't spin forever shuffling up positions.
+        # monkeypatch the shuffle buffer size so we don't spin forever shuffling up positions.
         preprocessing.SHUFFLE_BUFFER_SIZE = 1000
 
     print("Creating random initial weights...")
     bootstrap()
 
 
-
 if __name__ == '__main__':
-    #tf.logging.set_verbosity(tf.logging.INFO)
+    # tf.logging.set_verbosity(tf.logging.INFO)
     qmeas.start(os.path.join(BASE_DIR, 'stats'))
 
     # get TF logger
@@ -125,7 +124,8 @@ if __name__ == '__main__':
     log.setLevel(logging.DEBUG)
 
     # create formatter and add it to the handlers
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
     # create file handler which logs even debug messages
     fh = logging.FileHandler('tensorflow.log')

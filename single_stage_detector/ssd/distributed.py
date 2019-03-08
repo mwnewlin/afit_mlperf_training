@@ -12,6 +12,8 @@ used to set the device.
 Parameters are broadcasted to the other processes on initialization of DistributedDataParallel,
 and will be allreduced at the finish of the backward pass.
 '''
+
+
 class DistributedDataParallel(Module):
 
     def __init__(self, module):

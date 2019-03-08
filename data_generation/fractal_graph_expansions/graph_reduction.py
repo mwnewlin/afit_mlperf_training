@@ -29,35 +29,35 @@ import skimage.transform as transform
 
 
 def _closest_column_orthogonal_matrix(matrix):
-  return np.matmul(matrix, np.linalg.inv(
-      scipy.linalg.sqrtm(np.matmul(matrix.T, matrix))))
+    return np.matmul(matrix, np.linalg.inv(
+        scipy.linalg.sqrtm(np.matmul(matrix.T, matrix))))
 
 
 def resize_matrix((u, s, v), num_rows, num_cols):
-  """Apply algorith 2 in https://arxiv.org/pdf/1901.08910.pdf.
+    """Apply algorith 2 in https://arxiv.org/pdf/1901.08910.pdf.
 
-  Args:
-    (u, s, v): matrix to reduce given in SVD form with the spectrum s in
-      increasing order.
-    num_rows: number of rows in the output matrix.
-    num_cols: number of columns in the output matrix.
-  Returns:
-    A resized version of (u, s, v) whose non zero singular values will be
-      identical to the largest singular values in s.
-  """
-  k = min(num_rows, num_cols)
+    Args:
+      (u, s, v): matrix to reduce given in SVD form with the spectrum s in
+        increasing order.
+      num_rows: number of rows in the output matrix.
+      num_cols: number of columns in the output matrix.
+    Returns:
+      A resized version of (u, s, v) whose non zero singular values will be
+        identical to the largest singular values in s.
+    """
+    k = min(num_rows, num_cols)
 
-  u_random_proj = transform.resize(u[:, :k], (num_rows, k))
-  v_random_proj = transform.resize(v[:k, :], (k, num_cols))
+    u_random_proj = transform.resize(u[:, :k], (num_rows, k))
+    v_random_proj = transform.resize(v[:k, :], (k, num_cols))
 
-  u_random_proj_orth = _closest_column_orthogonal_matrix(u_random_proj)
-  v_random_proj_orth = _closest_column_orthogonal_matrix(v_random_proj.T).T
+    u_random_proj_orth = _closest_column_orthogonal_matrix(u_random_proj)
+    v_random_proj_orth = _closest_column_orthogonal_matrix(v_random_proj.T).T
 
-  return np.matmul(u_random_proj_orth,
-                   np.matmul(np.diag(s[::-1][:k]), v_random_proj_orth))
+    return np.matmul(u_random_proj_orth,
+                     np.matmul(np.diag(s[::-1][:k]), v_random_proj_orth))
 
 
 def normalize_matrix(matrix):
-  """Fold all values of the matrix into [0, 1]."""
-  abs_matrix = np.abs(matrix.copy())
-  return abs_matrix / abs_matrix.max()
+    """Fold all values of the matrix into [0, 1]."""
+    abs_matrix = np.abs(matrix.copy())
+    return abs_matrix / abs_matrix.max()

@@ -117,7 +117,8 @@ def val_epoch(model, ratings, negs, K, use_cuda=True, output=None, epoch=None,
     else:
         hits, ndcgs, num_preds = [], [], []
         for rating, items in zip(ratings, negs):
-            hit, ndcg, num_pred = eval_one(rating, items, model, K, use_cuda=use_cuda)
+            hit, ndcg, num_pred = eval_one(
+                rating, items, model, K, use_cuda=use_cuda)
             hits.append(hit)
             ndcgs.append(ndcg)
             num_preds.append(num_pred)
@@ -127,7 +128,8 @@ def val_epoch(model, ratings, negs, K, use_cuda=True, output=None, epoch=None,
 
     assert len(set(num_preds)) == 1
     num_neg = num_preds[0] - 1  # one true positive, many negatives
-    mlperf_log.ncf_print(key=mlperf_log.EVAL_SIZE, value={"epoch": epoch, "value": len(hits) * (1 + num_neg)})
+    mlperf_log.ncf_print(key=mlperf_log.EVAL_SIZE, value={
+                         "epoch": epoch, "value": len(hits) * (1 + num_neg)})
     mlperf_log.ncf_print(key=mlperf_log.EVAL_HP_NUM_USERS, value=len(hits))
     mlperf_log.ncf_print(key=mlperf_log.EVAL_HP_NUM_NEG, value=num_neg)
 
@@ -173,11 +175,13 @@ def main():
     train_dataset = CFTrainDataset(
         os.path.join(args.data, TRAIN_RATINGS_FILENAME), args.negative_samples)
 
-    mlperf_log.ncf_print(key=mlperf_log.INPUT_BATCH_SIZE, value=args.batch_size)
-    mlperf_log.ncf_print(key=mlperf_log.INPUT_ORDER)  # set shuffle=True in DataLoader
+    mlperf_log.ncf_print(key=mlperf_log.INPUT_BATCH_SIZE,
+                         value=args.batch_size)
+    # set shuffle=True in DataLoader
+    mlperf_log.ncf_print(key=mlperf_log.INPUT_ORDER)
     train_dataloader = torch.utils.data.DataLoader(
-            dataset=train_dataset, batch_size=args.batch_size, shuffle=True,
-            num_workers=args.workers, pin_memory=True)
+        dataset=train_dataset, batch_size=args.batch_size, shuffle=True,
+        num_workers=args.workers, pin_memory=True)
     test_ratings = load_test_ratings(os.path.join(args.data, TEST_RATINGS_FILENAME))  # noqa: E501
     test_negs = load_test_negs(os.path.join(args.data, TEST_NEG_FILENAME))
     nb_users, nb_items = train_dataset.nb_users, train_dataset.nb_items
@@ -231,7 +235,8 @@ def main():
         model.train()
         losses = utils.AverageMeter()
 
-        mlperf_log.ncf_print(key=mlperf_log.INPUT_HP_NUM_NEG, value=train_dataset.nb_neg)
+        mlperf_log.ncf_print(key=mlperf_log.INPUT_HP_NUM_NEG,
+                             value=train_dataset.nb_neg)
         mlperf_log.ncf_print(key=mlperf_log.INPUT_STEP_TRAIN_NEG_GEN)
         begin = time.time()
         loader = tqdm.tqdm(train_dataloader)
@@ -262,7 +267,8 @@ def main():
         hits, ndcgs = val_epoch(model, test_ratings, test_negs, args.topk,
                                 use_cuda=use_cuda, output=valid_results_file,
                                 epoch=epoch, processes=args.processes)
-        mlperf_log.ncf_print(key=mlperf_log.EVAL_ACCURACY, value={"epoch": epoch, "value": float(np.mean(hits))})
+        mlperf_log.ncf_print(key=mlperf_log.EVAL_ACCURACY, value={
+                             "epoch": epoch, "value": float(np.mean(hits))})
         mlperf_log.ncf_print(key=mlperf_log.EVAL_TARGET, value=args.threshold)
         mlperf_log.ncf_print(key=mlperf_log.EVAL_STOP)
         val_time = time.time() - begin

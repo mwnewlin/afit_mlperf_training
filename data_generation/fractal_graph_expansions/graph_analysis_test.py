@@ -19,7 +19,6 @@ from __future__ import division
 from __future__ import print_function
 
 
-
 import numpy as np
 import tensorflow as tf
 
@@ -30,35 +29,35 @@ from test_util import random_binary_sparse_matrix
 
 class GraphAnalysisTest(tf.test.TestCase):
 
-  def test_svd_is_valid(self):
-    np.random.seed(0)
+    def test_svd_is_valid(self):
+        np.random.seed(0)
 
-    num_rows = 16
-    num_cols = 32
-    num_non_zeros = 100
-    input_matrix = random_binary_sparse_matrix(
-        num_non_zeros, num_rows, num_cols)
-    k = 5
+        num_rows = 16
+        num_cols = 32
+        num_non_zeros = 100
+        input_matrix = random_binary_sparse_matrix(
+            num_non_zeros, num_rows, num_cols)
+        k = 5
 
-    (u, s, v) = graph_analysis.sparse_svd(input_matrix, k, max_iter=16)
+        (u, s, v) = graph_analysis.sparse_svd(input_matrix, k, max_iter=16)
 
-    # Check that singular values are in increasing order:
-    for i in range(k - 1):
-      self.assertGreaterEqual(s[i + 1], s[i])
+        # Check that singular values are in increasing order:
+        for i in range(k - 1):
+            self.assertGreaterEqual(s[i + 1], s[i])
 
-    # Check that singular vector matrices have the right shapes.
-    self.assertEqual(u.shape[0], num_rows)
-    self.assertEqual(u.shape[1], k)
+        # Check that singular vector matrices have the right shapes.
+        self.assertEqual(u.shape[0], num_rows)
+        self.assertEqual(u.shape[1], k)
 
-    self.assertEqual(v.shape[0], k)
-    self.assertEqual(v.shape[1], num_cols)
+        self.assertEqual(v.shape[0], k)
+        self.assertEqual(v.shape[1], num_cols)
 
-    # Check that u is column orthogonal.
-    self.assertTrue(all_close(np.matmul(u.T, u), np.eye(k)))
+        # Check that u is column orthogonal.
+        self.assertTrue(all_close(np.matmul(u.T, u), np.eye(k)))
 
-    # Check that v is row orthogonal.
-    self.assertTrue(all_close(np.matmul(v, v.T), np.eye(k)))
+        # Check that v is row orthogonal.
+        self.assertTrue(all_close(np.matmul(v, v.T), np.eye(k)))
 
 
 if __name__ == "__main__":
-  tf.test.main()
+    tf.test.main()

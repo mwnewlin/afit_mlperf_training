@@ -3,8 +3,10 @@ from collections import defaultdict
 
 import seq2seq.data.config as config
 
+
 def default():
     return config.UNK
+
 
 class Tokenizer:
     def __init__(self, vocab_fname, separator='@@'):
@@ -21,7 +23,6 @@ class Tokenizer:
 
         logging.info(f'size of vocabulary: {len(vocab)}')
         self.vocab_size = len(vocab)
-
 
         self.tok2idx = defaultdict(default)
         for idx, token in enumerate(vocab):
@@ -40,5 +41,5 @@ class Tokenizer:
     def detokenize(self, inputs, delim=' '):
         detok = delim.join([self.idx2tok[idx] for idx in inputs])
         detok = detok.replace(
-            self.separator+ ' ', '').replace(self.separator, '')
+            self.separator + ' ', '').replace(self.separator, '')
         return detok

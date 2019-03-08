@@ -3,6 +3,7 @@ import torch.nn as nn
 from base_model import ResNet34
 from mlperf_compliance import mlperf_log
 
+
 class SSD300(nn.Module):
     """
         Build a SSD module to take 300x300 image input,
@@ -11,6 +12,7 @@ class SSD300(nn.Module):
         vggt: pretrained vgg16 (partial) model
         label_num: number of classes (including background 0)
     """
+
     def __init__(self, label_num, backbone='resnet34', model_path="./resnet34-333f7ec4.pth"):
 
         super(SSD300, self).__init__()
@@ -42,8 +44,8 @@ class SSD300(nn.Module):
 
         for nd, oc in zip(self.num_defaults, self.out_chan):
             self.loc.append(nn.Conv2d(oc, nd*4, kernel_size=3, padding=1))
-            self.conf.append(nn.Conv2d(oc, nd*label_num, kernel_size=3, padding=1))
-
+            self.conf.append(
+                nn.Conv2d(oc, nd*label_num, kernel_size=3, padding=1))
 
         self.loc = nn.ModuleList(self.loc)
         self.conf = nn.ModuleList(self.conf)
@@ -65,7 +67,8 @@ class SSD300(nn.Module):
             self.additional_blocks.append(nn.Sequential(
                 nn.Conv2d(input_channels[idx], 256, kernel_size=1),
                 nn.ReLU(inplace=True),
-                nn.Conv2d(256, input_channels[idx+1], kernel_size=3, padding=1, stride=2),
+                nn.Conv2d(256, input_channels[idx+1],
+                          kernel_size=3, padding=1, stride=2),
                 nn.ReLU(inplace=True),
             ))
             idx += 1
@@ -73,7 +76,8 @@ class SSD300(nn.Module):
         self.additional_blocks.append(nn.Sequential(
             nn.Conv2d(input_channels[idx], 256, kernel_size=1),
             nn.ReLU(inplace=True),
-            nn.Conv2d(256, input_channels[idx+1], kernel_size=3, padding=1, stride=2),
+            nn.Conv2d(256, input_channels[idx+1],
+                      kernel_size=3, padding=1, stride=2),
             nn.ReLU(inplace=True),
         ))
         idx += 1
@@ -82,7 +86,8 @@ class SSD300(nn.Module):
         self.additional_blocks.append(nn.Sequential(
             nn.Conv2d(input_channels[idx], 128, kernel_size=1),
             nn.ReLU(inplace=True),
-            nn.Conv2d(128, input_channels[idx+1], kernel_size=3, padding=1, stride=2),
+            nn.Conv2d(128, input_channels[idx+1],
+                      kernel_size=3, padding=1, stride=2),
             nn.ReLU(inplace=True),
         ))
         idx += 1
@@ -116,16 +121,19 @@ class SSD300(nn.Module):
 
         for layer in layers:
             for param in layer.parameters():
-                if param.dim() > 1: nn.init.xavier_uniform_(param)
+                if param.dim() > 1:
+                    nn.init.xavier_uniform_(param)
 
     # Shape the classifier to the view of bboxes
     def bbox_view(self, src, loc, conf):
         ret = []
         for s, l, c in zip(src, loc, conf):
-            ret.append((l(s).view(s.size(0), 4, -1), c(s).view(s.size(0), self.label_num, -1)))
+            ret.append((l(s).view(s.size(0), 4, -1),
+                        c(s).view(s.size(0), self.label_num, -1)))
 
         locs, confs = list(zip(*ret))
-        locs, confs = torch.cat(locs, 2).contiguous(), torch.cat(confs, 2).contiguous()
+        locs, confs = torch.cat(locs, 2).contiguous(
+        ), torch.cat(confs, 2).contiguous()
         return locs, confs
 
     def forward(self, data):
@@ -146,4 +154,3 @@ class SSD300(nn.Module):
 
         # For SSD 300, shall return nbatch x 8732 x {nlabels, nlocs} results
         return locs, confs
-    

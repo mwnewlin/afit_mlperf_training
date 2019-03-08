@@ -8,7 +8,6 @@ import io
 import uuid
 
 
-
 TIMERS = {}
 PROFILERS = {}
 
@@ -87,45 +86,50 @@ def read_timers_into_json():
     times = {}
     for name in TIMERS:
         timer = TIMERS[name]
-        times[name] ={'name': name, 'total': timer.read_total(), 'time': timer.read_time(), 'run': timer.num_starts}
+        times[name] = {'name': name, 'total': timer.read_total(
+        ), 'time': timer.read_time(), 'run': timer.num_starts}
     return times
 
 
 def record_timer_event(name, event):
     times = read_timers_into_json()
-    json = {'type': 'timer', 'event': event, 'times': times, 'name': name, 'wall_time': _time_now() }
+    json = {'type': 'timer', 'event': event, 'times': times,
+            'name': name, 'wall_time': _time_now()}
     _log(json)
 
 
 def record(name, val):
     times = read_timers_into_json()
-    json = {'type': 'value', 'times': times, 'name': name, 'value': val, 'wall_time': _time_now()}
+    json = {'type': 'value', 'times': times, 'name': name,
+            'value': val, 'wall_time': _time_now()}
     _log(json)
 
 
 def record_const(name, val):
     times = read_timers_into_json()
-    json = {'type': 'const', 'name': name, 'value': val, 'wall_time': _time_now(), 'times': times}
+    json = {'type': 'const', 'name': name, 'value': val,
+            'wall_time': _time_now(), 'times': times}
     _log(json)
 
+
 def create_main_profiler():
-  pr = cProfile.Profile()
-  pr.enable()
-  PROFILERS['__main__'] = pr
+    pr = cProfile.Profile()
+    pr.enable()
+    PROFILERS['__main__'] = pr
 
 
 def record_profiler():
-  pr = PROFILERS['__main__']
-  pr.disable()
-  s = io.StringIO()
-  sortby = 'cumulative'
-  ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
-  pr.enable()
-  ps.print_stats()
-  times = read_timers_into_json()
-  json = {'type': 'profile', 'name': '__main__', 'val': s.getvalue(), 'wall_time': _time_now(), 'times': times}
-  _log(json)
-
+    pr = PROFILERS['__main__']
+    pr.disable()
+    s = io.StringIO()
+    sortby = 'cumulative'
+    ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+    pr.enable()
+    ps.print_stats()
+    times = read_timers_into_json()
+    json = {'type': 'profile', 'name': '__main__',
+            'val': s.getvalue(), 'wall_time': _time_now(), 'times': times}
+    _log(json)
 
 
 def end():
@@ -149,10 +153,8 @@ def _flush():
 
 def start(path='/tmp/qmeas'):
     if not os.path.exists(path):
-      os.mkdir(path)
+        os.mkdir(path)
     global FILE_HANDLE
     filename = os.path.join(path, '{}.json'.format(str(uuid.uuid4())))
     start_time('main')
     FILE_HANDLE = open(filename, 'w')
-
-

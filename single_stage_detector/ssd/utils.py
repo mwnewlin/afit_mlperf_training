@@ -108,9 +108,9 @@ class Encoder(object):
         bboxes_out[masks, :] = bboxes_in[best_dbox_idx[masks], :]
         # Transform format to xywh format
         x, y, w, h = 0.5 * (bboxes_out[:, 0] + bboxes_out[:, 2]), \
-                     0.5 * (bboxes_out[:, 1] + bboxes_out[:, 3]), \
-                     -bboxes_out[:, 0] + bboxes_out[:, 2], \
-                     -bboxes_out[:, 1] + bboxes_out[:, 3]
+            0.5 * (bboxes_out[:, 1] + bboxes_out[:, 3]), \
+            -bboxes_out[:, 0] + bboxes_out[:, 2], \
+            -bboxes_out[:, 1] + bboxes_out[:, 3]
         bboxes_out[:, 0] = x
         bboxes_out[:, 1] = y
         bboxes_out[:, 2] = w
@@ -137,16 +137,16 @@ class Encoder(object):
         bboxes_in[:, :, 2:] = self.scale_wh * bboxes_in[:, :, 2:]
 
         bboxes_in[:, :, :2] = bboxes_in[:, :, :2] * self.dboxes_xywh[:, :,
-                                                    2:] + self.dboxes_xywh[:, :,
-                                                          :2]
+                                                                     2:] + self.dboxes_xywh[:, :,
+                                                                                            :2]
         bboxes_in[:, :, 2:] = bboxes_in[:, :, 2:].exp() * self.dboxes_xywh[:, :,
-                                                          2:]
+                                                                           2:]
 
         # Transform format to ltrb
         l, t, r, b = bboxes_in[:, :, 0] - 0.5 * bboxes_in[:, :, 2], \
-                     bboxes_in[:, :, 1] - 0.5 * bboxes_in[:, :, 3], \
-                     bboxes_in[:, :, 0] + 0.5 * bboxes_in[:, :, 2], \
-                     bboxes_in[:, :, 1] + 0.5 * bboxes_in[:, :, 3]
+            bboxes_in[:, :, 1] - 0.5 * bboxes_in[:, :, 3], \
+            bboxes_in[:, :, 0] + 0.5 * bboxes_in[:, :, 2], \
+            bboxes_in[:, :, 1] + 0.5 * bboxes_in[:, :, 3]
 
         bboxes_in[:, :, 0] = l
         bboxes_in[:, :, 1] = t
@@ -178,14 +178,16 @@ class Encoder(object):
         for i, score in enumerate(scores_in.split(1, 1)):
             # skip background
             # print(score[score>0.90])
-            if i == 0: continue
+            if i == 0:
+                continue
             # print(i)
 
             score = score.squeeze(1)
             mask = score > 0.05
 
             bboxes, score = bboxes_in[mask, :], score[mask]
-            if score.size(0) == 0: continue
+            if score.size(0) == 0:
+                continue
 
             score_sorted, score_idx_sorted = score.sort(dim=0)
 
@@ -209,9 +211,9 @@ class Encoder(object):
             labels_out.extend([i] * len(candidates))
 
         bboxes_out, labels_out, scores_out = torch.cat(bboxes_out, dim=0), \
-                                             torch.tensor(labels_out,
-                                                          dtype=torch.long), \
-                                             torch.cat(scores_out, dim=0)
+            torch.tensor(labels_out,
+                         dtype=torch.long), \
+            torch.cat(scores_out, dim=0)
 
         _, max_ids = scores_out.sort(dim=0)
         max_ids = max_ids[-max_output:]
@@ -219,7 +221,7 @@ class Encoder(object):
 
 
 class DefaultBoxes(object):
-    def __init__(self, fig_size, feat_size, steps, scales, aspect_ratios, \
+    def __init__(self, fig_size, feat_size, steps, scales, aspect_ratios,
                  scale_xy=0.1, scale_wh=0.2):
 
         self.feat_size = feat_size
@@ -272,8 +274,10 @@ class DefaultBoxes(object):
         return self.scale_wh_
 
     def __call__(self, order="ltrb"):
-        if order == "ltrb": return self.dboxes_ltrb
-        if order == "xywh": return self.dboxes
+        if order == "ltrb":
+            return self.dboxes_ltrb
+        if order == "xywh":
+            return self.dboxes
 
 
 # This function is from https://github.com/chauhan-utk/ssd.DomainAdaptation.
@@ -415,8 +419,8 @@ class LightingNoice(object):
         alpha2 = random.gauss(sigma=0.1, mu=0)
 
         channels = alpha0 * self.eigval[0] * self.eigvec[0, :] + \
-                   alpha1 * self.eigval[1] * self.eigvec[1, :] + \
-                   alpha2 * self.eigval[2] * self.eigvec[2, :]
+            alpha1 * self.eigval[1] * self.eigvec[1, :] + \
+            alpha2 * self.eigval[2] * self.eigvec[2, :]
         channels = channels.view(3, 1, 1)
         img += channels
 
@@ -543,7 +547,8 @@ class COCODetection(data.Dataset):
             img_name = img["file_name"]
             img_size = (img["height"], img["width"])
             # print(img_name)
-            if img_id in self.images: raise Exception("dulpicated image record")
+            if img_id in self.images:
+                raise Exception("dulpicated image record")
             self.images[img_id] = (img_name, img_size, [])
 
         # read bboxes
@@ -752,9 +757,9 @@ def draw_patches(img, bboxes, labels, order="xywh", label_map={}):
 
     if order == "ltrb":
         xmin, ymin, xmax, ymax = bboxes[:, 0], bboxes[:, 1], bboxes[:,
-                                                             2], bboxes[:, 3]
+                                                                    2], bboxes[:, 3]
         cx, cy, w, h = (xmin + xmax) / 2, (
-                    ymin + ymax) / 2, xmax - xmin, ymax - ymin
+            ymin + ymax) / 2, xmax - xmin, ymax - ymin
     else:
         cx, cy, w, h = bboxes[:, 0], bboxes[:, 1], bboxes[:, 2], bboxes[:, 3]
 
@@ -769,7 +774,8 @@ def draw_patches(img, bboxes, labels, order="xywh", label_map={}):
     plt.imshow(img)
     ax = plt.gca()
     for (cx, cy, w, h), label in zip(bboxes, labels):
-        if label == "background": continue
+        if label == "background":
+            continue
         ax.add_patch(patches.Rectangle((cx - 0.5 * w, cy - 0.5 * h),
                                        w, h, fill=False, color="r"))
         bbox_props = dict(boxstyle="round", fc="y", ec="0.5", alpha=0.3)

@@ -16,6 +16,7 @@ supported_rnns = {
 
 supported_rnns_inv = dict((v, k) for k, v in supported_rnns.items())
 
+
 class SequenceWise(nn.Module):
     def __init__(self, module):
         """
@@ -51,27 +52,27 @@ class InferenceBatchLogSoftmax(nn.Module):
 
 class BatchRNN(nn.Module):
     def __init__(self, input_size, hidden_size, rnn_type=nn.LSTM, bidirectional=False, batch_norm=True, rnn_activation='tanh',
-        hidden_threshold=-100,
-        qh_i=0, qh_f=0,
-        qi_i = 0, qi_f = 0,
-        bias = False,
-        bn_factor  = False,
-        bn_bias    = False,
-        bn_weights = False):
+                 hidden_threshold=-100,
+                 qh_i=0, qh_f=0,
+                 qi_i=0, qi_f=0,
+                 bias=False,
+                 bn_factor=False,
+                 bn_bias=False,
+                 bn_weights=False):
         super(BatchRNN, self).__init__()
         self.bn_factor = bn_factor
         self.bn_bias = bn_bias
         self.bn_weights = bn_weights
 
-        self.input_size     = input_size
-        self.hidden_size    = hidden_size
-        self.bidirectional  = bidirectional
+        self.input_size = input_size
+        self.hidden_size = hidden_size
+        self.bidirectional = bidirectional
         self.rnn_activation = rnn_activation
 
         if batch_norm:
-          self.batch_norm = SequenceWise(nn.BatchNorm1d(input_size))
+            self.batch_norm = SequenceWise(nn.BatchNorm1d(input_size))
         else:
-          self.batch_norm = None
+            self.batch_norm = None
 
         self.hidden_threshold = hidden_threshold
         self.qh_i = qh_i
@@ -80,15 +81,14 @@ class BatchRNN(nn.Module):
         self.qi_f = qi_f
         self.bias = bias
 
-
         if rnn_type == nn.GRU or rnn_type == nn.LSTM:
-          self.rnn = rnn_type(input_size=input_size, hidden_size=hidden_size,
-                              bidirectional=bidirectional, bias=bias)
+            self.rnn = rnn_type(input_size=input_size, hidden_size=hidden_size,
+                                bidirectional=bidirectional, bias=bias)
         else:
-          # Use RNN with relu or tanh non-linearity
-          self.rnn = rnn_type(input_size=input_size, hidden_size=hidden_size,
-                              bidirectional=bidirectional, bias=bias,
-                              nonlinearity=rnn_activation)
+            # Use RNN with relu or tanh non-linearity
+            self.rnn = rnn_type(input_size=input_size, hidden_size=hidden_size,
+                                bidirectional=bidirectional, bias=bias,
+                                nonlinearity=rnn_activation)
 
         self.num_directions = 2 if bidirectional else 1
 
@@ -100,7 +100,9 @@ class BatchRNN(nn.Module):
             x, _ = self.rnn(x)
 
         if self.bidirectional:
-            x = x.view(x.size(0), x.size(1), 2, -1).sum(2).view(x.size(0), x.size(1), -1)  # (TxNxH*2) -> (TxNxH) by sum
+            # (TxNxH*2) -> (TxNxH) by sum
+            x = x.view(x.size(0), x.size(1), 2, -
+                       1).sum(2).view(x.size(0), x.size(1), -1)
         self.rnn.flatten_parameters()
         return x
 
@@ -108,25 +110,25 @@ class BatchRNN(nn.Module):
 class DeepSpeech(nn.Module):
     def __init__(self, rnn_type=nn.LSTM, labels="abc", rnn_hidden_size=768, nb_layers=5, audio_conf=None,
                  bidirectional=True, distillation=False, rnn_activation='tanh',
-                 bias = False,
-                 hidden_threshold = 0,
-                 qh_i = 0, qh_f = 0,
-                 qi_i = 0, qi_f = 0,
-                 bn_factor  = False,
-                 bn_bias    = False,
-                 bn_weights = False):
+                 bias=False,
+                 hidden_threshold=0,
+                 qh_i=0, qh_f=0,
+                 qi_i=0, qi_f=0,
+                 bn_factor=False,
+                 bn_bias=False,
+                 bn_weights=False):
         super(DeepSpeech, self).__init__()
 
         # model metadata needed for serialization/deserialization
         if audio_conf is None:
             audio_conf = {}
 
-        self._version       = '0.0.1'
-        self._hidden_size   = rnn_hidden_size
+        self._version = '0.0.1'
+        self._hidden_size = rnn_hidden_size
         self._hidden_layers = nb_layers
-        self._rnn_type      = rnn_type
-        self._audio_conf    = audio_conf or {}
-        self._labels        = labels
+        self._rnn_type = rnn_type
+        self._audio_conf = audio_conf or {}
+        self._labels = labels
         self.rnn_activation = rnn_activation
         self.hidden_threshold = hidden_threshold
         self.qh_i = qh_i
@@ -158,31 +160,31 @@ class DeepSpeech(nn.Module):
                        bidirectional=bidirectional,
                        batch_norm=False,
                        rnn_activation=rnn_activation,
-                       hidden_threshold = hidden_threshold,
-                       qh_i = qh_i,
-                       qh_f = qh_f,
-                       qi_i = qi_i,
-                       qi_f = qi_f,
-                       bias = bias,
-                       bn_factor  = bn_factor,
-                       bn_weights = bn_weights,
-                       bn_bias    = bn_bias)
+                       hidden_threshold=hidden_threshold,
+                       qh_i=qh_i,
+                       qh_f=qh_f,
+                       qi_i=qi_i,
+                       qi_f=qi_f,
+                       bias=bias,
+                       bn_factor=bn_factor,
+                       bn_weights=bn_weights,
+                       bn_bias=bn_bias)
         rnns.append(('0', rnn))
         for x in range(nb_layers - 1):
-          rnn = BatchRNN(input_size=rnn_hidden_size, hidden_size=rnn_hidden_size, rnn_type=rnn_type,
-                         bidirectional=bidirectional,
-                         batch_norm=False,
-                         rnn_activation=rnn_activation,
-                         hidden_threshold = hidden_threshold,
-                         qh_i = qh_i,
-                         qh_f = qh_f,
-                         qi_i = qi_i,
-                         qi_f = qi_f,
-                         bias = bias,
-                         bn_factor  = bn_factor,
-                         bn_weights = bn_weights,
-                         bn_bias    = bn_bias)
-          rnns.append(('%d' % (x + 1), rnn))
+            rnn = BatchRNN(input_size=rnn_hidden_size, hidden_size=rnn_hidden_size, rnn_type=rnn_type,
+                           bidirectional=bidirectional,
+                           batch_norm=False,
+                           rnn_activation=rnn_activation,
+                           hidden_threshold=hidden_threshold,
+                           qh_i=qh_i,
+                           qh_f=qh_f,
+                           qi_i=qi_i,
+                           qi_f=qi_f,
+                           bias=bias,
+                           bn_factor=bn_factor,
+                           bn_weights=bn_weights,
+                           bn_bias=bn_bias)
+            rnns.append(('%d' % (x + 1), rnn))
         self.rnns = nn.Sequential(OrderedDict(rnns))
         fully_connected = nn.Sequential(
             nn.BatchNorm1d(rnn_hidden_size),
@@ -197,7 +199,8 @@ class DeepSpeech(nn.Module):
         x = self.conv(x)
 
         sizes = x.size()
-        x = x.view(sizes[0], sizes[1] * sizes[2], sizes[3])  # Collapse feature dimension
+        # Collapse feature dimension
+        x = x.view(sizes[0], sizes[1] * sizes[2], sizes[3])
         x = x.transpose(1, 2).transpose(0, 1).contiguous()  # TxNxH
 
         x = self.rnns(x)
@@ -211,27 +214,27 @@ class DeepSpeech(nn.Module):
         return x
 
     @classmethod
-    def load_model(cls, path, cuda=False, rnn_type = 'gru', rnn_activation='tanh',
-                   hidden_threshold = 0,
-                   qh_i = 0, qh_f = 0,
-                   qi_i = 0, qi_f = 0,
-                   bias = False,
-                   bn_factor  = False,
-                   bn_bias    = False,
-                   bn_weights = False):
+    def load_model(cls, path, cuda=False, rnn_type='gru', rnn_activation='tanh',
+                   hidden_threshold=0,
+                   qh_i=0, qh_f=0,
+                   qi_i=0, qi_f=0,
+                   bias=False,
+                   bn_factor=False,
+                   bn_bias=False,
+                   bn_weights=False):
         package = torch.load(path, map_location=lambda storage, loc: storage)
         model = cls(rnn_hidden_size=package['hidden_size'], nb_layers=package['hidden_layers'],
                     labels=package['labels'], audio_conf=package['audio_conf'],
                     rnn_type=supported_rnns[rnn_type], rnn_activation=rnn_activation,
-                    hidden_threshold = hidden_threshold,
-                    qh_i = qh_i,
-                    qh_f = qh_f,
-                    qi_i = qi_i,
-                    qi_f = qi_f,
-                    bias = bias,
-                    bn_factor  = bn_factor,
-                    bn_bias    = bn_bias,
-                    bn_weights = bn_weights)
+                    hidden_threshold=hidden_threshold,
+                    qh_i=qh_i,
+                    qh_f=qh_f,
+                    qi_i=qi_i,
+                    qi_f=qi_f,
+                    bias=bias,
+                    bn_factor=bn_factor,
+                    bn_bias=bn_bias,
+                    bn_weights=bn_weights)
         model.load_state_dict(package['state_dict'])
         if cuda:
             model = torch.nn.DataParallel(model).cuda()

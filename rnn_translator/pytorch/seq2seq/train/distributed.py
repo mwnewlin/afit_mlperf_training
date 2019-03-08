@@ -34,6 +34,7 @@ def flat_dist_call(tensors, call, extra_args=None):
         for buf, synced in zip(bucket, _unflatten_dense_tensors(coalesced, bucket)):
             buf.copy_(synced)
 
+
 class DistributedDataParallel(Module):
     """
     :class:`apex.parallel.DistributedDataParallel` is a module wrapper that enables
@@ -71,7 +72,7 @@ class DistributedDataParallel(Module):
         self.shared_param = shared_param
         self.message_size = message_size
 
-        #reference to last iterations parameters to see if anything has changed
+        # reference to last iterations parameters to see if anything has changed
         self.param_refs = []
 
         self.reduction_stream = torch.cuda.Stream()
@@ -86,23 +87,25 @@ class DistributedDataParallel(Module):
         self.record = []
         self.create_hooks()
 
-        flat_dist_call([param.data for param in self.module.parameters()], dist.broadcast, (0,) )
+        flat_dist_call(
+            [param.data for param in self.module.parameters()], dist.broadcast, (0,))
 
     def create_hooks(self):
-        #all reduce gradient hook
+        # all reduce gradient hook
         def allreduce_params():
             if not self.needs_reduction:
                 return
             self.needs_reduction = False
 
-            #parameter ordering refresh
+            # parameter ordering refresh
             if self.needs_refresh and not self.shared_param:
                 t_record = torch.cuda.IntTensor(self.record)
                 dist.broadcast(t_record, 0)
                 self.record = [int(entry) for entry in t_record]
                 self.needs_refresh = False
 
-            grads = [param.grad.data for param in self.module.parameters() if param.grad is not None]
+            grads = [param.grad.data for param in self.module.parameters()
+                     if param.grad is not None]
             flat_dist_call(grads, dist.all_reduce)
 
         def flush_buckets():
@@ -117,7 +120,7 @@ class DistributedDataParallel(Module):
                     grads.append(param.grad.data)
             grads = [param.grad.data for param in self.ready_params] + grads
 
-            if(len(grads)>0):
+            if(len(grads) > 0):
                 orig_stream = torch.cuda.current_stream()
                 with torch.cuda.stream(self.reduction_stream):
                     self.reduction_stream.wait_stream(orig_stream)
@@ -131,33 +134,32 @@ class DistributedDataParallel(Module):
                 def allreduce_hook(*unused):
                     if self.needs_refresh:
                         self.record.append(param_i)
-                        Variable._execution_engine.queue_callback(allreduce_params)
+                        Variable._execution_engine.queue_callback(
+                            allreduce_params)
                     else:
-                        Variable._execution_engine.queue_callback(flush_buckets)
+                        Variable._execution_engine.queue_callback(
+                            flush_buckets)
                         self.comm_ready_buckets(self.record.index(param_i))
-
 
                 if param.requires_grad:
                     param.register_hook(allreduce_hook)
             wrapper(param_i)
 
-
     def comm_ready_buckets(self, param_ind):
 
         if self.param_state[param_ind] != 0:
-            raise RuntimeError("Error: Your model uses shared parameters, DDP flag shared_params must be set to True in initialization.")
-
+            raise RuntimeError(
+                "Error: Your model uses shared parameters, DDP flag shared_params must be set to True in initialization.")
 
         if self.param_state[self.ready_end] == 0:
             self.param_state[param_ind] = 1
             return
 
-
         while self.ready_end < len(self.param_state) and self.param_state[self.ready_end] == 1:
-            self.ready_params.append(self.param_refs[self.record[self.ready_end]])
+            self.ready_params.append(
+                self.param_refs[self.record[self.ready_end]])
             self.ready_numel += self.ready_params[-1].numel()
             self.ready_end += 1
-
 
         if self.ready_numel < self.message_size:
             self.param_state[param_ind] = 1
@@ -192,13 +194,13 @@ class DistributedDataParallel(Module):
 
     def forward(self, *inputs, **kwargs):
 
-        param_list = [param for param in list(self.module.parameters()) if param.requires_grad]
+        param_list = [param for param in list(
+            self.module.parameters()) if param.requires_grad]
 
-
-        #Force needs_refresh to True if there are shared params
-        #this will force it to always, only call flush_buckets which is safe
-        #for shared parameters in the model.
-        #Parentheses are not necessary for correct order of operations, but make the intent clearer.
+        # Force needs_refresh to True if there are shared params
+        # this will force it to always, only call flush_buckets which is safe
+        # for shared parameters in the model.
+        # Parentheses are not necessary for correct order of operations, but make the intent clearer.
         if (not self.param_refs) or self.shared_param:
             self.needs_refresh = True
         else:
@@ -206,16 +208,15 @@ class DistributedDataParallel(Module):
                 (len(param_list) != len(self.param_refs)) or any(
                     [param1 is not param2 for param1, param2 in zip(param_list, self.param_refs)]))
 
-        if  self.needs_refresh:
+        if self.needs_refresh:
             self.record = []
-
 
         self.param_state = [0 for i in range(len(param_list))]
         self.param_refs = param_list
         self.needs_reduction = True
 
         self.ready_start = 0
-        self.ready_end   = 0
+        self.ready_end = 0
         self.ready_params = []
         self.ready_numel = 0
 

@@ -32,7 +32,7 @@ class ResidualRecurrentEncoder(nn.Module):
             self.embedder = embedder
         else:
             self.embedder = nn.Embedding(vocab_size, hidden_size,
-                                        padding_idx=config.PAD)
+                                         padding_idx=config.PAD)
 
     def forward(self, inputs, lengths):
         x = self.embedder(inputs)

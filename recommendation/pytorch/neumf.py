@@ -24,7 +24,8 @@ class NeuMF(nn.Module):
         self.mlp_user_embed = nn.Embedding(nb_users, mlp_layer_sizes[0] // 2)
         self.mlp_item_embed = nn.Embedding(nb_items, mlp_layer_sizes[0] // 2)
 
-        mlperf_log.ncf_print(key=mlperf_log.MODEL_HP_MLP_LAYER_SIZES, value=mlp_layer_sizes)
+        mlperf_log.ncf_print(
+            key=mlperf_log.MODEL_HP_MLP_LAYER_SIZES, value=mlp_layer_sizes)
         self.mlp = nn.ModuleList()
         for i in range(1, nb_mlp_layers):
             self.mlp.extend([nn.Linear(mlp_layer_sizes[i - 1], mlp_layer_sizes[i])])  # noqa: E501

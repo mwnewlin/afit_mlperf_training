@@ -39,7 +39,6 @@ class BucketingSampler(Sampler):
         # make indices evenly divisible by (batch_size * world_size)
         indices = indices[:self.num_samples]
 
-
         if self.bucket:
             # begin shards
             batches_in_shard = 80
@@ -48,15 +47,17 @@ class BucketingSampler(Sampler):
 
             lengths = self.dataset.lengths[indices]
 
-            shards = [indices[i * shard_size:(i+1) * shard_size] for i in range(nshards)]
-            len_shards = [lengths[i * shard_size:(i+1) * shard_size] for i in range(nshards)]
+            shards = [indices[i * shard_size:(i+1) * shard_size]
+                      for i in range(nshards)]
+            len_shards = [
+                lengths[i * shard_size:(i+1) * shard_size] for i in range(nshards)]
 
             indices = []
             for len_shard in len_shards:
                 _, ind = len_shard.sort()
                 indices.append(ind)
 
-            output = tuple(shard[idx] for shard,idx in zip(shards, indices))
+            output = tuple(shard[idx] for shard, idx in zip(shards, indices))
             indices = torch.cat(output)
             # global reshuffle
             indices = indices.view(-1, self.global_batch_size)
@@ -64,7 +65,6 @@ class BucketingSampler(Sampler):
             indices = indices[order, :]
             indices = indices.view(-1)
             # end shards
-
 
         assert len(indices) == self.num_samples
 

@@ -35,7 +35,7 @@ XXXXXOOOO
 XXXXOOOOO
 ''')
 
-#Tromp taylor means black can win if we hit the move limit.
+# Tromp taylor means black can win if we hit the move limit.
 TT_FTW_BOARD = test_utils.load_board('''
 .XXOOOOOO
 X.XOO...O
@@ -58,6 +58,7 @@ SEND_TWO_RETURN_ONE = go.Position(
             go.PlayerMove(go.WHITE, (0, 8))),
     to_play=go.BLACK
 )
+
 
 class DummyNet():
     def __init__(self, fake_priors=None, fake_value=0):
@@ -294,7 +295,8 @@ class TestMCTSPlayerMixin(test_utils.MiniGoUnitTest):
         position, pi, result = data[0]
         # White wins by komi
         self.assertEqual(result, go.WHITE)
-        self.assertEqual(player.result_string, "W+{}".format(player.root.position.komi))
+        self.assertEqual(player.result_string,
+                         "W+{}".format(player.root.position.komi))
 
     def test_extract_data_resign_end(self):
         player = MCTSPlayerMixin(DummyNet())

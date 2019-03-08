@@ -23,6 +23,7 @@ def get_rank():
         rank = 0
     return rank
 
+
 def get_world_size():
     if torch.distributed.is_initialized():
         world_size = torch.distributed.get_world_size()
@@ -92,7 +93,7 @@ class AverageMeter(object):
 
 def batch_padded_sequences(seq, batch_first=False, sort=False):
     if sort:
-        key = lambda item: len(item[1])
+        def key(item): return len(item[1])
         indices, seq = zip(*sorted(enumerate(seq), key=key, reverse=True))
     else:
         indices = range(len(seq))

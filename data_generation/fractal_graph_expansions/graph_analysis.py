@@ -31,35 +31,36 @@ FLAGS = flags.FLAGS
 
 
 def sparse_svd(sparse_matrix, num_values, max_iter):
-  """Wrapper around SciPy's Singular Value Decomposition for sparse matrices.
+    """Wrapper around SciPy's Singular Value Decomposition for sparse matrices.
 
-  Args:
-    sparse_matrix: a SciPy sparse matrix (typically large).
-    num_values: the number of largest singular values to compute.
-    max_iter: maximum number of iterations (>= 0) in the decomposition. If
-      max_iter is None, runs FLAGS.max_iter_sparse_svd steps. If max_iter == 0,
-      runs until convergence. Otherwise will run max_iter steps.
+    Args:
+      sparse_matrix: a SciPy sparse matrix (typically large).
+      num_values: the number of largest singular values to compute.
+      max_iter: maximum number of iterations (>= 0) in the decomposition. If
+        max_iter is None, runs FLAGS.max_iter_sparse_svd steps. If max_iter == 0,
+        runs until convergence. Otherwise will run max_iter steps.
 
-  Returns:
-    A (u, s, v) tuple where s is an array entailing the singular values,
-      and (u, v) the singular vector matrices. u is column orthogonal and
-      v is row orthogonal. s is sorted in increasing order.
-  """
+    Returns:
+      A (u, s, v) tuple where s is an array entailing the singular values,
+        and (u, v) the singular vector matrices. u is column orthogonal and
+        v is row orthogonal. s is sorted in increasing order.
+    """
 
-  if num_values <= 0:
-    raise ValueError("num_values should be > 0 but instead is %d." % num_values)
+    if num_values <= 0:
+        raise ValueError(
+            "num_values should be > 0 but instead is %d." % num_values)
 
-  if max_iter is not None and max_iter < 0:
-    raise ValueError("max_iter should be >= 0 but instead is %d." % max_iter)
+    if max_iter is not None and max_iter < 0:
+        raise ValueError(
+            "max_iter should be >= 0 but instead is %d." % max_iter)
 
-  if max_iter is None:
-    max_iter = FLAGS.max_iter_sparse_svd
-  elif not max_iter:
-    max_iter = None
+    if max_iter is None:
+        max_iter = FLAGS.max_iter_sparse_svd
+    elif not max_iter:
+        max_iter = None
 
-  u, s, v = linalg.svds(
-      sparse_matrix, k=num_values, maxiter=max_iter,
-      return_singular_vectors=True)
+    u, s, v = linalg.svds(
+        sparse_matrix, k=num_values, maxiter=max_iter,
+        return_singular_vectors=True)
 
-  return (u, s, v)
-
+    return (u, s, v)

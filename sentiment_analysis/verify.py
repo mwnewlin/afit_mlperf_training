@@ -9,6 +9,7 @@ DIR = os.path.expanduser('~/.cache/paddle/dataset/imdb')
 PATH = os.path.join(DIR, URL.split('/')[-1])
 CHUNK_SIZE = 4096
 
+
 def md5content(fname):
     hash_md5 = hashlib.md5()
     f = open(fname, "rb")
@@ -18,11 +19,14 @@ def md5content(fname):
     return hash_md5.hexdigest()
 
 # Verify MD5 checksum
+
+
 def verify():
     if md5content(PATH) == MD5:
         print("PASSED!")
     else:
         print("FAILED")
+
 
 if __name__ == "__main__":
     verify()

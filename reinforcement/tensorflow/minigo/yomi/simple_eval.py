@@ -49,8 +49,9 @@ def run():
 
 
 def play_matches(m1, m2)
-    """ Play matches against two models """
-    pass
+
+""" Play matches against two models """
+pass
 
 
 def print_env():

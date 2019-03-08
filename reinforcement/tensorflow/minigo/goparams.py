@@ -17,26 +17,26 @@ import struct
 HOST = socket.gethostname()
 
 NOWSEC = int(time.time())
-NOWSHORT = base64.b32encode(struct.pack(">I", NOWSEC)).decode('ascii').strip('=')
+NOWSHORT = base64.b32encode(struct.pack(
+    ">I", NOWSEC)).decode('ascii').strip('=')
 
 _PARAMS = None
 
 if 'GOPARAMS' in os.environ:
-  with open(os.environ['GOPARAMS']) as f:
-    _PARAMS = json.load(f)
+    with open(os.environ['GOPARAMS']) as f:
+        _PARAMS = json.load(f)
 else:
-  pass
-  #raise Exception('GOPARAMS not defined. Use GOPARAMS=path/to/json')
+    pass
+    #raise Exception('GOPARAMS not defined. Use GOPARAMS=path/to/json')
 
 
 def _set(name, default):
-  val = default
-  if _PARAMS is not None:
-    if name not in _PARAMS:
-      raise Exception('Key ' + name + ' Not Defined in GOPARAMS config')
-    val = _PARAMS[name]
-  globals()[name] = val
-
+    val = default
+    if _PARAMS is not None:
+        if name not in _PARAMS:
+            raise Exception('Key ' + name + ' Not Defined in GOPARAMS config')
+        val = _PARAMS[name]
+    globals()[name] = val
 
 
 # How many games before the selfplay workers will stop trying to play more.
@@ -77,7 +77,6 @@ _set('EXAMPLES_PER_RECORD', 10000)
 # WINDOW_SIZE = 125000000
 #WINDOW_SIZE = 500000
 _set('WINDOW_SIZE', 10000000)
-
 
 
 # Set to run the dummy model instead of the real one, for speedups
