@@ -8,6 +8,7 @@ function download_1m {
 	curl -O http://files.grouplens.org/datasets/movielens/ml-1m.zip
 }
 
+mkdir -p data; cd data
 if [[ $1 == "ml-1m" ]]
 then
 	download_1m

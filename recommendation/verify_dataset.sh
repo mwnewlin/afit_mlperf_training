@@ -35,7 +35,7 @@ function verify_20m {
 
 }
 
-
+cd data
 if [[ $1 == "ml-1m" ]]
 then
     verify_1m

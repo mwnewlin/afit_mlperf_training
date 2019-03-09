@@ -1,10 +1,4 @@
 # Downloaded data files
-object_detection/annotations_trainval2014.zip
-object_detection/coco_annotations_minival.tgz
-object_detection/R-50.pkl
-object_detection/train2014.zip
-object_detection/val2014.zip
-recommendation/ml-20m.zip
 single_stage_detector/coco/
 translation/tensorflow/model/
 translation/tensorflow/newstest2014.de
