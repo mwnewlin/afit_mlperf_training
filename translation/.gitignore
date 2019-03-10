@@ -1,0 +1,6 @@
+__pycache__/
+tags
+/data
+/results
+/raw_data
+*.log
