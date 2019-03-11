@@ -11,3 +11,9 @@ On mustang you'll need to clone the repository with:
 ```bash
 git clone --recursive -j8 git@github.com:mark-e-deyoung/afit_mlperf_training.git
 ```
+
+If you didn't do a recursive clone you can init the submodules with:
+```bash
+git submodule update --init --recursive
+```
+
