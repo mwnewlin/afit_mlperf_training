@@ -18,7 +18,7 @@ seed=${1:-"1"}
 target=21.80
 
 echo "running benchmark"
-. ${SOURCE_DIR}\run.sh $seed $target
+. ${SOURCE_DIR}/run.sh $seed $target
 
 sleep 3
 ret_code=$?; if [[ $ret_code != 0 ]]; then exit $ret_code; fi
