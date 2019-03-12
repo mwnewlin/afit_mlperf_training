@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 
 import unittest
 import paddle.fluid as fluid
@@ -139,7 +139,7 @@ def train(word_dict,
     def train_loop(main_program):
         exe.run(fluid.default_startup_program())
 
-        for pass_id in xrange(PASS_NUM):
+        for pass_id in range(PASS_NUM):
             train_loss_set = []
             train_acc_set = []
 
