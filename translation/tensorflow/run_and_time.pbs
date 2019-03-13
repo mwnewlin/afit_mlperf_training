@@ -12,7 +12,9 @@ module unload cuda
 module load devel/cuda/9.0
 
 conda activate afit_mlperf_translation
-. run_and_time.sh
+
+export SOURCE_DIR="${HOME}/git/afit_mlperf_training/translation/tensorflow"
+. ${SOURCE_DIR}/run_and_time.sh
 
 
 
