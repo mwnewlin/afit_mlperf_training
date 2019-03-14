@@ -1,6 +1,53 @@
-# 1. Problem
-This task benchmarks recommendation with implicit feedback on the [MovieLens 20 Million (ml-20m) dataset](https://grouplens.org/datasets/movielens/20m/) with a [Neural Collaborative Filtering](http://dl.acm.org/citation.cfm?id=3052569) model.
-The model trains on binary information about whether or not a user interacted with a specific item.
+
+
+## Singularity friendly Dockerfile
+#### Dockerfile and docker-entry were modified to be non-permissive Singularity container friendly
+
+
+## Pulling image with Singularity
+````bash
+singularity pull --name mlperf_recomendation_pytorch.simg docker://cgret/mlperf_recomendation_pytorch:0.5
+````
+
+## Running in Singularity
+````bash
+ mkdir $(pwd)/experiment
+ singularity shell --nv --bind $(pwd)/experiment:/mlperf/experiment mlperf_recomendation_pytorch.simg
+ bash /docker-entry.sh
+````
+
+## Building new Docker image base
+
+Download all files in this folder and run
+````bash
+docker build -t mlperf_recomendation_pytorch:0.5 .
+````
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 2. Directions
 ### Steps to configure machine
