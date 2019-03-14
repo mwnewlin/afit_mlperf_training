@@ -5,15 +5,20 @@
 #PBS -q debug
 #PBS -l walltime=00:05:00
 #PBS -N afit_mlperf_translation
-#PBS -j oe
+##PBS -j oe
+#PBS -V
+#PBS -M mdeyoung@afit.edu
+#PBS -m be
 
 cd $PBS_O_WORKDIR
 
+soure ${MODULESHOME}/init/bash
+
 module unload cuda
 module load devel/cuda/9.0
+module load devel/anaconda/3
 
-# Use anaconda installed in ${HOME}/opt/anconda3
-${HOME}/opt/anaconda3/bin/conda activate afit_mlperf_translation
+conda activate afit_mlperf_translation
 
 export SOURCE_DIR="${HOME}/git/afit_mlperf_training/translation/tensorflow"
 . ${SOURCE_DIR}/run_and_time.sh
