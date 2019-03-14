@@ -71,6 +71,10 @@ ADD docker-entry.sh /docker-entry.sh
 RUN mkdir /packages/detectron/lib/datasets/data/coco
 ADD hashes.md5 /hashes.md5
 RUN chmod +x /docker-entry.sh && chmod 777 /packages/detectron
+
+#URLs for weights changed. Need to patch in the correct YML file
+ADD e2e_mask_rcnn_R-50-FPN_1x.yaml /packages/detectron/configs/12_2017_baselines/e2e_mask_rcnn_R-50-FPN_1x.yaml
+
 RUN ldconfig
 ENTRYPOINT /docker-entry.sh
 

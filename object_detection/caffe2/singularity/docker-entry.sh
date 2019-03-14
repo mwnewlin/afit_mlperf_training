@@ -26,12 +26,18 @@ then
 
   dtrx --one=here coco_annotations_minival.tgz
   dtrx --one=here annotations_trainval2014.zip
+
   mv annotations.1/* annotations/
+  rmdir annotations.1/
+  
   dtrx train2014.zip
   mv train2014/ coco_train2014/
+
   dtrx val2014.zip
   mv val2014/ coco_val2014/
 
+
+  export PYTHONPATH=/packages/detectron/lib/
   cd /packages/detectron
   time stdbuf -o 0 \
     python tools/train_net.py --cfg configs/12_2017_baselines/e2e_mask_rcnn_R-50-FPN_1x.yaml \
