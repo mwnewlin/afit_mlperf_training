@@ -9,7 +9,7 @@
 #PBS -V
 #PBS -M mdeyoung@afit.edu
 #PBS -m be
-
+#PBS -l ccm=1
 
 soure ${MODULESHOME}/init/bash
 
