@@ -1,18 +1,17 @@
 
-## Singularity friendly Docker Image of MLPerf Recommendation benchmark (Using pytorch)
+## Singularity friendly Docker Image of MLPerf Object Detection benchmark (Using caffe2)
 Dockerfile and docker-entry workflow was modified to work in a non-permissive Singularity environment (i.e. a HPC)
 
 
 ## Pulling image with Singularity
 ````bash
-singularity pull --name mlperf_recomendation_pytorch.simg docker://cgret/mlperf_recomendation_pytorch:0.5
+singularity pull --name mlperf_object_detection.simg docker://cgret/mlperf_object_detection:0.5
 ````
 
 ## Running in Singularity
 ````bash
- mkdir $(pwd)/experiment
- singularity shell --nv --bind $(pwd)/experiment:/mlperf/experiment mlperf_recomendation_pytorch.simg
- bash /docker-entry.sh
+ mkdir $(pwd)/object
+singularity run --nv --bind $(pwd)/object:/packages/detectron/lib/datasets/data/coco mlperf_object_detection.simg
 ````
 
 ### Notes
@@ -29,5 +28,4 @@ docker build -t mlperf_recomendation_pytorch:0.5 .
 
 
 ##TODO
-- Make singularity one liner
 - Collect results in a file
