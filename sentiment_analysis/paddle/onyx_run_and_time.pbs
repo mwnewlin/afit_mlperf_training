@@ -1,0 +1,27 @@
+#!/bin/bash
+#PBS -l select=1:ncpus=22:mpiprocs=22:ngpus=1
+#PBS -A AFSNW27526A21
+##PBS -q standard
+#PBS -q debug
+#PBS -l walltime=00:05:00
+#PBS -N afit_mlperf_translation
+##PBS -j oe
+#PBS -V
+#PBS -M mdeyoung@afit.edu
+#PBS -m be
+
+
+soure ${MODULESHOME}/init/bash
+
+module unload cuda
+module load devel/cuda/9.0
+module load devel/anaconda/3
+
+conda activate afit_mlperf_translation
+
+export SOURCE_DIR="${HOME}/git/afit_mlperf_training/translation/tensorflow"
+cd ${SOURCE_DIR}
+. ${SOURCE_DIR}/run_and_time.sh
+
+
+
