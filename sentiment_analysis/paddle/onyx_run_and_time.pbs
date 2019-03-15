@@ -11,7 +11,7 @@
 #PBS -m be
 #PBS -l ccm=1
 
-soure ${MODULESHOME}/init/bash
+source ${MODULESHOME}/init/bash
 
 module unload cuda
 module load devel/cuda/9.0
@@ -21,6 +21,11 @@ module load devel/anaconda/3
 conda activate paddlepaddle-gpu
 
 export SOURCE_DIR="${HOME}/git/afit_mlperf_training/sentiment_analysis/paddle"
+
+env | sort
+ls -la
+hostname
+
 . ${SOURCE_DIR}/run_and_time.sh
 
 
