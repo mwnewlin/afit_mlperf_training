@@ -18,6 +18,7 @@ module load devel/cuda/9.0
 module load cudnn/7.4.2
 module load devel/anaconda/3
 
+conda init bash
 conda activate paddlepaddle-gpu
 
 export SOURCE_DIR="${HOME}/git/afit_mlperf_training/sentiment_analysis/paddle"
