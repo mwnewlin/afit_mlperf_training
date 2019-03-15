@@ -13,7 +13,7 @@ echo "Running sentiment benchmark with seed ${SEED}"
 
 # Train a sentiment_analysis model (default: conv model), with a user
 # specified seed
-python ${SOURCE_DIR}/train.py -s ${SEED}
+python train.py -s ${SEED}
 
 # End timing
 end_time=$(date +%s)
