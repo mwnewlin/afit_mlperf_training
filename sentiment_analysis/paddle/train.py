@@ -1,7 +1,7 @@
 from __future__ import print_function
 
 import unittest
-import paddlep.v2.fluid as fluid
+import paddle.v2.fluid as fluid
 import paddlepaddle as paddle
 import contextlib
 import math
