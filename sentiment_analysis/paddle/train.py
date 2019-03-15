@@ -2,7 +2,7 @@ from __future__ import print_function
 
 import unittest
 import paddle
-import paddle.v2.fluid as fluid
+import paddle.fluid as fluid
 import contextlib
 import math
 import numpy as np
