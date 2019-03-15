@@ -20,6 +20,10 @@ module load devel/anaconda/3
 
 conda activate paddlepaddle-gpu
 
+env | sort
+ls -la
+hostname
+
 export SOURCE_DIR="${HOME}/git/afit_mlperf_training/sentiment_analysis/paddle"
 . ${SOURCE_DIR}/run_and_time.sh
 
