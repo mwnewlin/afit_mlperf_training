@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-DATA_DIR="${MLPERF_DATA_DIR}/rnn_translator/data"
+DATA_DIR="${MLPERF_DATA_DIR}/rnn_translator"
 
 ACTUAL_SRC_TRAIN=`cat ${DATA_DIR}/train.tok.clean.bpe.32000.en |md5sum`
 EXPECTED_SRC_TRAIN='b7482095b787264a310d4933d197a134  -'
