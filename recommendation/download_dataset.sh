@@ -1,14 +1,18 @@
+DATA_DIR="${MLPERF_DATA_DIR}/recommendation"
+mkdir -p ${DATA_DIR}
+
 function download_20m {
 	echo "Download ml-20m"
-	curl -O http://files.grouplens.org/datasets/movielens/ml-20m.zip
+	wget -nc http://files.grouplens.org/datasets/movielens/ml-20m.zip \
+	  -O ${DATA_DIR}/ml-20m.zip
 }
 
 function download_1m {
 	echo "Downloading ml-1m"
-	curl -O http://files.grouplens.org/datasets/movielens/ml-1m.zip
+	wget -nc http://files.grouplens.org/datasets/movielens/ml-1m.zip \
+	  -O ${DATA_DIR}/ml-1m.zip
 }
 
-mkdir -p data; cd data
 if [[ $1 == "ml-1m" ]]
 then
 	download_1m
