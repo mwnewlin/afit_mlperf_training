@@ -5,8 +5,8 @@ set -e
 # Get the directory that this script is ran from
 export SOURCE_DIR=${SOURCE_DIR:="$(dirname $(readlink -f "$0"))"}
 
-DATASET_DIR='${MLPERF_DATA_DIR}/rnn_translator/data'
-RESULTS_DIR='${MLPERF_DATA_DIR}/rnn_translator/results/gnmt_wmt16'
+DATASET_DIR="${MLPERF_DATA_DIR}/rnn_translator"
+RESULTS_DIR="${MLPERF_DATA_DIR}/rnn_translator/results/gnmt_wmt16"
 
 SEED=${1:-"1"}
 TARGET=${2:-"21.80"}
