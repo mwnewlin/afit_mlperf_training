@@ -24,3 +24,23 @@ module load devel/cuda/9.0
 
 Then run the test.
 
+# Docker images
+There are official Tensorflow images on dockerhub
+at [tensorflow/tensorflow](https://hub.docker.com/r/tensorflow/tensorflow).
+The images are based on Ubuntu 16.04.
+
+The 1.9.0 tags are:
+    1.9.0-devel-gpu-py3
+    1.9.0-devel-gpu
+    1.9.0-devel-py3
+    1.9.0-devel
+    1.9.0-gpu-py3
+    1.9.0-gpu
+    1.9.0-py3
+    1.9.0
+
+To start a GPU container with Python 3:
+```bash
+docker run -it --rm --runtime=nvidia tensorflow/tensorflow:1.9.0-gpu-py3 python
+```
+
