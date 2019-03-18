@@ -207,7 +207,7 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--seed', type=int, required=False, default=1,
                         help="Seed for random number generator")
 
-    word_dict = paddle.dataset.imdb.build_dict()
+    word_dict = paddle.dataset.imdb.word_dict()
     args = parser.parse_args()
 
     if args.model == 'conv':
