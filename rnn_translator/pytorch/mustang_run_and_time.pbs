@@ -22,8 +22,8 @@ conda activate pytorch-gpu
 
 export SOURCE_DIR="${HOME}/git/afit_mlperf_training/rnn_translator/pytorch"
 
-env | sort
-ls -la
-hostname
+#env | sort
+#ls -la
+#hostname
 
 . ${SOURCE_DIR}/run_and_time.sh
