@@ -4,6 +4,7 @@ import unittest
 import paddle
 import paddle.fluid as fluid
 import paddle.dataset
+import paddle.batch
 import contextlib
 import math
 import numpy as np
