@@ -12,7 +12,7 @@ SEED=${1:-"1"}
 TARGET=${2:-"21.80"}
 
 # run training
-python3 -m ${SOURCE_DIR}/multiproc train.py \
+python3 -m ${SOURCE_DIR}/multiproc.py train.py \
   --save ${RESULTS_DIR} \
   --dataset-dir ${DATASET_DIR} \
   --seed $SEED \
