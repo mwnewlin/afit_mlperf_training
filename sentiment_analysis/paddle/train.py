@@ -3,6 +3,7 @@ from __future__ import print_function
 import unittest
 import paddle
 import paddle.fluid as fluid
+import paddle.dataset
 import contextlib
 import math
 import numpy as np
