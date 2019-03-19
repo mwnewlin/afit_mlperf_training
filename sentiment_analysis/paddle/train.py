@@ -1,5 +1,3 @@
-
-
 import unittest
 import paddle.fluid as fluid
 import paddle
