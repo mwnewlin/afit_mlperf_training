@@ -1,10 +1,6 @@
-from __future__ import print_function
-
 import unittest
-import paddle
 import paddle.fluid as fluid
-import paddle.dataset
-import paddle.batch
+import paddle
 import contextlib
 import math
 import numpy as np
@@ -141,7 +137,7 @@ def train(word_dict,
     def train_loop(main_program):
         exe.run(fluid.default_startup_program())
 
-        for pass_id in xrange(PASS_NUM):
+        for pass_id in range(PASS_NUM):
             train_loss_set = []
             train_acc_set = []
 
