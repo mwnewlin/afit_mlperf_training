@@ -15,5 +15,5 @@ export PYTHONPATH=${SOURCE_DIR}/transformer:${PYTHONPATH}
 # export PYTHONPATH=/mlperf/training/compliance:${PYTHONPATH}
 
 python3 ${SOURCE_DIR}/process_data.py \
-  --raw_dir ${SOURCE_DIR}/raw_data/ \
-  --data_dir ${SOURCE_DIR}/processed_data
+  --raw_dir ${MLPERF_DATA_DIR}/translation/raw_data/ \
+  --data_dir ${MLPERF_DATA_DIR}/translation/processed_data

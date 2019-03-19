@@ -9,7 +9,7 @@ export SOURCE_DIR=${SOURCE_DIR:="$(dirname $(readlink -f "$0"))"}
 # To use the script:
 # run_and_time.sh <random seed 1-5>
 
-TARGET_UNCASED_BLEU_SCORE=25
+TARGET_UNCASED_BLEU_SCORE=20
 
 set -e
 
