@@ -10,17 +10,24 @@ Command to run the container.
 Note: We pushed above docker image with our own tag to dockerhub and run that image, hence different image name.
 
 ```bash
-sudo docker run -v `pwd`:/sentiment_analysis -v /mnt/NAS/shared_data/afit_mlperf/training/sentiment_analysis:/root/.cache/paddle/dataset/imdb -it cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7 /bin/bash
+sudo docker run \
+  -v `pwd`:/sentiment_analysis \
+  -v /mnt/NAS/shared_data/afit_mlperf/training/sentiment_analysis:/root/.cache/paddle/dataset/imdb \
+  -it cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7 \
+  /bin/bash
 ```
 
-# Notes
+# Data location
 
 This benchmark uses a [dataset](http://www.paddlepaddle.org/documentation/docs/en/develop/api/data/dataset.html) module
 to access the IMDB data.  The default location used by the module is '~/.cache/paddle/dataset/imdb' which is set by the
-paddlepaddle framework.  It might be worthile to see if this is configurable.
+paddlepaddle framework.  Looks like the cache location is not runtime configurable without changing the framework code [dataset/common.py#L37](https://github.com/PaddlePaddle/Paddle/blob/0abfbd1c41e6d558f76252854d4d78bef581b720/python/paddle/dataset/common.py#L37).
 
 
-Create a conda environment for [PaddlePaddle](https://github.com/PaddlePaddle/Paddle) on Mustang with:
+# Native version
+
+Create a conda environment for [PaddlePaddle](https://github.com/PaddlePaddle/Paddle) on Mustang
+ with:
 ```bash
 conda activate base
 conda create --name paddlepaddle-gpu
@@ -33,7 +40,7 @@ This assumes that you have loaded a GNU Environment Module for the correct CUDA 
 and cuDNN version.  Check the PBS scripts for examples.
 
 
-On Onyx (CUDA 8.0):
+On Onyx (CUDA 8.0, cuDNN 7.1.3):
 ```bash
 conda activate base
 conda create --name paddlepaddle-cuda8cudnn7
