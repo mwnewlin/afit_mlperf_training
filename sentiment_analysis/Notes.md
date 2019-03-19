@@ -1,19 +1,40 @@
 # Docker version
-For Docker yse pre-built [paddlepaddle Docker image](https://hub.docker.com/r/paddlepaddle/paddle)
+
+For Docker use a pre-built [paddlepaddle Docker image](https://hub.docker.com/r/paddlepaddle/paddle)
 
 ```bash
 docker pull paddlepaddle/paddle:1.2-gpu-cuda9.0-cudnn7
 ```
 Command to run the container.
-* First -v mounts the working directory (the sentiment_analysis directory)
-* Second -v mounts the data location as the data location that the program expects (/~/.cache/paddle/dataset/imdb)
+* First --volume mounts the working directory (the sentiment_analysis directory)
+* Second --volume mounts the data location as the data location that the program expects (/~/.cache/paddle/dataset/imdb)
+
 Note: We pushed above docker image with our own tag to dockerhub and run that image, hence different image name.
+
 
 ```bash
 sudo docker run \
-  -v `pwd`:/sentiment_analysis \
-  -v /mnt/NAS/shared_data/afit_mlperf/training/sentiment_analysis:/root/.cache/paddle/dataset/imdb \
-  -it cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7 \
+  --volume $(pwd):/sentiment_analysis \
+  --volume /mnt/NAS/shared_data/afit_mlperf/training/sentiment_analysis:/root/.cache/paddle/dataset/imdb \
+  --interactive \
+  --tty \
+  cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7 \
+  /bin/bash
+```
+
+On the DL boxes in your ${HOME}/.bash_login set the MLPERF_DATA_DIRECTORY environment variable:
+```bash
+export MLPERF_DATA_DIR="/mnt/NAS/shared_data/afit_mlperf/training/"
+mkdir -p ${MLPERF_DATA_DIR}
+```
+
+```bash
+sudo nvidia-docker run \
+  --volume $(pwd):/sentiment_analysis \
+  --volume ${MLPERF_DATA_DIR}/sentiment_analysis:/root/.cache/paddle/dataset/imdb \
+  --interactive \
+  --tty \
+  cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7 \
   /bin/bash
 ```
 
