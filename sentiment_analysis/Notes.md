@@ -1,3 +1,6 @@
+# Time to Accuracy
+The 'accuracy' for this benchmark is the target quality parameter (--target-quality) for paddle/train.py.  The default value is 90.6.  The benchmark will run for 100 epochs (PASS_NUM=100) or stop when it reaches the target quality.  After several dozen runs on Mustang it looks like the benchmark frequently does not converge with a target quality of 90.6.  It takes about 1 hour 50 minutes to run all 100 epochs with a P100 (16 Gib).
+
 # Data location
 
 This benchmark uses a [dataset](http://www.paddlepaddle.org/documentation/docs/en/develop/api/data/dataset.html) module to access the IMDB data.  The default location used by the module is '~/.cache/paddle/dataset/imdb' which is set by the paddlepaddle framework.  Looks like the cache location is not runtime configurable without changing the framework code (See: [dataset/common.py#L37](https://github.com/PaddlePaddle/Paddle/blob/0abfbd1c41e6d558f76252854d4d78bef581b720/python/paddle/dataset/common.py#L37)).
@@ -49,7 +52,7 @@ sudo docker run \
 
 
 ### Directly run the benchmark on the 0th GPU
-The sentiment_analsys benchmark program only uses a single GPU. This example specifies only the 0th GPU using the NV_GPU environment variable.  If the benchmark segfaults you might need to check that no one else is already using the GPU you specified with NV_GPU (ues the nvidia-smi command).
+The sentiment_analsys benchmark program only uses a single GPU. This example specifies only the 0th GPU using the NV_GPU environment variable.  If the benchmark segfaults you might need to check that no one else is already using the GPU you specified with NV_GPU (ues the nvidia-smi command to see the GPU utilization and running GPU processes).
 
 ```bash
 sudo NV_GPU=0 nvidia-docker run \
