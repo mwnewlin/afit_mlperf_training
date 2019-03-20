@@ -14,8 +14,9 @@ In the AFRL DSRC in your ${HOME}/.personal.bashrc set the MLPERF_DATA_DIRECTORY 
 export MLPERF_DATA_DIR="${WORKDIR}/afit_mlperf_training"
 mkdir -p ${MLPERF_DATA_DIR}
 ```
+Your ${HOME} is reachable from each of the clusters in the DSRC.
 
-# Docker version
+# Nvidia Docker version
 
 ## Pull image
 For Docker use a pre-built [paddlepaddle Docker image](https://hub.docker.com/r/paddlepaddle/paddle)
@@ -23,7 +24,8 @@ For Docker use a pre-built [paddlepaddle Docker image](https://hub.docker.com/r/
 ```bash
 docker pull paddlepaddle/paddle:1.2-gpu-cuda9.0-cudnn7
 ```
-## Run the container
+
+## Run the container (Local Workstation)
 * First --volume mounts the current working directory (the sentiment_analysis directory)
 * Second --volume mounts the data location as the data location that the benchmark program expects (/~/.cache/paddle/dataset/imdb)
 
@@ -59,12 +61,11 @@ sudo NV_GPU=0 nvidia-docker run \
   /bin/bash /sentiment_analysis/paddle/run_and_time.sh
 ```
 
-### submit 
-# Native version
-The native version can be run interactive from the command line or as a PBS job in the HPC environment.
 
-This assumes that you have loaded a GNU Environment Module for the correct CUDA API version
-and cuDNN version.  Check the PBS scripts for examples.
+# Native version
+The native version can be run interactive from the command line or as a PBS job in the HPC environment.  You will need to configure a runtime environment that is compatible with the containerized version.  We are using conda to manage python dependencies and the GUN Environment Modules system to manage dependencies like the compiler version, CUDA API, and cuDNN version.
+
+The examples shown below assume that you have loaded a GNU Environment Module for the correct CUDA API version and cuDNN version.  Check the PBS scripts for examples.
 
 ## On mustang
 Create a conda environment for [PaddlePaddle](https://github.com/PaddlePaddle/Paddle) on Mustang
