@@ -1,6 +1,6 @@
 # Data location
 
-This benchmark uses a [dataset](http://www.paddlepaddle.org/documentation/docs/en/develop/api/data/dataset.html) module to access the IMDB data.  The default location used by the module is '~/.cache/paddle/dataset/imdb' which is set by the paddlepaddle framework.  Looks like the cache location is not runtime configurable without changing the framework code [dataset/common.py#L37](https://github.com/PaddlePaddle/Paddle/blob/0abfbd1c41e6d558f76252854d4d78bef581b720/python/paddle/dataset/common.py#L37).
+This benchmark uses a [dataset](http://www.paddlepaddle.org/documentation/docs/en/develop/api/data/dataset.html) module to access the IMDB data.  The default location used by the module is '~/.cache/paddle/dataset/imdb' which is set by the paddlepaddle framework.  Looks like the cache location is not runtime configurable without changing the framework code (See: [dataset/common.py#L37](https://github.com/PaddlePaddle/Paddle/blob/0abfbd1c41e6d558f76252854d4d78bef581b720/python/paddle/dataset/common.py#L37)).
 
 On the DL boxes in your ${HOME}/.bash_login set the MLPERF_DATA_DIRECTORY environment variable:
 ```bash
@@ -59,6 +59,7 @@ sudo NV_GPU=0 nvidia-docker run \
   /bin/bash /sentiment_analysis/paddle/run_and_time.sh
 ```
 
+### submit 
 # Native version
 The native version can be run interactive from the command line or as a PBS job in the HPC environment.
 
