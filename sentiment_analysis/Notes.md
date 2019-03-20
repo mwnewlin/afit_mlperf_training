@@ -1,11 +1,17 @@
+# Data location
+
+This benchmark uses a [dataset](http://www.paddlepaddle.org/documentation/docs/en/develop/api/data/dataset.html) module to access the IMDB data.  The default location used by the module is '~/.cache/paddle/dataset/imdb' which is set by the paddlepaddle framework.  Looks like the cache location is not runtime configurable without changing the framework code [dataset/common.py#L37](https://github.com/PaddlePaddle/Paddle/blob/0abfbd1c41e6d558f76252854d4d78bef581b720/python/paddle/dataset/common.py#L37).
+
+
 # Docker version
 
+## Pull image
 For Docker use a pre-built [paddlepaddle Docker image](https://hub.docker.com/r/paddlepaddle/paddle)
 
 ```bash
 docker pull paddlepaddle/paddle:1.2-gpu-cuda9.0-cudnn7
 ```
-Command to run the container.
+## Run the container
 * First --volume mounts the working directory (the sentiment_analysis directory)
 * Second --volume mounts the data location as the data location that the program expects (/~/.cache/paddle/dataset/imdb)
 
@@ -28,6 +34,11 @@ export MLPERF_DATA_DIR="/mnt/NAS/shared_data/afit_mlperf/training/"
 mkdir -p ${MLPERF_DATA_DIR}
 ```
 
+Change your working directory to the sub-directory containing the sentiment_analysis benchmark code:
+```bash
+cd ${HOME}/git/afit_mlperf_training/sentiment_analysis
+```
+
 ```bash
 sudo nvidia-docker run \
   --volume $(pwd):/sentiment_analysis \
@@ -38,15 +49,13 @@ sudo nvidia-docker run \
   /bin/bash
 ```
 
-# Data location
-
-This benchmark uses a [dataset](http://www.paddlepaddle.org/documentation/docs/en/develop/api/data/dataset.html) module
-to access the IMDB data.  The default location used by the module is '~/.cache/paddle/dataset/imdb' which is set by the
-paddlepaddle framework.  Looks like the cache location is not runtime configurable without changing the framework code [dataset/common.py#L37](https://github.com/PaddlePaddle/Paddle/blob/0abfbd1c41e6d558f76252854d4d78bef581b720/python/paddle/dataset/common.py#L37).
-
-
 # Native version
+The native version can be run interactive from the command line or as a PBS job in the HPC environment.
 
+This assumes that you have loaded a GNU Environment Module for the correct CUDA API version
+and cuDNN version.  Check the PBS scripts for examples.
+
+## On mustang
 Create a conda environment for [PaddlePaddle](https://github.com/PaddlePaddle/Paddle) on Mustang
  with:
 ```bash
@@ -57,10 +66,7 @@ conda install pip
 pip install paddlepaddle-gpu
 ```
 
-This assumes that you have loaded a GNU Environment Module for the correct CUDA API version
-and cuDNN version.  Check the PBS scripts for examples.
-
-
+## On onyx
 On Onyx (CUDA 8.0, cuDNN 7.1.3):
 ```bash
 conda activate base
@@ -70,3 +76,6 @@ conda install pip
 pip install paddlepaddle-gpu==1.3.0.post87
 ```
 
+# References
+ * [NVIDIA Docker and Container Best Practices](https://docs.nvidia.com/deeplearning/dgx/bp-docker)
+ * [docker docs > CLI > docker run](https://docs.docker.com/engine/reference/commandline/run/)
