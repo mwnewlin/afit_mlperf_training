@@ -64,6 +64,7 @@ sudo NV_GPU=0 nvidia-docker run \
   /bin/bash /sentiment_analysis/paddle/run_and_time.sh
 ```
 
+Need to work on capturing the output of each run or extracting the output from docker logs.
 
 # Native version
 The native version can be run interactive from the command line or as a PBS job in the HPC environment.  You will need to configure a runtime environment that is compatible with the containerized version.  We are using conda to manage python dependencies and the GUN Environment Modules system to manage dependencies like the compiler version, CUDA API, and cuDNN version.
@@ -95,3 +96,4 @@ pip install paddlepaddle-gpu==1.3.0.post87
  * [GPU isolation (version 1.0)](https://github.com/NVIDIA/nvidia-docker/wiki/GPU-isolation-(version-1.0))
  * [NVIDIA Docker and Container Best Practices](https://docs.nvidia.com/deeplearning/dgx/bp-docker)
  * [docker docs > CLI > docker run](https://docs.docker.com/engine/reference/commandline/run/)
+  * [3. Benchmarks](https://github.com/mlperf/policies/blob/master/training_rules.adoc#3-benchmarks) - lists the benchmarks and quality targets.
