@@ -14,6 +14,8 @@ mkdir imdb
 cd /
 mkdir sentiment_analysis
 exit
+#Change to sentiment_analysis directory
+cd ~/Git/afit_mlperf_training/sentiment_analysis
 #Run singularity image with GPU and bind directories
 singularity shell --nv \
 	--bind /mnt/NAS/shared_data/afit_mlperf/training/sentiment_analysis:/root/.cache/paddle/dataset/imdb \
