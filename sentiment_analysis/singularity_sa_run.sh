@@ -3,9 +3,9 @@
 #sentiment analysis in singularity without interaction
 singularity build ${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg docker://cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7
 #Make directory for data
-cd Git/afit_mlperf_training/sentiment_analysis
+cd ~/Git/afit_mlperf_training/sentiment_analysis
 singularity shell ${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg	-c \
-    "cd /root/.cache && mkdir paddle && mkdir paddle/dataset && mkdir paddle/dataset/imdb"
+    "cd /root/.cache && mkdir paddle && mkdir paddle/dataset && mkdir paddle/dataset/imdb && exit"
 #Change to sentiment_analysis directory
 cd ~/Git/afit_mlperf_training/sentiment_analysis
 #Run singularity image with GPU (--nv) and bind directories
