@@ -29,10 +29,10 @@ def download():
         total_length = r.headers.get('content-length')
 
         if total_length is None:
-            with open(PATH, 'w') as f:
+            with open(PATH, 'wb') as f:
                 shutil.copyfileobj(r.raw, f)
         else:
-            with open(PATH, 'w') as f:
+            with open(PATH, 'wb') as f:
                 for data in r.iter_content(chunk_size=CHUNK_SIZE):
                     f.write(data)
 

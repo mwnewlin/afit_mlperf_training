@@ -1,0 +1,13 @@
+#%Module1.0######################################################################
+##
+##      Nvidia Cuda
+##
+set is_module_rm  [module-info mode remove]
+
+set CUDA_BASE  $::env(HOME)/opt/cuda/8.0
+
+prepend-path PATH               $CUDA_BASE/bin
+prepend-path LD_LIBRARY_PATH    $CUDA_BASE/lib64
+prepend-path LIBRARY_PATH       $CUDA_BASE/lib64
+prepend-path CPATH              $CUDA_BASE/include
+

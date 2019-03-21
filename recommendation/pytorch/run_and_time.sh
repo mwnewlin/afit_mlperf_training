@@ -8,6 +8,10 @@ set -e
 THRESHOLD=0.635
 BASEDIR=$(dirname -- "$0")
 
+DATA_DIR="${MLPERF_DATA_DIR}/recommendation"
+
+PYTHONPATH=${BASEDIR}:${PYTHONPATH}
+
 # start timing
 start=$(date +%s)
 start_fmt=$(date +%Y-%m-%d\ %r)
@@ -16,15 +20,15 @@ echo "STARTING TIMING RUN AT $start_fmt"
 # Get command line seed
 seed=${1:-1}
 
-echo "unzip ml-20m.zip"
-if unzip -u ml-20m.zip
+echo "unzip ${DATA_DIR}/ml-20m.zip"
+if unzip -u ${DATA_DIR}/ml-20m.zip -d ${DATA_DIR}
 then
-    echo "Start processing ml-20m/ratings.csv"
+    echo "Start processing ${DATA_DIR}/ml-20m/ratings.csv"
     t0=$(date +%s)
-	python $BASEDIR/convert.py ml-20m/ratings.csv ml-20m --negatives 999
+	python $BASEDIR/convert.py ${DATA_DIR}/ml-20m/ratings.csv ml-20m --negatives 999
     t1=$(date +%s)
 	delta=$(( $t1 - $t0 ))
-    echo "Finish processing ml-20m/ratings.csv in $delta seconds"
+    echo "Finish processing ${DATA_DIR}/ml-20m/ratings.csv in $delta seconds"
 
     echo "Start training"
     t0=$(date +%s)
@@ -47,7 +51,7 @@ then
 
 	echo "RESULT,$result_name,$seed,$result,$USER,$start_fmt"
 else
-	echo "Problem unzipping ml-20.zip"
+	echo "Problem unzipping ${DATA_DIR}/ml-20.zip"
 	echo "Please run 'download_data.sh && verify_datset.sh' first"
 fi
 
