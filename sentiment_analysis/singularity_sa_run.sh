@@ -5,7 +5,7 @@ singularity build ${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg docker:/
 #Make directory for data
 cd ~/Git/afit_mlperf_training/sentiment_analysis
 singularity shell ${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg	-c \
-    "cd /root/.cache && mkdir paddle && mkdir paddle/dataset && mkdir paddle/dataset/imdb && exit"
+    "cd /root/.cache && mkdir paddle && mkdir paddle/dataset && mkdir paddle/dataset/imdb && mkdir /sentiment_analysis"
 #Change to sentiment_analysis directory
 cd ~/Git/afit_mlperf_training/sentiment_analysis
 #Run singularity image with GPU (--nv) and bind directories
