@@ -1,3 +1,4 @@
+#!bin/bash
 #Shell script to pull docker image for Sentiment Analysis and run
 #sentiment analysis in singularity without interaction
 cd ~
