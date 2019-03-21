@@ -1,8 +1,9 @@
 #Shell script to pull docker image for Sentiment Analysis and run
 #sentiment analysis in singularity without interaction
+cd ~
 singularity pull --name sentiment_analysis.simg \
 				docker://cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7
-singularity shell ~/sentiment_analysis.simg	
+singularity shell sentiment_analysis.simg	
 #Make directory for data	
 cd /root/.cache
 mkdir paddle
