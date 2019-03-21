@@ -66,6 +66,38 @@ sudo NV_GPU=0 nvidia-docker run \
 
 Need to work on capturing the output of each run or extracting the output from docker logs.
 
+## Singularity version
+
+Singluarity is configured with directory restrictions on some of the HPC clusters.  You'll need to be added to the singular group and keep 
+the .simg files in the specified directory.  To make the code and process portable define an environemnt
+variable that contains the correct directory for the runtime environment.
+
+Check /etc/singularity/singularity.conf for the value of 'limit container paths':
+```bash
+grep "limit container paths" /etc/singularity/singularity.conf
+```
+
+And then set the environment variable SINGULARITY_CONTAINER_PATH. For example on the DL/ML boxes
+ in ${HOME}/.bash_login add the following lines:
+```bash
+export SINGULARITY_CONTAINER_PATH="${HOME}/singularity"
+mkdir -p ${SINGULARITY_CONTAINER_PATH}
+```
+
+
+### Pull the image
+```bash
+singularity build ${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg docker://cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7
+```
+
+### Run the image
+
+Need Marvins input for this...
+
+### On mustang
+
+Need to build PBS Job from Marvin's input
+
 # Native version
 The native version can be run interactive from the command line or as a PBS job in the HPC environment.  You will need to configure a runtime environment that is compatible with the containerized version.  We are using conda to manage python dependencies and the GUN Environment Modules system to manage dependencies like the compiler version, CUDA API, and cuDNN version.
 
