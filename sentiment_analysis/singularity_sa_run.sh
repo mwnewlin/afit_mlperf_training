@@ -2,8 +2,7 @@
 #Shell script to pull docker image for Sentiment Analysis and run
 #sentiment analysis in singularity without interaction
 cd ~
-singularity pull --name sentiment_analysis.simg \
-				docker://cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7
+singularity build ${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg docker://cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7
 singularity shell sentiment_analysis.simg	
 #Make directory for data	
 cd /root/.cache
@@ -20,9 +19,9 @@ exit
 cd ~/Git/afit_mlperf_training/sentiment_analysis
 #Run singularity image with GPU and bind directories
 singularity shell --nv \
-	--bind /mnt/NAS/shared_data/afit_mlperf/training/sentiment_analysis:/root/.cache/paddle/dataset/imdb \
+	--bind ${MLPERF_DATA_DIR}/sentiment_analysis:/root/.cache/paddle/dataset/imdb \
 	--bind $(pwd):/sentiment_analysis \
-	 ~/sentiment_analysis.simg		
+	 ${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg		
 #Change to directory with run script and run with seed 1
 cd sentiment_analysis/paddle
 ./run_and_time.sh 1
