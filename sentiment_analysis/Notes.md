@@ -84,10 +84,18 @@ export SINGULARITY_CONTAINER_PATH="${HOME}/singularity"
 mkdir -p ${SINGULARITY_CONTAINER_PATH}
 ```
 
+Or in the AFRL DSRC in ${HOME}/.personal.bashrc:
+```bash 
+export SINGULARITY_CONTAINER_PATH="/p/work1/projects/singularity/${USER}"
+mkdir -p ${SINGULARITY_CONTAINER_PATH}
+```
 
-### Pull the image
+
+### Pull the image from dockerhub
 ```bash
-singularity build ${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg docker://cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7
+singularity build \
+  ${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg \
+  docker://cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7
 ```
 
 ### Run the image
