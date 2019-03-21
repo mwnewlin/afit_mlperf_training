@@ -4,7 +4,7 @@
 singularity build ${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg docker://cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7
 #Make directory for data
 cd Git/afit_mlperf_training/sentiment_analysis
-singularity shell ${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg	-c "singularity_setup.sh"
+singularity shell ${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg	-c "bash singularity_setup.sh"
 #Change to sentiment_analysis directory
 cd ~/Git/afit_mlperf_training/sentiment_analysis
 #Run singularity image with GPU (--nv) and bind directories
