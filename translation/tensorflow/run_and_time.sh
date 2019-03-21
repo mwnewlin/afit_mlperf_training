@@ -47,7 +47,7 @@ END_FMT=$(date +%Y-%m-%d\ %r)
 echo "ENDING TIMING RUN AT ${END_FMT}"
 
 # Report result
-result=$(( ${END} - ${START} ))
-result_name="transformer"
+RESULT=$(( ${END} - ${START} ))
+RESULT_NAME="transformer"
 
 echo "RESULT,${RESULT_NAME},${SEED},${RESULT},${USER},${START_FMT}"
