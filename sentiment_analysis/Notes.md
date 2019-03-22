@@ -42,3 +42,9 @@ conda install pip
 pip install paddlepaddle-gpu==1.3.0.post87
 ```
 
+On Singularity:
+Run the shell script singularity_sa_run.sh with the following command
+```bash
+sudo -E ./singularity_sa_run.sh
+```
+This will build the image in Singularity and then run the benchmark with a seed of 1 without further input.
