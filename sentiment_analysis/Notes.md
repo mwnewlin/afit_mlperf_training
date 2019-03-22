@@ -66,49 +66,16 @@ sudo NV_GPU=0 nvidia-docker run \
 
 Need to work on capturing the output of each run or extracting the output from docker logs.
 
-## Singularity version
-
-Singluarity is configured with directory restrictions on some of the HPC clusters.  You'll need to be added to the singular group and keep 
-the .simg files in the specified directory.  To make the code and process portable define an environemnt
-variable that contains the correct directory for the runtime environment.
-
-Check /etc/singularity/singularity.conf for the value of 'limit container paths':
+As an initial attempt:
 ```bash
-grep "limit container paths" /etc/singularity/singularity.conf
+sudo NV_GPU=0 nvidia-docker run \
+  --volume $(pwd):/sentiment_analysis \
+  --volume ${MLPERF_DATA_DIR}/sentiment_analysis:/root/.cache/paddle/dataset/imdb \
+  --interactive \
+  --tty \
+  cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7 \
+  /bin/bash /sentiment_analysis/paddle/run_and_time.sh \
 ```
-
-And then set the environment variable SINGULARITY_CONTAINER_PATH. For example on the DL/ML boxes
- in ${HOME}/.bash_login add the following lines:
-```bash
-export SINGULARITY_CONTAINER_PATH="${HOME}/singularity"
-mkdir -p ${SINGULARITY_CONTAINER_PATH}
-```
-
-Or in the AFRL DSRC in ${HOME}/.personal.bashrc:
-```bash 
-export SINGULARITY_CONTAINER_PATH="/p/work1/projects/singularity/${USER}"
-mkdir -p ${SINGULARITY_CONTAINER_PATH}
-```
-
-
-### Pull the image from dockerhub
-```bash
-singularity build \
-  ${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg \
-  docker://cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7
-```
-
-### Run the image
-
-Run the shell script singularity_sa_run.sh with the following command
-```bash
-sudo -E ./singularity_sa_run.sh
-```
-This will build the image in Singularity and then run the benchmark with a seed of 1 without further input.
-
-### On mustang
-
-Need to build PBS Job from Marvin's input
 
 # Native version
 The native version can be run interactive from the command line or as a PBS job in the HPC environment.  You will need to configure a runtime environment that is compatible with the containerized version.  We are using conda to manage python dependencies and the GUN Environment Modules system to manage dependencies like the compiler version, CUDA API, and cuDNN version.
@@ -140,4 +107,4 @@ pip install paddlepaddle-gpu==1.3.0.post87
  * [GPU isolation (version 1.0)](https://github.com/NVIDIA/nvidia-docker/wiki/GPU-isolation-(version-1.0))
  * [NVIDIA Docker and Container Best Practices](https://docs.nvidia.com/deeplearning/dgx/bp-docker)
  * [docker docs > CLI > docker run](https://docs.docker.com/engine/reference/commandline/run/)
- * [3. Benchmarks](https://github.com/mlperf/policies/blob/master/training_rules.adoc#3-benchmarks) - lists the benchmarks and quality targets.
+  * [3. Benchmarks](https://github.com/mlperf/policies/blob/master/training_rules.adoc#3-benchmarks) - lists the benchmarks and quality targets.
