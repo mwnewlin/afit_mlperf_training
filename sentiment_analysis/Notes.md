@@ -100,7 +100,11 @@ singularity build \
 
 ### Run the image
 
-Need Marvins input for this...
+Run the shell script singularity_sa_run.sh with the following command
+```bash
+sudo -E ./singularity_sa_run.sh
+```
+This will build the image in Singularity and then run the benchmark with a seed of 1 without further input.
 
 ### On mustang
 
@@ -136,4 +140,4 @@ pip install paddlepaddle-gpu==1.3.0.post87
  * [GPU isolation (version 1.0)](https://github.com/NVIDIA/nvidia-docker/wiki/GPU-isolation-(version-1.0))
  * [NVIDIA Docker and Container Best Practices](https://docs.nvidia.com/deeplearning/dgx/bp-docker)
  * [docker docs > CLI > docker run](https://docs.docker.com/engine/reference/commandline/run/)
-  * [3. Benchmarks](https://github.com/mlperf/policies/blob/master/training_rules.adoc#3-benchmarks) - lists the benchmarks and quality targets.
+ * [3. Benchmarks](https://github.com/mlperf/policies/blob/master/training_rules.adoc#3-benchmarks) - lists the benchmarks and quality targets.
