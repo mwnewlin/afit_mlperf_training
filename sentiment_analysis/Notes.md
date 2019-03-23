@@ -20,7 +20,38 @@ mkdir -p ${MLPERF_DATA_DIR}
 Your ${HOME} is reachable from each of the clusters in the DSRC.
 
 # Nvidia Docker version
+-------------------------------------------
+Probably need to create our own paddle image.  The one from dockerhub defines ENV HOME /root
+which requires you to run the derived singularity image with sudo.  We won't have sudo in
+the HPC environments.
 
+I've added a Dockerfile that I extracted from the dockerhub image to this repo.
+I pulled the image and extracted the Dockerfile with:
+```bash
+sudo docker pull paddlepaddle/paddle:latest-gpu-cuda9.0-cudnn7
+docker images
+sudo docker pull chenzj/dfimage
+alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm chenzj/dfimage"
+dfimage e28a3651e077 > Dockerfile
+```
+
+Just as a first attempt I used [Singularity Python](https://singularityhub.github.io/singularity-cli/install) to
+generate an initial Singularity file.
+```bash
+pip install spython
+spython recipe Dockerfile >> Singularity.snowflake
+```
+Got the following warnings:
+```bash
+WARNING file:916a45030dee881bbc8bbabf8bcfcc8828c29ce1c318000950bbe84c57f9df73 doesn't exist, ensure exists for build
+WARNING in doesn't exist, ensure exists for build
+WARNING file:916a45030dee881bbc8bbabf8bcfcc8828c29ce1c318000950bbe84c57f9df73 doesn't exist, ensure exists for build
+WARNING file:9b4a3bab37138e63b3f617bb597d97bf2a424461871c5de1a794c4e60d1010e9 doesn't exist, ensure exists for build
+WARNING in doesn't exist, ensure exists for build
+WARNING file:9b4a3bab37138e63b3f617bb597d97bf2a424461871c5de1a794c4e60d1010e9 doesn't exist, ensure exists for build
+```
+
+-------------------------------------------
 ## Pull image
 For Docker use a pre-built [paddlepaddle Docker image](https://hub.docker.com/r/paddlepaddle/paddle)
 
