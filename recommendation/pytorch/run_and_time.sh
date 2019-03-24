@@ -8,6 +8,9 @@ set -e
 THRESHOLD=0.635
 BASEDIR=$(dirname -- "$0")
 
+echo "Starting directory"
+pwd
+
 # start timing
 start=$(date +%s)
 start_fmt=$(date +%Y-%m-%d\ %r)
@@ -50,7 +53,6 @@ else
 	echo "Problem unzipping ml-20.zip"
 	echo "Please run 'download_data.sh && verify_datset.sh' first"
 fi
-
 
 
 
