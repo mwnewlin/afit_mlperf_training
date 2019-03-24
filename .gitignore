@@ -10,3 +10,7 @@ translation/tensorflow/raw_data/
 __pycache__/
 *.py[cod]
 *$py.class
+
+#singularity image files
+*.simg
+*.img

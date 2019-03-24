@@ -4,6 +4,7 @@ tags
 /results
 /raw_data
 *.log
+*.simg
 
 #PBS job stderr and stdout on mustang
 *.e?????

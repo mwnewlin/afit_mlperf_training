@@ -20,7 +20,38 @@ mkdir -p ${MLPERF_DATA_DIR}
 Your ${HOME} is reachable from each of the clusters in the DSRC.
 
 # Nvidia Docker version
+-------------------------------------------
+Probably need to create our own paddle image.  The one from dockerhub defines ENV HOME /root
+which requires you to run the derived singularity image with sudo.  We won't have sudo in
+the HPC environments.
 
+I've added a Dockerfile that I extracted from the dockerhub image to this repo.
+I pulled the image and extracted the Dockerfile with:
+```bash
+sudo docker pull paddlepaddle/paddle:latest-gpu-cuda9.0-cudnn7
+docker images
+sudo docker pull chenzj/dfimage
+alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm chenzj/dfimage"
+dfimage e28a3651e077 > Dockerfile
+```
+
+Just as a first attempt I used [Singularity Python](https://singularityhub.github.io/singularity-cli/install) to
+generate an initial Singularity file.
+```bash
+pip install spython
+spython recipe Dockerfile >> Singularity.snowflake
+```
+Got the following warnings:
+```bash
+WARNING file:916a45030dee881bbc8bbabf8bcfcc8828c29ce1c318000950bbe84c57f9df73 doesn't exist, ensure exists for build
+WARNING in doesn't exist, ensure exists for build
+WARNING file:916a45030dee881bbc8bbabf8bcfcc8828c29ce1c318000950bbe84c57f9df73 doesn't exist, ensure exists for build
+WARNING file:9b4a3bab37138e63b3f617bb597d97bf2a424461871c5de1a794c4e60d1010e9 doesn't exist, ensure exists for build
+WARNING in doesn't exist, ensure exists for build
+WARNING file:9b4a3bab37138e63b3f617bb597d97bf2a424461871c5de1a794c4e60d1010e9 doesn't exist, ensure exists for build
+```
+
+-------------------------------------------
 ## Pull image
 For Docker use a pre-built [paddlepaddle Docker image](https://hub.docker.com/r/paddlepaddle/paddle)
 
@@ -66,45 +97,16 @@ sudo NV_GPU=0 nvidia-docker run \
 
 Need to work on capturing the output of each run or extracting the output from docker logs.
 
-## Singularity version
-
-Singluarity is configured with directory restrictions on some of the HPC clusters.  You'll need to be added to the singular group and keep 
-the .simg files in the specified directory.  To make the code and process portable define an environemnt
-variable that contains the correct directory for the runtime environment.
-
-Check /etc/singularity/singularity.conf for the value of 'limit container paths':
+As an initial attempt:
 ```bash
-grep "limit container paths" /etc/singularity/singularity.conf
+sudo NV_GPU=0 nvidia-docker run \
+  --volume $(pwd):/sentiment_analysis \
+  --volume ${MLPERF_DATA_DIR}/sentiment_analysis:/root/.cache/paddle/dataset/imdb \
+  --interactive \
+  --tty \
+  cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7 \
+  /bin/bash /sentiment_analysis/paddle/run_and_time.sh \
 ```
-
-And then set the environment variable SINGULARITY_CONTAINER_PATH. For example on the DL/ML boxes
- in ${HOME}/.bash_login add the following lines:
-```bash
-export SINGULARITY_CONTAINER_PATH="${HOME}/singularity"
-mkdir -p ${SINGULARITY_CONTAINER_PATH}
-```
-
-Or in the AFRL DSRC in ${HOME}/.personal.bashrc:
-```bash 
-export SINGULARITY_CONTAINER_PATH="/p/work1/projects/singularity/${USER}"
-mkdir -p ${SINGULARITY_CONTAINER_PATH}
-```
-
-
-### Pull the image from dockerhub
-```bash
-singularity build \
-  ${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg \
-  docker://cgret/sentiment_analysis:sa_1.2-gpu-cuda9.0-cudnn7
-```
-
-### Run the image
-
-Need Marvins input for this...
-
-### On mustang
-
-Need to build PBS Job from Marvin's input
 
 # Native version
 The native version can be run interactive from the command line or as a PBS job in the HPC environment.  You will need to configure a runtime environment that is compatible with the containerized version.  We are using conda to manage python dependencies and the GUN Environment Modules system to manage dependencies like the compiler version, CUDA API, and cuDNN version.
