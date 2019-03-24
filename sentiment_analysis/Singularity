@@ -11,7 +11,7 @@ From: nvidia/cuda:9.1-cudnn7-devel
     apt-get install -y eatmydata
     eatmydata apt-get install -y wget bzip2 \
       ca-certificates libglib2.0-0 libxext6 libsm6 libxrender1 \
-      git git-annex-standalone
+      git git-annex
     apt-get clean
 
     # install anaconda
