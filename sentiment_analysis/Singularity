@@ -1,4 +1,5 @@
 Bootstrap: docker
+# https://hub.docker.com/r/nvidia/cuda
 From: nvidia/cuda:9.1-cudnn7-devel
 
 %environment
