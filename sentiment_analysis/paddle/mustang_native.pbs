@@ -4,7 +4,7 @@
 #PBS -A AFSNW27526A21
 #PBS -q standard
 #PBS -l walltime=05:00:00
-#PBS -N afit_mlperf_sentiment_analysis
+#PBS -N sentiment_analysis_native
 #PBS -V
 #PBS -M mdeyoung@afit.edu
 #PBS -m be
