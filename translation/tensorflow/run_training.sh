@@ -2,8 +2,14 @@
 
 set -e
 
+if [[ $# -ne 3 ]] ; then
+    echo 'ERROR: Script requires a SEED, QUALITY and DATA_DIR argument.'
+    exit 1
+fi
+
 SEED=$1
 QUALITY=$2
+DATA_DIR=$3
 
 # Get the directory that this script is ran from
 export SOURCE_DIR=${SOURCE_DIR:="$(dirname $(readlink -f "$0"))"}
@@ -18,7 +24,7 @@ export PYTHONPATH=${SOURCE_DIR}/transformer:${PYTHONPATH}
 # See: https://github.com/mlperf/training/issues/52
 
 python3 ${SOURCE_DIR}/transformer/transformer_main.py --random_seed=${SEED} \
-  --data_dir=${MLPERF_DATA_DIR}/translation/processed_data/ \
+  --data_dir=${DATA_DIR} \
   --model_dir=model \
   --params=base \
   --bleu_threshold ${QUALITY} \
