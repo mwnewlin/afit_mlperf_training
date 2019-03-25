@@ -14,5 +14,3 @@ __pycache__/
 #singularity image files
 *.simg
 *.img
-*.tgz
-*.gz
