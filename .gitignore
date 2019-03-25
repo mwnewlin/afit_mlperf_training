@@ -1,17 +1,18 @@
 # Downloaded data files
-object_detection/coco_annotations_minival.tgz
-object_detection/train2014.zip
-object_detection/val2014.zip
-recommendation/ml-20m.zip
 single_stage_detector/coco/
-translation/tensorflow/raw_data/
+translation/tensorflow/model/
 translation/tensorflow/newstest2014.de
 translation/tensorflow/newstest2014.en
 translation/tensorflow/processed_data/
+translation/tensorflow/raw_data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+
+#singularity image files
+*.simg
+*.img
 *.tgz
 *.gz
