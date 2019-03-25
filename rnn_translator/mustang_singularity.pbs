@@ -14,13 +14,17 @@ source ${MODULESHOME}/init/bash
 # conda init bash
 source ${HOME}/.bashrc
 
+
+pushd .
+cd ${SINGULARITY_CONTAINER_PATH}
 singularity pull \
-   --name ${SINGULARITY_CONTAINER_PATH}/rnn_translator.simg  \
+   --name rnn_translator.simg  \
    shub://mark-e-deyoung/afit_mlperf_training:rnn_translator
+popd
 
 cd ${HOME}/git/afit_mlperf_training/rnn_translator
 
- singularity exec \
+singularity exec \
    --nv \
     --bind $(pwd):/benchmark \
     ${SINGULARITY_CONTAINER_PATH}/rnn_translator.simg \

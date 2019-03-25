@@ -22,12 +22,17 @@ export MLPERF_COMPLIANCE_PKG=${MLPERF_COMPLIANCE_PKG:-mlperf_compliance}
 # The mlperf_compliance package is used for compliance logging.
 pip install ${MLPERF_COMPLIANCE_PKG}
 
-#  Set SEED default to -1
+# Set SEED default to 1
 SEED=${1:-1}
+
+# Set DATA_DIR default to include PBS_JOBID (if it is defined)
+#  or a UUID if PBS_JOBID is not defined.
+#  This specifies a unique data directory for each run.
+DATA_DIR=${2:-"${MLPERF_DATA_DIR}/translation/processed_data/${PBS_JOBID:-$(uuidgen -t)}"}
 
 # Run preprocessing (not timed)
 # TODO: Seed not currently used but will be in a future PR
-. ${SOURCE_DIR}/run_preprocessing.sh ${SEED}
+. ${SOURCE_DIR}/run_preprocessing.sh ${SEED} ${DATA_DIR}
 
 # Start timing
 START=$(date +%s)
@@ -36,7 +41,7 @@ echo "STARTING TIMING RUN AT ${START_FMT}"
 
 
 echo "Running benchmark with seed ${SEED}"
-. ${SOURCE_DIR}/run_training.sh ${SEED} ${TARGET_UNCASED_BLEU_SCORE}
+. ${SOURCE_DIR}/run_training.sh ${SEED} ${TARGET_UNCASED_BLEU_SCORE} ${DATA_DIR}
 
 RET_CODE=$?; if [[ ${RET_CODE} != 0 ]]; then exit ${RET_CODE}; fi
 

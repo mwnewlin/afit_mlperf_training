@@ -10,6 +10,6 @@ directory.
 
 
 # References
-  [Environment Modules](http://modules.sourceforge.net/)
-  [Environment Modules (software)](https://en.wikipedia.org/wiki/Environment_Modules_(software))
+ * [Environment Modules](http://modules.sourceforge.net/)
+ * [Environment Modules (software)](https://en.wikipedia.org/wiki/Environment_Modules_(software))
 
