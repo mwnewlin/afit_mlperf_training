@@ -1,5 +1,4 @@
-#!/bin/bash
-
+DATA_DIR="${MLPERF_DATA_DIR}/recommendation"
 
 function get_checker {
     if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -38,10 +37,12 @@ function verify_20m {
 
 }
 
-
+pushd .
+cd ${DATA_DIR}
 if [[ $1 == "ml-1m" ]]
 then
     verify_1m
 else
     verify_20m
 fi
+popd
