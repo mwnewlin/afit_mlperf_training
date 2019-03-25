@@ -6,6 +6,9 @@ set -e
 export SOURCE_DIR=${SOURCE_DIR:="$(dirname $(readlink -f "$0"))"}
 
 DATASET_DIR="${MLPERF_DATA_DIR}/rnn_translator"
+# FIXME: need to write the results to a seperate
+#        directory for each run.  In PBS this could
+#        be based on ${JOBDIR}.
 RESULTS_DIR="${MLPERF_DATA_DIR}/rnn_translator/results/gnmt_wmt16"
 
 SEED=${1:-"1"}
