@@ -31,6 +31,10 @@ From: nvidia/cuda:9.1-cudnn7-devel
     pip install sacrebleu numpy mlperf-compliance
     conda clean --tarballs
 
+    # make /data and /code for mounts to external directories
+    if [ ! -d /data ]; then mkdir /data; fi
+    if [ ! -d /code ]; then mkdir /code; fi
+
 % runscript
 	echo "Singularity: PyTorch"
 	exec /bin/bash
