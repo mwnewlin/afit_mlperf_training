@@ -2,11 +2,9 @@
 # See: https://www.erdc.hpc.mil/docs/onyxPbsGuide.html
 #PBS -l select=1:ncpus=22:mpiprocs=22:ngpus=1
 #PBS -A AFSNW27526A21
-##PBS -q standard
-#PBS -q debug
-#PBS -l walltime=00:05:00
-#PBS -N afit_mlperf_translation
-##PBS -j oe
+#PBS -q standard
+#PBS -l walltime=96:00:00
+#PBS -N translation_native
 #PBS -V
 #PBS -M mdeyoung@afit.edu
 #PBS -m be

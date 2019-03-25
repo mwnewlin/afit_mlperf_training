@@ -3,7 +3,7 @@
 #PBS -A AFSNW27526A21
 #PBS -q standard
 #PBS -l walltime=96:00:00
-#PBS -N afit_mlperf_translation
+#PBS -N rnn_translator_native
 #PBS -V
 #PBS -M mdeyoung@afit.edu
 #PBS -m be
@@ -12,19 +12,13 @@ cd $PBS_O_WORKDIR
 
 source ${MODULESHOME}/init/bash
 
-module unload cuda
-module load devel/cuda/9.0
+module load cuda/9.1
 module load cudnn/cuda9.0/7.4.2
 
 # conda init bash
 source ${HOME}/.bashrc
 
-conda activate afit_mlperf_translation
+conda activate pytorch-gpu
 
-export SOURCE_DIR="${HOME}/git/afit_mlperf_training/translation/tensorflow"
-
-env | sort
-ls -la
-hostname
-
+export SOURCE_DIR="${HOME}/git/afit_mlperf_training/rnn_translator/pytorch"
 . ${SOURCE_DIR}/run_and_time.sh
