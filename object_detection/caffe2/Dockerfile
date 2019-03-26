@@ -5,7 +5,10 @@ RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
       build-essential \
       cmake \
+      wget \
       git \
+      nano \
+      dtrx \
       libgoogle-glog-dev \
       libgtest-dev \
       libiomp-dev \
@@ -60,4 +63,18 @@ WORKDIR /packages/detectron/lib
 RUN make
 WORKDIR /packages/detectron/lib/datasets/data
 # RUN ln -s /data coco/
-WORKDIR /packages/detectron 
+WORKDIR /packages/detectron
+
+ADD docker-entry.sh /docker-entry.sh
+
+#make this directory here so we can bind it at runtime
+RUN mkdir /packages/detectron/lib/datasets/data/coco
+ADD hashes.md5 /hashes.md5
+RUN chmod +x /docker-entry.sh && chmod -R 777 /packages/detectron
+
+#URLs hardcoded in these files changed. Need to patch in the correct URLS
+ADD e2e_mask_rcnn_R-50-FPN_1x.yaml /packages/detectron/configs/12_2017_baselines/e2e_mask_rcnn_R-50-FPN_1x.yaml
+ADD io.py /packages/detectron/lib/utils/io.py
+
+RUN ldconfig
+ENTRYPOINT /docker-entry.sh

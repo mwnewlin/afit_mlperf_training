@@ -20,32 +20,49 @@ echo "Downloading Weights"
 wget -N https://dl.fbaipublicfiles.com/detectron/ImageNetPretrained/MSRA/R-50.pkl
 
 echo "Verifying Datasets"
-if md5sum -c /hashes.md5
+
+if [ ! -f "extract_complete" ]
 then
-  echo "PASSED"
+ if md5sum -c /hashes.md5
+ then
+   echo "PASSED"
 
-  dtrx --one=here coco_annotations_minival.tgz
-  dtrx --one=here annotations_trainval2014.zip
+   dtrx --one=here coco_annotations_minival.tgz
+   dtrx --one=here annotations_trainval2014.zip
 
-  mv annotations.1/* annotations/
-  rmdir annotations.1/
-  
-  dtrx train2014.zip
-  mv train2014/ coco_train2014/
+   mv annotations.1/* annotations/
+   rmdir annotations.1/
 
-  dtrx val2014.zip
-  mv val2014/ coco_val2014/
+   dtrx train2014.zip
+   mv train2014/ coco_train2014/
 
+   dtrx val2014.zip
+   mv val2014/ coco_val2014/
 
-  export PYTHONPATH=/packages/detectron/lib/
-  cd /packages/detectron
-  time stdbuf -o 0 \
+   echo "Extraxt complete, marking flag to skip next time...."
+   touch extract_complete
+
+   export PYTHONPATH=/packages/detectron/lib/
+   cd /packages/detectron
+   time stdbuf -o 0 \
     python tools/train_net.py --cfg configs/12_2017_baselines/e2e_mask_rcnn_R-50-FPN_1x.yaml \
     --box_min_ap 0.377 --mask_min_ap 0.339 \
     --seed 3 | tee run.log
+
+ else
+   echo "data set verification FAILED"
+ fi
 else
-  echo "data set verification FAILED"
+  echo "Data already extracted, skipping...."
+  export PYTHONPATH=/packages/detectron/lib/
+  cd /packages/detectron
+  time stdbuf -o 0 \
+   python tools/train_net.py --cfg configs/12_2017_baselines/e2e_mask_rcnn_R-50-FPN_1x.yaml \
+   --box_min_ap 0.377 --mask_min_ap 0.339 \
+   --seed 3 | tee run.log
 fi
+
+
 
 
 
