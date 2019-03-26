@@ -3,6 +3,8 @@
 # to use the script:
 #   run_and_time.sh <random seed 1-5>
 
+# Get the directory that this script is ran from
+export SOURCE_DIR=${SOURCE_DIR:="$(dirname $(readlink -f "$0"))"}
 
 set -e
 
@@ -18,7 +20,7 @@ seed=${1:-1}
 
 echo "running benchmark with seed $seed"
 # The termination quality is set in params/final.json. See RAEDME.md.
-./run.sh $seed
+${SOURCE_DIR}/run.sh $seed
 sleep 3
 ret_code=$?; if [[ $ret_code != 0 ]]; then exit $ret_code; fi
 

@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 import unittest
 import paddle.fluid as fluid
 import paddle
@@ -139,7 +137,7 @@ def train(word_dict,
     def train_loop(main_program):
         exe.run(fluid.default_startup_program())
 
-        for pass_id in xrange(PASS_NUM):
+        for pass_id in range(PASS_NUM):
             train_loss_set = []
             train_acc_set = []
 
@@ -201,7 +199,7 @@ if __name__ == '__main__':
                         choices=['conv', 'lstm'], default='conv',
                         help="Model type for sentiment analysis")
     parser.add_argument('-q', '--target_quality', type=float, required=False,
-                        default=90.6,
+                        default=90.52,
                         help="Target validation quality to stop training")
     parser.add_argument('-s', '--seed', type=int, required=False, default=1,
                         help="Seed for random number generator")

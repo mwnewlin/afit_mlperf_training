@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /bin/bash
 
 # Copyright 2017 Google Inc.
 #
@@ -17,7 +17,7 @@
 set -e
 
 
-OUTPUT_DIR=${1:-"data"}
+OUTPUT_DIR=${1:-"${MLPERF_DATA_DIR}/rnn_translator"}
 echo "Writing to ${OUTPUT_DIR}. To change this, set the OUTPUT_DIR environment variable."
 
 OUTPUT_DIR_DATA="${OUTPUT_DIR}/data"

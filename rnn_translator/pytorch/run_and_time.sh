@@ -5,6 +5,8 @@
 #   run_and_time.sh
 
 set -e
+# Get the directory that this script is ran from
+export SOURCE_DIR=${SOURCE_DIR:="$(dirname $(readlink -f "$0"))"}
 
 # start timing
 start=$(date +%s)
@@ -16,7 +18,7 @@ seed=${1:-"1"}
 target=21.80
 
 echo "running benchmark"
-./run.sh $seed $target
+. ${SOURCE_DIR}/run.sh $seed $target
 
 sleep 3
 ret_code=$?; if [[ $ret_code != 0 ]]; then exit $ret_code; fi

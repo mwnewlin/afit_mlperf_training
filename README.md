@@ -1,3 +1,10 @@
+
+# AFIT MLPerf
+This is a lightly modified version of MLPerf 0.5.
+
+
+[![https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg](https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg)](https://singularity-hub.org/collections/2596)
+
 # MLPerf Reference Implementations
 
 This is a repository of reference implementations for the MLPerf benchmark. These implementations are valid as starting points for benchmark implementations but are not fully optimized and are not intended to be used for "real" performance measurements of software frameworks or hardware. 

@@ -1,0 +1,15 @@
+__pycache__/
+tags
+/data
+/results
+*.log
+
+# Data files
+/LibriSpeech_dataset/
+train-clean-*.tar.gz
+train-other-*.tar.gz
+dev-clean.tar.gz
+dev-other.tar.gz
+test-clean.tar.gz
+test-other.tar.gz
+

@@ -1,16 +1,19 @@
 #!/bin/bash
 
+# Get the directory that this script is ran from
+export SOURCE_DIR=${SOURCE_DIR:="$(dirname $(readlink -f "$0"))"}
+
 # Start timing
 start_time=$(date +%s)
 start_fmt=$(date +%Y-%m-%d\ %r)
 echo "STARTING TIMING RUN AT $start_fmt"
 
-seed=$1
-echo "Running sentiment benchmark with seed $seed"
+SEED=${1:-1}
+echo "Running sentiment benchmark with seed ${SEED}"
 
 # Train a sentiment_analysis model (default: conv model), with a user
 # specified seed
-python train.py -s ${seed}
+python ${SOURCE_DIR}/train.py -s ${SEED}
 
 # End timing
 end_time=$(date +%s)
