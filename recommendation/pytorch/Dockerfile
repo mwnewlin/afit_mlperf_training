@@ -35,10 +35,18 @@ RUN git submodule update --init
 RUN python setup.py clean
 RUN python setup.py install
 
+
+
 # Install ncf-pytorch
 WORKDIR /mlperf/ncf
 # TODO: Change to clone github repo
 ADD . /mlperf/ncf
+ADD docker-entry.sh /docker-entry.sh
+
+
+RUN bash /mlperf/ncf/download_dataset.sh && bash /mlperf/ncf/verify_dataset.sh
+#&& unzip -o ml-20m.zip
 RUN pip install -r requirements.txt
 WORKDIR /mlperf/experiment
-ENTRYPOINT ["/mlperf/ncf/run_and_time.sh"]
+RUN chmod +x /mlperf/ncf/run_and_time.sh && chmod 777 /mlperf/ && chmod +x /docker-entry.sh
+ENTRYPOINT /docker-entry.sh

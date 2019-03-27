@@ -1,13 +1,13 @@
 #!/bin/bash
 #PBS -l select=1:ncpus=22:mpiprocs=22:ngpus=1
 #PBS -A AFSNW27526A21
-#PBS -q debug
-#PBS -l walltime=00:05:00
+#PBS -q standard_sm
+#PBS -l walltime=05:00:00
 #PBS -N sentiment_analysis_native
 #PBS -V
 #PBS -M mdeyoung@afit.edu
 #PBS -m be
-#PBS -l ccm=1
+##PBS -l ccm=1
 
 source ${MODULESHOME}/init/bash
 
@@ -23,6 +23,10 @@ conda activate paddlepaddle-cuda8cudnn7
 
 export SOURCE_DIR="${HOME}/git/afit_mlperf_training/sentiment_analysis/paddle"
 
+/opt/cray/nvidia/default/bin/nvidia-smi
+env | sort
+ls -la
+hostname
 
 . ${SOURCE_DIR}/run_and_time.sh
 
