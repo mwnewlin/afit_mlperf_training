@@ -25,7 +25,7 @@ export PYTHONPATH=${SOURCE_DIR}/transformer:${PYTHONPATH}
 
 python3 ${SOURCE_DIR}/transformer/transformer_main.py --random_seed=${SEED} \
   --data_dir=${DATA_DIR} \
-  --model_dir=model \
+  --model_dir=${DATA_DIR}/model \
   --params=base \
   --bleu_threshold ${QUALITY} \
   --bleu_source=${MLPERF_DATA_DIR}/translation/newstest2014.en \

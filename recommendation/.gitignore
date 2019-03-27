@@ -3,3 +3,5 @@ tags
 /data
 /results
 *.log
+*.tgz
+*.gz
