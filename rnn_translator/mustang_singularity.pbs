@@ -25,7 +25,8 @@ popd
 cd ${HOME}/git/afit_mlperf_training/rnn_translator
 
 singularity exec \
-   --nv \
+    --nv \
     --bind $(pwd):/benchmark \
+    --bind ${MLPERF_DATA_DIR}:/data \
     ${SINGULARITY_CONTAINER_PATH}/rnn_translator.simg \
     /bin/bash /benchmark/pytorch/run_and_time.sh

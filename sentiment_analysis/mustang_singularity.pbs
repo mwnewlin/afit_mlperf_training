@@ -21,7 +21,8 @@ singularity pull \
 cd ${HOME}/git/afit_mlperf_training/sentiment_analysis
 
  singularity exec \
-   --nv \
+    --nv \
     --bind $(pwd):/benchmark \
+    --bind ${MLPERF_DATA_DIR}:/data \
     ${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg \
     /bin/bash /benchmark/paddle/run_and_time.sh
