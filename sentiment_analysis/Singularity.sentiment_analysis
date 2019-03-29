@@ -4,6 +4,7 @@ From: nvidia/cuda:9.1-cudnn7-devel
 
 %environment
 	PATH="/usr/local/anaconda/bin:$PATH"
+        MLPERF_DATA_DIR="/data"
 
 %post
 
