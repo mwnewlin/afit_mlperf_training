@@ -11,7 +11,7 @@ singularity pull --name mlperf_object_detection.simg docker://cgret/mlperf_objec
 ## Running in Singularity
 ````bash
  mkdir $(pwd)/object
-singularity run --nv --bind $(pwd)/object:/packages/detectron/lib/datasets/data/coco mlperf_object_detection.simg
+singularity run --nv --bind $(pwd)/train:/packages/detectron/train --bind $(pwd)/object:/packages/detectron/lib/datasets/data/coco mlperf_object_detection.simg
 ````
 
 ### Notes
