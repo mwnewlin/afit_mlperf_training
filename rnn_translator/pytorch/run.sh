@@ -10,7 +10,7 @@ DATASET_DIR="${MLPERF_DATA_DIR}/rnn_translator"
 #        directory for each run.  In PBS this could
 #        be based on ${JOBDIR} or ${PBS_JOBID}
 #    I'm using PBS_JOBID or uuidgen -t if PBS_JOBID is not defined.
-RESULTS_DIR="${MLPERF_DATA_DIR}/rnn_translator/results/${PBS_JOBID:-$(uuidgen -t)}"
+RESULTS_DIR="${MLPERF_DATA_DIR}/rnn_translator/results/${PBS_JOBID:-$($(which uuidgen))}"
 
 
 SEED=${1:-"1"}
