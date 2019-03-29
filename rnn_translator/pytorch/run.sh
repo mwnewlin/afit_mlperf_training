@@ -28,3 +28,4 @@ python3 -m multiproc ${SOURCE_DIR}/train.py \
   --target-bleu ${TARGET} \
   --epochs 8 \
   --batch-size 128
+  --math fp16
