@@ -42,11 +42,14 @@ mv rnn_translation.simg ${SINGULARITY_CONTAINER_PATH}
 Run the container with:
 ```bash
 cd ${HOME}/git/afit_mlperf_training/rnn_translator
-sudo singularity exec \
-   --nv \
+sudo \
+MLPERF_DATA_DIR="/mnt/NAS/shared_data/afit_mlperf/training/" \
+singularity exec \
+    --nv \
     --bind $(pwd):/benchmark \
+    --bind ${MLPERF_DATA_DIR}:/data \
     ${SINGULARITY_CONTAINER_PATH}/rnn_translator.simg \
-    /bin/bash /benchmark/pytorch/run_and_time.sh
+    /bin/bash  /benchmark/pytorch/run_and_time.sh
 ```
 
 # References
