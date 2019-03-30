@@ -1,7 +1,9 @@
 #!/bin/bash
 cd ${HOME}/git/afit_mlperf_training/sentiment_analysis
 
-conda activate paddlepaddle-gpu
+# Be sure to
+#  conda activate paddlepaddle-gpu
+# before running
 
 for i in {1..100}
 do
