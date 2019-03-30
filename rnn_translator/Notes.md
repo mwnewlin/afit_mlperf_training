@@ -32,9 +32,7 @@ bash run_and_time.sh
 ```
 You can log the results to a file by redirecting stdout and stderr:
 ```bash
-RUN_DATE=`date --date "${START_TIME}" +"%Y-%m-%d-%H-%M"` ; \
-LOG_FILE="$(hostname).${RUN_DATE}.native.log" ; \
-bash pytorch/run_and_time.sh &> ${LOG_FILE}
+bash pytorch/run_and_time.sh &> "$(hostname).$(date --date "now" +"%Y-%m-%d-%H-%M").native.log" 
 ```
 # Singularity
 These steps assume that you've cloned the repository to ~/git/afit_mlperf_training 
@@ -67,7 +65,8 @@ sudo singularity exec \
     --bind $(pwd):/benchmark \
     --bind ${MLPERF_DATA_DIR}:/data \
     ${SINGULARITY_CONTAINER_PATH}/rnn_translator.simg \
-    /bin/bash  /benchmark/pytorch/run_and_time.sh 
+    /bin/bash  /benchmark/pytorch/run_and_time.sh \
+    &> "$(hostname).$(date --date "now" +"%Y-%m-%d-%H-%M").singularity.log"
 ```
 
 ## HPC
