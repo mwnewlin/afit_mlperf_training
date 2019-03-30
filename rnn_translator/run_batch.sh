@@ -4,6 +4,13 @@ cd ${HOME}/git/afit_mlperf_training/rnn_translator
 # Be sure to
 #   conda activate pytorch-gpu
 # before running
+if [ "$CONDA_DEFAULT_ENV" != "pytorch-gpu" ]
+then
+	echo "Error: not in the correct conda environment."
+	echo "  Be sure to run 'conda activate pytorch-gpu'"
+	echo "  before running this script."
+	exit 1
+fi
 
 for i in {1..100}
 do
