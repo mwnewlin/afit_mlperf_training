@@ -124,6 +124,13 @@ conda install pip
 pip install paddlepaddle-gpu
 ```
 
+Run with:
+```bash
+conda activate paddlepaddle-gpu
+cd ${HOME}/git/afit_mlperf_training/sentiment_analysis
+bash paddle/run_and_time.sh &> "$(hostname).$(date --date "now" +"%Y-%m-%d-%H-%M").native.log"
+```
+
 ## On onyx
 On Onyx (CUDA 8.0, cuDNN 7.1.3):
 ```bash
@@ -133,6 +140,13 @@ conda activate paddlepaddle-cuda8cudnn7
 conda install pip
 pip install paddlepaddle-gpu==1.3.0.post87
 ```
+Run with:
+```bash
+conda activate paddlepaddle-cuda8cudnn7
+cd ${HOME}/git/afit_mlperf_training/sentiment_analysis
+bash paddle/run_and_time.sh &> "$(hostname).$(date --date "now" +"%Y-%m-%d-%H-%M").native.log"
+```
+
 
 # References
  * [GPU isolation (version 1.0)](https://github.com/NVIDIA/nvidia-docker/wiki/GPU-isolation-(version-1.0))
