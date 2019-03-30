@@ -60,7 +60,7 @@ Run the container with:
 cd ${HOME}/git/afit_mlperf_training/rnn_translator
 sudo \
 MLPERF_DATA_DIR="/mnt/NAS/shared_data/afit_mlperf/training/" \
-sudo singularity exec \
+singularity exec \
     --nv \
     --bind $(pwd):/benchmark \
     --bind ${MLPERF_DATA_DIR}:/data \
