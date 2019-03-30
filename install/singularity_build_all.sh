@@ -6,7 +6,7 @@ then
 	sudo \
 		find ${HOME}/git/afit_mlperf_training \
 			-name Singularity.* \
-			-type f 
+			-type f \
 			-exec ${SOURCE_DIR}/singularity_build.sh {} \;
 else
 	echo "Error: singularity_build.sh not in ${SOURCE_DIR}"
