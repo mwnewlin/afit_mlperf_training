@@ -1,15 +1,19 @@
 #!/bin/bash
 cd ${HOME}/git/afit_mlperf_training/rnn_translator
 
-conda activate pytorch-gpu
+# Be sure to
+#   conda activate pytorch-gpu
+# before running
 
-for in in {1..100}
+for i in {1..100}
 do
 	# Run native
+	echo "rnn_translator: native, run ${i}"
 	bash pytorch/run_and_time.sh &> "$(hostname).$(date --date "now" +"%Y-%m-%d-%H-%M").native.log"
 
 	# Run singularity
 	# Note: need sudo on DL/ML boxes due to permission configuration on NAS.
+	echo "rnn_translator: singularity, run ${i}"
 	sudo singularity exec \
 		--nv \
 		--bind $(pwd):/benchmark \
@@ -17,4 +21,5 @@ do
 		${SINGULARITY_CONTAINER_PATH}/rnn_translator.simg \
 		/bin/bash  /benchmark/pytorch/run_and_time.sh &> "$(hostname).$(date --date "now" +"%Y-%m-%d-%H-%M").singularity.log"
 done
+
 
