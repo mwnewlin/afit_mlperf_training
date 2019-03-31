@@ -14,7 +14,7 @@ fi
 GROUP=$(getent group sudo | cut -d':' -f1)
 GROUP=${GROUP:-$(getent group wheel | cut -d':' -f1)}
   
-usermod -aG GROUP ${1}
+usermod -aG ${GROUP} ${1}
 
 FILE="/etc/sudoers.d/${1}"
 echo "${1} ALL=(ALL) NOPASSWD: ALL" > ${FILE}
