@@ -2,8 +2,8 @@
 Requires Tensorflow 1.9.0
 ```bash
 conda activate base
-conda create -n afit_mlperf_translation pip python=3.6
-conda activate afit_mlperf_translation
+conda create -n tensorflow-1.9.0-gpu pip python=3.6
+conda activate tensorflow-1.9.0-gpu
 cd tensorflow
 pip install --ignore-installed -r requirements.txt
 pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.9.0-cp36-cp36m-linux_x86_64.whl
@@ -21,6 +21,7 @@ On the DL/ML boxes:
 module unload cuda
 module load devel/cuda/9.0
 ```
+
 
 Then run the test.
 
