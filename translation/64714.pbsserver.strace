@@ -1,2 +1,0 @@
-write(2, "strace: exec: Exec format error\n", 32) = 32
-+++ exited with 1 +++
