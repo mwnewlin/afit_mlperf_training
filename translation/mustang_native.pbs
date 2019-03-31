@@ -19,7 +19,7 @@ module load cudnn/cuda9.0/7.4.2
 # conda init bash
 source ${HOME}/.bashrc
 
-conda activate afit_mlperf_translation
+conda activate tensorflow-1.9.0-gpu
 
 export SOURCE_DIR="${HOME}/git/afit_mlperf_training/translation/tensorflow"
 . ${SOURCE_DIR}/run_and_time.sh

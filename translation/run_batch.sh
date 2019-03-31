@@ -1,16 +1,16 @@
 #!/bin/bash
 cd ${HOME}/git/afit_mlperf_training/translation
 
-module unload devel/cuda/9.1
-module load devel/cuda/9.0
+#module unload devel/cuda/9.1
+#module load devel/cuda/9.0
 
 # Be sure to
-#   conda activate tensorflow-gpu
+#   conda activate tensorflow-1.9.0-gpu
 # before running
-if [ "$CONDA_DEFAULT_ENV" != "tensorflow-gpu" ]
+if [ "$CONDA_DEFAULT_ENV" != "tensorflow-1.9.0-gpu" ]
 then
 	echo "Error: not in the correct conda environment."
-	echo "  Be sure to run 'conda activate tensorflow-gpu'"
+	echo "  Be sure to run 'conda activate tensorflow-1.9.0-gpu'"
 	echo "  before running this script."
 	exit 1
 fi
