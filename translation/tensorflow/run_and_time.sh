@@ -20,7 +20,9 @@ export MLPERF_COMPLIANCE_PKG=${MLPERF_COMPLIANCE_PKG:-mlperf_compliance}
 
 # Install mlperf_compliance package.
 # The mlperf_compliance package is used for compliance logging.
-pip install ${MLPERF_COMPLIANCE_PKG}
+# MED: this doesn't work in the Singularity image as configured
+#      It works OK in the native run with a user conda environment.
+#pip install ${MLPERF_COMPLIANCE_PKG}
 
 # Set SEED default to 1
 SEED=${1:-1}
