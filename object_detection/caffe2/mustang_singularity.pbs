@@ -13,7 +13,7 @@
 cd /p/work1/projects/singularity/smathers
 #for now, assumes .simg is already in place
 
- singularity run \
-   --nv \
-    --bind $(pwd)/object:/packages/detectron/lib/datasets/data/coco \
-    ${SINGULARITY_CONTAINER_PATH}/mlperf_object_detection.simg \
+ singularity run --nv \
+  --bind $(pwd)/train:/packages/detectron/train \
+  --bind $(pwd)/object:/packages/detectron/lib/datasets/data/coco \
+  mlperf_object_detection.simg
