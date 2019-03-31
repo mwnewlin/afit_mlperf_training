@@ -68,7 +68,7 @@ WORKDIR /packages/detectron
 ADD docker-entry.sh /docker-entry.sh
 
 #make this directory here so we can bind it at runtime
-RUN mkdir /packages/detectron/lib/datasets/data/coco
+RUN mkdir /packages/detectron/lib/datasets/data/coco && mkdir /packages/detectron/train
 ADD hashes.md5 /hashes.md5
 RUN chmod +x /docker-entry.sh && chmod -R 777 /packages/detectron
 
