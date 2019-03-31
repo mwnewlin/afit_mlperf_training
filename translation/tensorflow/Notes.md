@@ -10,6 +10,12 @@ pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorfl
 ```
 See: [Install TensorFlow with pip](https://www.tensorflow.org/install/pip)
 
+You might get numpy version conflicts.  In that case remove all installed numpy from the tensorflow-1.9.0 environment and reinstall a new one.  For example, I had to uninstall two versions of numpy and the install a current version:
+```bash
+pip uninstall numpy
+pip uninstall numpy
+pip install numpy
+```
 
 Tensorflow 1.9.0 needs CUDA 9.0 and cuDNN 7.1.4.
 See:
@@ -22,6 +28,12 @@ module unload cuda
 module load devel/cuda/9.0
 ```
 
+On the HPC (mustang) boxes:
+```bash
+module unload cuda
+module load devel/cuda/9.0
+module load cudnn/cuda9.0/7.4.2
+```
 
 Then run the test.
 
