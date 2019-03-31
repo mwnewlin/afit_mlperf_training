@@ -2,8 +2,15 @@
 cd ${HOME}/git/afit_mlperf_training/sentiment_analysis
 
 # Be sure to
-#  conda activate paddlepaddle-gpu
+#   conda activate paddlepaddle-gpu
 # before running
+if [ "$CONDA_DEFAULT_ENV" != "paddlepaddle-gpu" ]
+then
+	echo "Error: not in the correct conda environment."
+	echo "  Be sure to run 'conda activate paddlepaddle-gpu'"
+	echo "  before running this script."
+	exit 1
+fi
 
 for i in {1..100}
 do
