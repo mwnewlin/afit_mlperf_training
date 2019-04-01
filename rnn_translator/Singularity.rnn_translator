@@ -4,6 +4,7 @@ From: nvidia/cuda:9.1-cudnn7-devel
 
 %environment
 	PATH="/usr/local/anaconda/bin:$PATH"
+	MLPERF_DATA_DIR="/data"
 
 %post
 
@@ -12,7 +13,7 @@ From: nvidia/cuda:9.1-cudnn7-devel
     apt-get install -y eatmydata
     eatmydata apt-get install -y wget bzip2 \
       ca-certificates libglib2.0-0 libxext6 libsm6 libxrender1 \
-      git git-annex
+      git git-annex uuid-runtime
     apt-get clean
 
     # install anaconda

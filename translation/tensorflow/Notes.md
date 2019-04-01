@@ -2,14 +2,20 @@
 Requires Tensorflow 1.9.0
 ```bash
 conda activate base
-conda create -n afit_mlperf_translation pip python=3.6
-conda activate afit_mlperf_translation
+conda create -n tensorflow-1.9.0-gpu pip python=3.6
+conda activate tensorflow-1.9.0-gpu
 cd tensorflow
 pip install --ignore-installed -r requirements.txt
 pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.9.0-cp36-cp36m-linux_x86_64.whl
 ```
 See: [Install TensorFlow with pip](https://www.tensorflow.org/install/pip)
 
+You might get numpy version conflicts.  In that case remove all installed numpy from the tensorflow-1.9.0 environment and reinstall a new one.  For example, I had to uninstall two versions of numpy and the install a current version:
+```bash
+pip uninstall numpy
+pip uninstall numpy
+pip install numpy
+```
 
 Tensorflow 1.9.0 needs CUDA 9.0 and cuDNN 7.1.4.
 See:
@@ -20,6 +26,13 @@ On the DL/ML boxes:
 ```bash
 module unload cuda
 module load devel/cuda/9.0
+```
+
+On the HPC (mustang) boxes:
+```bash
+module unload cuda
+module load devel/cuda/9.0
+module load cudnn/cuda9.0/7.4.2
 ```
 
 Then run the test.

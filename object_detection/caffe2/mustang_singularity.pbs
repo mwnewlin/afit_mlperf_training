@@ -1,0 +1,21 @@
+#!/bin/bash
+# See: https://www.afrl.hpc.mil/docs/mustangPbsGuide.html
+#PBS -l select=1:ncpus=48:mpiprocs=48:ngpus=1
+#PBS -A AFSNW27526A21
+#PBS -q debug
+#PBS -l walltime=01:00:00
+#PBS -N object_detection_singularity
+#PBS -V
+#PBS -M kyle.smathers@afit.edu
+#PBS -m be
+
+
+cd /p/work1/projects/singularity/smathers
+#for now, assumes .simg is already in place
+
+ singularity run --nv \
+  --bind $(pwd)/train:/packages/detectron/train \
+  --bind $(pwd)/object:/packages/detectron/lib/datasets/data/coco \
+  mlperf_object_detection.simg
+
+  

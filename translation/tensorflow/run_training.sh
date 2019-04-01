@@ -24,6 +24,7 @@ export PYTHONPATH=${SOURCE_DIR}/transformer:${PYTHONPATH}
 # See: https://github.com/mlperf/training/issues/52
 
 python3 ${SOURCE_DIR}/transformer/transformer_main.py --random_seed=${SEED} \
+  --num_cpu_cores 10 \
   --data_dir=${DATA_DIR} \
   --model_dir=${DATA_DIR}/model \
   --params=base \
