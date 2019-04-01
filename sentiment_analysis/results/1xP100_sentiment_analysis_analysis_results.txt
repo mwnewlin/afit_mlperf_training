@@ -1,0 +1,17 @@
+Native Runtime (Seconds)  Singularity Runtime (Seconds)
+count                 98.000000                      98.000000
+mean                 180.459184                     178.520408
+std                   48.801337                      44.630956
+min                  161.000000                     162.000000
+25%                  161.000000                     163.000000
+50%                  162.000000                     163.000000
+75%                  162.000000                     164.000000
+max                  350.000000                     351.000000
+p-value:         0.05
+
+degrees of freedom:      ~200
+
+Critical t-val:  1.980
+
+Ttest_relResult(statistic=0.2876738483605705, pvalue=0.7742101238841527)
+Ttest_indResult(statistic=0.2902193453082148, pvalue=0.771958418390776)
