@@ -103,6 +103,8 @@ def main():
     print("Saving train and test CSV files to {}".format(args.output))
     df_train_ratings = pd.DataFrame(list(all_ratings))
     df_train_ratings['fake_rating'] = 1
+    if not os.path.exists(args.output) and args.output != '':
+        os.makedirs(args.output)
     df_train_ratings.to_csv(os.path.join(args.output, TRAIN_RATINGS_FILENAME),
                             index=False, header=False, sep='\t')
 
