@@ -160,7 +160,8 @@ def main():
     config = {k: v for k, v in args.__dict__.items()}
     config['timestamp'] = "{:.0f}".format(datetime.utcnow().timestamp())
     config['local_timestamp'] = str(datetime.now())
-    run_dir = "./run/neumf/{}".format(config['timestamp'])
+    # File is located in a subdirectory of the data directory
+    run_dir = os.path.join(args.data, "run_neumf_{}".format(config['timestamp']))
     print("Saving config and results to {}".format(run_dir))
     if not os.path.exists(run_dir) and run_dir != '':
         os.makedirs(run_dir)
