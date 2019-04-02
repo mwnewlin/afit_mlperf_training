@@ -14,6 +14,7 @@ DATA_DIR="${MLPERF_DATA_DIR}/recommendation"
 #  or a UUID if PBS_JOBID is not defined.
 #  This specifies a unique output directory for each run.
 OUTPUT_DIR=${2:-"${DATA_DIR}/${PBS_JOBID:-$(uuidgen -t)}"}
+mkdir -p ${OUTPUT_DIR}
 
 PYTHONPATH=${BASEDIR}:${PYTHONPATH}
 
