@@ -27,7 +27,8 @@ echo "STARTING TIMING RUN AT $start_fmt"
 seed=${1:-1}
 
 echo "unzip ${DATA_DIR}/ml-20m.zip"
-if unzip -u ${DATA_DIR}/ml-20m.zip -d ${DATA_DIR}
+# Unzip without overwriting
+if unzip -n -u ${DATA_DIR}/ml-20m.zip -d ${DATA_DIR}
 then
     echo "Start processing ${DATA_DIR}/ml-20m/ratings.csv"
     t0=$(date +%s)
