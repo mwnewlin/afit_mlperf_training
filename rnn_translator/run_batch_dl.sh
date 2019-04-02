@@ -21,7 +21,7 @@ do
 	# Run singularity
 	# Note: need sudo on DL/ML boxes due to permission configuration on NAS.
 	echo "rnn_translator: singularity, run ${i}"
-	singularity exec \
+	sudo MLPERF_DATA_DIR="/mnt/NAS/shared_data/afit_mlperf/training"  singularity exec \
 		--nv \
 		--bind $(pwd):/benchmark \
 		--bind ${MLPERF_DATA_DIR}:/data \
