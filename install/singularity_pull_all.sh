@@ -4,6 +4,10 @@ pushd .
 cd ${SINGULARITY_CONTAINER_PATH}
 
 singularity pull \
+   --name recommendation.simg  \
+   shub://mark-e-deyoung/afit_mlperf_training:recommendation
+
+singularity pull \
    --name rnn_translator.simg  \
    shub://mark-e-deyoung/afit_mlperf_training:rnn_translator
 
