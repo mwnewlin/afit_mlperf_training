@@ -42,6 +42,7 @@ singularity_df.plot(kind='hist', y='Singularity Runtime (Seconds)', color='blue'
 
 
 plt.savefig('rnn_translator_8gpu_Histogram.png')
+plt.savefig('rnn_translator_8gpu_Histogram.eps')
 
 
 
