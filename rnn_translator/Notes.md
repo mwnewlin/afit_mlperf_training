@@ -82,6 +82,15 @@ singularity pull \
 popd
 ```
 
+For an interactive node with a GPU on Onyx run the following:
+```bash
+qsub -l ccm=1 -l select=1:ncpus=22:mpiprocs=22:ngpus=1 -A AFSNW27526A21 -q debug -l walltime=00:30:00 -I
+```
+
+The login nodes on mustang have P100 GPUs for debug purposes.
+
+
+
 You will not be able to directly exec the image.  You
 will need to start an interactive shell and then run the 
 benchmark:
