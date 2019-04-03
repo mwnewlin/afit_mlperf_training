@@ -3,7 +3,7 @@
 #PBS -l select=1:ncpus=48:mpiprocs=48:ngpus=1
 #PBS -A AFSNW27526A21
 #PBS -q standard
-#PBS -l walltime=96:00:00
+#PBS -l walltime=30:00:00
 #PBS -N translation_singularity
 #PBS -V
 #PBS -M mdeyoung@afit.edu
@@ -23,9 +23,15 @@ popd
 
 cd ${HOME}/git/afit_mlperf_training/translation
 
- singularity exec \
-    --nv \
-    --bind $(pwd):/benchmark \
-    --bind ${MLPERF_DATA_DIR}:/data \
-    ${SINGULARITY_CONTAINER_PATH}/translation.simg \
-    /bin/bash /benchmark/tensorflow/run_and_time.sh
+#Each run takes about 5.5 hours
+
+for i in {1..5}
+do
+	singularity exec \
+	    --nv \
+	    --bind $(pwd):/benchmark \
+	    --bind ${MLPERF_DATA_DIR}:/data \
+	    ${SINGULARITY_CONTAINER_PATH}/translation.simg \
+	    /bin/bash /benchmark/tensorflow/run_and_time.sh
+done
+
