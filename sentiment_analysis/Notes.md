@@ -132,6 +132,8 @@ bash paddle/run_and_time.sh &> "$(hostname).$(date --date "now" +"%Y-%m-%d-%H-%M
 ```
 
 ## On onyx
+Onyx has CUDA 8.0 GA2 [(cuda_8.0.61_375.26_linux.run)](https://developer.nvidia.com/cuda-80-ga2-download-archive).  So it should be driver version 375.26.
+
 On Onyx (CUDA 8.0, cuDNN 7.1.3):
 ```bash
 conda activate base
