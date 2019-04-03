@@ -1,0 +1,32 @@
+#!/bin/bash
+#PBS -l select=1:ncpus=22:mpiprocs=22:ngpus=1
+#PBS -A AFSNW27526A21
+#PBS -q standard_sm
+#PBS -l walltime=24:00:00
+#PBS -N rnn_translator_singularity
+#PBS -V
+#PBS -M mdeyoung@afit.edu
+#PBS -m be
+
+source ${MODULESHOME}/init/bash
+
+# conda init bash
+source ${HOME}/.bashrc
+
+
+# Onyx nodes cant see the Internet
+#pushd .
+#cd ${SINGULARITY_CONTAINER_PATH}
+#singularity pull \
+#   --name rnn_translator_cuda8cudnn7.simg  \
+#   shub://mark-e-deyoung/afit_mlperf_training:rnn_translator_cuda8cudnn7
+#popd
+
+cd ${HOME}/git/afit_mlperf_training/rnn_translator
+
+singularity exec \
+    --nv \
+    --bind $(pwd):/benchmark \
+    --bind ${MLPERF_DATA_DIR}:/data \
+    ${SINGULARITY_CONTAINER_PATH}/rnn_translator_cuda8cudnn7.simg \
+    /bin/bash /benchmark/pytorch/run_and_time.sh
