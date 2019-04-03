@@ -12,8 +12,16 @@ singularity pull \
    shub://mark-e-deyoung/afit_mlperf_training:rnn_translator
 
 singularity pull \
+   --name rnn_translator_cuda8cudnn7.simg \
+   shub://mark-e-deyoung/afit_mlperf_training:rnn_translator_cuda8cudnn7
+
+singularity pull \
    --name sentiment_analysis.simg  \
    shub://mark-e-deyoung/afit_mlperf_training:sentiment_analysis
+
+singularity pull \
+   --name sentiment_analysis_cuda8cudnn7.simg  \
+   shub://mark-e-deyoung/afit_mlperf_training:sentiment_analysis_cuda8cudnn7
 
 singularity pull \
    --name translation.simg  \
