@@ -1,0 +1,32 @@
+#!/bin/bash
+# See: https://www.afrl.hpc.mil/docs/mustangPbsGuide.html
+#PBS -l select=1:ncpus=48:mpiprocs=48:ngpus=1
+#PBS -A AFSNW27526A21
+#PBS -q standard
+#PBS -l walltime=24:00:00
+#PBS -N recommendation_singularity
+#PBS -V
+#PBS -M mdeyoung@afit.edu
+#PBS -m be
+
+source ${MODULESHOME}/init/bash
+
+# conda init bash
+source ${HOME}/.bashrc
+
+
+pushd .
+cd ${SINGULARITY_CONTAINER_PATH}
+singularity pull \
+   --name recommendation.simg  \
+   shub://mark-e-deyoung/afit_mlperf_training:recommendation
+popd
+
+cd ${HOME}/git/afit_mlperf_training/recommendation
+
+singularity exec \
+    --nv \
+    --bind $(pwd):/benchmark \
+    --bind ${MLPERF_DATA_DIR}:/data \
+    ${SINGULARITY_CONTAINER_PATH}/recommendation.simg \
+    /bin/bash /benchmark/pytorch/run_and_time.sh
