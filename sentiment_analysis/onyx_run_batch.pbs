@@ -22,5 +22,5 @@ module load ccm
 SOURCE_DIR="${HOME}/git/afit_mlperf_training/sentiment_analysis"
 
 # Start a batch of 6 runs on the compute-node
-ccmrun ${SOURCE_DIR}/onyx_run_batch.sh 6
+ccmrun ${SOURCE_DIR}/onyx_run_batch.sh 100
 
