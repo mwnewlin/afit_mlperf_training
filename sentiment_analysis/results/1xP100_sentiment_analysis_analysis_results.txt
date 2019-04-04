@@ -1,4 +1,4 @@
-Native Runtime (Seconds)  Singularity Runtime (Seconds)
+Native Runtime (Seconds)  		Singularity Runtime (Seconds)
 count                 98.000000                      98.000000
 mean                 180.459184                     178.520408
 std                   48.801337                      44.630956
@@ -15,3 +15,34 @@ Critical t-val:  1.980
 
 Ttest_relResult(statistic=0.2876738483605705, pvalue=0.7742101238841527)
 Ttest_indResult(statistic=0.2902193453082148, pvalue=0.771958418390776)
+
+
+With Random Sampling of 30 runtimes from each set
+
+       Native Runtime (Seconds)
+count                 30.000000
+mean                 174.300000
+std                   39.142666
+min                  161.000000
+25%                  161.000000
+50%                  162.000000
+75%                  162.000000
+max                  296.000000
+
+       Singularity Runtime (Seconds)
+count                      30.000000
+mean                      178.633333
+std                        45.322205
+min                       163.000000
+25%                       163.000000
+50%                       163.000000
+75%                       164.000000
+max                       350.000000
+p-value:         0.05
+
+degrees of freedom:      ~60
+
+Critical t-val:  2.0
+
+Ttest_relResult(statistic=-0.37604242384554354, pvalue=0.7096223800011259)
+Ttest_indResult(statistic=-0.3963349847820515, pvalue=0.6933123271163282)
