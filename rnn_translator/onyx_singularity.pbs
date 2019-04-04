@@ -7,6 +7,9 @@
 #PBS -V
 #PBS -M mdeyoung@afit.edu
 #PBS -m be
+## Cluster Compatibility Mode (CCM)
+#PBS -l ccm=1
+
 
 source ${MODULESHOME}/init/bash
 
