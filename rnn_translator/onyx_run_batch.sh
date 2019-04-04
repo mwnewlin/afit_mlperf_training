@@ -39,5 +39,5 @@ do
 done
 
 grep -Hn $(hostname).*.native.log > "$(hostname).${RUN_START}.native.results.log"
-grep -Hn $(hostname).*.singularity.log > "$(hostname).${RUN_START}.singularity.log"
+grep -Hn $(hostname).*.singularity.log > "$(hostname).${RUN_START}.singularity.results.log"
 
