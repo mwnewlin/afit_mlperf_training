@@ -1,9 +1,18 @@
 #!/bin/bash
+
+# Default batch size is 5 or $1
+BATCH_SIZE=5
+BATCH_SIZE=${1:-${BATCH_SIZE}}
+
 cd ${HOME}/git/afit_mlperf_training/rnn_translator
 
-# Be sure to
-#   conda activate pytorch-gpu
-# before running
+source ${MODULESHOME}/init/bash
+
+# conda init bash
+source ${HOME}/.bashrc
+
+conda activate pytorch-gpu
+
 if [ "$CONDA_DEFAULT_ENV" != "pytorch-gpu" ]
 then
 	echo "Error: not in the correct conda environment."
@@ -12,21 +21,23 @@ then
 	exit 1
 fi
 
-for i in {1..100}
+RUN_START="$(date --date "now" +"%Y-%m-%d-%H-%M")"
+for i in {1..${BATCH_SIZE}}
 do
 	# Run native
-	echo "rnn_translator: native, run ${i}"
-	bash pytorch/run_and_time.sh &> "$(hostname).$(date --date "now" +"%Y-%m-%d-%H-%M").native.log"
+	echo "rnn_translator: native, run ${i} of ${BATCH_SIZE}"
+	bash pytorch/run_and_time.sh &> "$(hostname).${RUN_START}.native.log"
 
 	# Run singularity
-	# Note: need sudo on DL/ML boxes due to permission configuration on NAS.
-	echo "rnn_translator: singularity, run ${i}"
+	echo "rnn_translator: singularity, run ${i} of ${BATCH_SIZE}"
 	singularity exec \
 		--nv \
 		--bind $(pwd):/benchmark \
 		--bind ${MLPERF_DATA_DIR}:/data \
 		${SINGULARITY_CONTAINER_PATH}/rnn_translator.simg \
-		/bin/bash  /benchmark/pytorch/run_and_time.sh &> "$(hostname).$(date --date "now" +"%Y-%m-%d-%H-%M").singularity.log"
+		/bin/bash  /benchmark/pytorch/run_and_time.sh &> "$(hostname).${RUN_START}.singularity.log"
 done
 
+grep -Hn $(hostname).*.native.log > "$(hostname).${RUN_START}.native.results.log"
+grep -Hn $(hostname).*.singularity.log > "$(hostname).${RUN_START}.singularity.log"
 
