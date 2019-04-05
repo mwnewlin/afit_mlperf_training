@@ -21,6 +21,6 @@ module load ccm
 SOURCE_DIR="${HOME}/git/afit_mlperf_training/recommendation"
 cd ${SOURCE_DIR}
 
-# Start a batch of 6 runs on the compute-node
+# Start a batch of 25 runs on the compute-node
 ccmrun ${SOURCE_DIR}/onyx_run_batch.sh 25
 
