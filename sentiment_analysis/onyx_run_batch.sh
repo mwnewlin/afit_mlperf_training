@@ -33,9 +33,9 @@ if [ ! -d "${TMPDIR}" ]; then
 	echo "create ${TMPDIR}"
 	mkdir -p ${TMPDIR}
 fi
-
 echo "---------------------------------------"
-for i in {1..${BATCH_SIZE}}
+
+for i in $(seq 1 ${BATCH_SIZE})
 do
 	# Run native
 	echo "sentiment_analysis: native, run ${i} of ${BATCH_SIZE}"
