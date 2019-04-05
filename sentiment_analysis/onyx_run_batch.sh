@@ -22,6 +22,19 @@ then
 fi
 
 RUN_START="$(date --date "now" +"%Y-%m-%d-%H-%M")"
+
+echo "---------------------------------------"
+nvidia-smi
+nvidia-smi topo -m
+free -g
+env | sort
+ls -la
+if [ ! -d "${TMPDIR}" ]; then
+	echo "create ${TMPDIR}"
+	mkdir -p ${TMPDIR}
+fi
+
+echo "---------------------------------------"
 for i in {1..${BATCH_SIZE}}
 do
 	# Run native
