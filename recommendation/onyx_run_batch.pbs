@@ -3,7 +3,7 @@
 #PBS -A AFSNW27526A21
 #PBS -q standard_sm
 #PBS -l walltime=24:00:00
-#PBS -N rnn_translator
+#PBS -N recommendation
 #PBS -V
 #PBS -M mdeyoung@afit.edu
 #PBS -m be
@@ -18,9 +18,9 @@ source ${HOME}/.bashrc
 
 module load ccm
 
-SOURCE_DIR="${HOME}/git/afit_mlperf_training/rnn_translator"
+SOURCE_DIR="${HOME}/git/afit_mlperf_training/recommendation"
 cd ${SOURCE_DIR}
 
 # Start a batch of 6 runs on the compute-node
-ccmrun ${SOURCE_DIR}/onyx_run_batch.sh 6
+ccmrun ${SOURCE_DIR}/onyx_run_batch.sh 25
 
