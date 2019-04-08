@@ -82,9 +82,28 @@ singularity pull \
 popd
 ```
 
-You will not be able to directly exec the image.  You
-will need to start an interactive shell and then run the 
-benchmark:
+### Onyx
+Request an interactive compute node with a GPU on Onyx run the following:
+```bash
+qsub -l ccm=1 -l select=1:ncpus=22:mpiprocs=22:ngpus=1 -A AFSNW27526A21 -q debug -l walltime=00:30:00 -I
+```
+The Mother Superior (MOM) for the PBS Job runs on a batch node (not a compute node) that does not have a GPU.  To access the Sister (MOM) interactively you must use the ccmlogon command.  From the interactive prompt on the mother superior:
+```bash
+module load ccm
+ccmlogon
+```
+You will then have an interactive prompt on the actual compute node with a GPU.
+
+
+### Mustang
+The login nodes on mustang have P100 GPUs for debug purposes (not long jobs).
+
+You can request an interactive node with a GPU with the following:
+```bash
+qsub -l select=1:ncpus=48:mpiprocs=48:ngpus=1 -A AFSNW27526A21 -q debug -l walltime=00:45:00 -I
+```
+
+You will not be able to directly exec the image.  You will need to start an interactive shell and then run the benchmark:
 ```bash
 cd ${HOME}/git/afit_mlperf_training/rnn_translator
 singularity run \

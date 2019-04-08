@@ -1,0 +1,26 @@
+#!/bin/bash
+#PBS -l select=1:ncpus=22:mpiprocs=22:ngpus=1
+#PBS -A AFSNW27526A21
+#PBS -q standard_sm
+#PBS -l walltime=24:00:00
+#PBS -N sentiment_analysis
+#PBS -V
+#PBS -M mdeyoung@afit.edu
+#PBS -m be
+## Cluster Compatibility Mode (CCM)
+#PBS -l ccm=1
+
+
+source ${MODULESHOME}/init/bash
+
+# conda init bash
+source ${HOME}/.bashrc
+
+
+module load ccm
+
+SOURCE_DIR="${HOME}/git/afit_mlperf_training/sentiment_analysis"
+
+# Start a batch of 6 runs on the compute-node
+ccmrun bash ${SOURCE_DIR}/onyx_run_batch.sh 100
+

@@ -1,0 +1,19 @@
+Interactive run on mustang w/ P100
+
+:::MLPv0.5.0 gnmt 1553588437.518244267 (train.py:364) train_checkpoint
+0: saving model to /p/work1/mdeyoung/afit_mlperf_training/rnn_translator/results/b4a18d40-4f1a-11e9-9e4f-98f2b330f530/gnmt_wmt16/model_best.pth
+0: Epoch: 3     Training Loss 3.1753    Validation Loss 3.0660
+0: Running evaluation on test set
+:::MLPv0.5.0 gnmt 1553588441.024500847 (train.py:381) eval_start: 3
+0: Finished evaluation on test set
+0: BLEU on test dataset: 21.9
+0: Target accuracy reached
+:::MLPv0.5.0 gnmt 1553588494.038299561 (train.py:468) eval_accuracy: {"epoch": 3, "value": 21.9}
+:::MLPv0.5.0 gnmt 1553588494.038738251 (train.py:470) eval_target: 21.8
+:::MLPv0.5.0 gnmt 1553588494.039082766 (train.py:471) eval_stop
+0: Finished epoch 3
+:::MLPv0.5.0 gnmt 1553588494.047604561 (train.py:481) run_stop: {"success": true}
+:::MLPv0.5.0 gnmt 1553588494.047954798 (train.py:482) run_final
+ENDING TIMING RUN AT 2019-03-26 04:21:47 AM
+RESULT,RNN_TRANSLATOR,1,57335,mdeyoung,2019-03-25 12:26:12 PM
+(pytorch-gpu) [mdeyoung@mustang09 pytorch ]$
