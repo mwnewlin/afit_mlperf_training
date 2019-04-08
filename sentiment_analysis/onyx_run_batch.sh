@@ -39,7 +39,7 @@ for i in $(seq 1 ${BATCH_SIZE})
 do
 	# Run native
 	echo "sentiment_analysis: native, run ${i} of ${BATCH_SIZE}"
-	bash paddle/run_and_time.sh &> "$(hostname).${RUN_START}.native.log"
+	bash paddle/run_and_time.sh &> "$(hostname).${RUN_START}.${i}.native.log"
 
 	# Run singularity
 	echo "sentiment_analysis: singularity, run ${i} of ${BATCH_SIZE}"
@@ -48,7 +48,7 @@ do
 		--bind $(pwd):/benchmark \
 		--bind ${MLPERF_DATA_DIR}:/data \
 		${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg \
-		/bin/bash  /benchmark/paddle/run_and_time.sh &> "$(hostname).${RUN_START}.singularity.log"
+		/bin/bash  /benchmark/paddle/run_and_time.sh &> "$(hostname).${RUN_START}.${i}.singularity.log"
 done
 
 grep -Hn $(hostname).*.native.log > "$(hostname).${RUN_START}.native.results.log"
