@@ -38,7 +38,7 @@ for i in $(seq 1 ${BATCH_SIZE})
 do
 	# Run native
 	echo "rnn_translator: native, run ${i} of ${BATCH_SIZE}"
-	bash pytorch/run_and_time.sh &> "$(hostname).${RUN_START}.native.log"
+	bash pytorch/run_and_time.sh &> "$(hostname).${RUN_START}.${i}.native.log"
 
 	# Run singularity
 	echo "rnn_translator: singularity, run ${i} of ${BATCH_SIZE}"
@@ -47,7 +47,7 @@ do
 		--bind $(pwd):/benchmark \
 		--bind ${MLPERF_DATA_DIR}:/data \
 		${SINGULARITY_CONTAINER_PATH}/rnn_translator.simg \
-		/bin/bash  /benchmark/pytorch/run_and_time.sh &> "$(hostname).${RUN_START}.singularity.log"
+		/bin/bash  /benchmark/pytorch/run_and_time.sh &> "$(hostname).${RUN_START}.${i}.singularity.log"
 done
 
 grep -Hn $(hostname).*.native.log > "$(hostname).${RUN_START}.native.results.log"

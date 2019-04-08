@@ -38,7 +38,7 @@ for i in $(seq 1 ${BATCH_SIZE})
 do
 	# Run native
 	echo "translation: native, run ${i} of ${BATCH_SIZE}"
-	bash tensorflow/run_and_time.sh &> "$(hostname).${RUN_START}.native.log"
+	bash tensorflow/run_and_time.sh &> "$(hostname).${RUN_START}.${i}.native.log"
 
 	# Run singularity
 	echo "translation: singularity, run ${i} of ${BATCH_SIZE}"
@@ -47,7 +47,7 @@ do
 		--bind $(pwd):/benchmark \
 		--bind ${MLPERF_DATA_DIR}:/data \
 		${SINGULARITY_CONTAINER_PATH}/translation.simg \
-		/bin/bash  /benchmark/tensorflow/run_and_time.sh &> "$(hostname).${RUN_START}.singularity.log"
+		/bin/bash  /benchmark/tensorflow/run_and_time.sh &> "$(hostname).${RUN_START}.${i}.singularity.log"
 done
 
 grep -Hn $(hostname).*.native.log > "$(hostname).${RUN_START}.native.results.log"
