@@ -1,8 +1,9 @@
 #!/bin/bash
 cd ${HOME}/git/afit_mlperf_training/translation
 
-#module unload devel/cuda/9.1
-#module load devel/cuda/9.0
+echo "loading CUDA 9.0 for Tensorflow 1.9.0"
+module unload devel/cuda/9.1
+module load devel/cuda/9.0
 
 # Be sure to
 #   conda activate tensorflow-1.9.0-gpu
