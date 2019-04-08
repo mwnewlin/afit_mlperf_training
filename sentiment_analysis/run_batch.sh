@@ -1,4 +1,8 @@
 #!/bin/bash
+# Default batch size is 100 or $1
+BATCH_SIZE=100
+BATCH_SIZE=${1:-${BATCH_SIZE}}
+
 cd ${HOME}/git/afit_mlperf_training/sentiment_analysis
 
 # Be sure to
@@ -12,20 +16,20 @@ then
 	exit 1
 fi
 
-for i in {1..100}
+RUN_START="$(date --date "now" +"%Y-%m-%d-%H-%M")"
+for i in $(seq 1 ${BATCH_SIZE})
 do
 	# Run native
 	echo "sentiment_analysis: native, run ${i}"
-	bash paddle/run_and_time.sh &> "$(hostname).$(date --date "now" +"%Y-%m-%d-%H-%M").native.log"
+	bash paddle/run_and_time.sh &> "$(hostname).${RUN_START}.${i}.native.log"
 
 	# Run singularity
-	# Note: need sudo on DL/ML boxes due to permission configuration on NAS.
 	echo "sentiment_analysis: singularity, run ${i}"
 	singularity exec \
 		--nv \
 		--bind $(pwd):/benchmark \
 		--bind ${MLPERF_DATA_DIR}:/data \
 		${SINGULARITY_CONTAINER_PATH}/sentiment_analysis.simg \
-		/bin/bash  /benchmark/paddle/run_and_time.sh &> "$(hostname).$(date --date "now" +"%Y-%m-%d-%H-%M").singularity.log"
+		/bin/bash  /benchmark/paddle/run_and_time.sh &> "$(hostname).${RUN_START}.${i}.singularity.log"
 done
 
