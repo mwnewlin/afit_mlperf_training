@@ -1,5 +1,5 @@
 #!/bin/bash
-BENCHMARKS=( sentimement_analysis 
+BENCHMARKS=( sentiment_analysis 
 	rnn_translator
 	recommendation
 	translation object_detection )
