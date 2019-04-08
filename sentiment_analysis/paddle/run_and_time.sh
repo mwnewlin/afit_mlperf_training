@@ -24,4 +24,4 @@ echo "ENDING TIMING RUN AT $end_fmt"
 result=$(( ${end_time} - ${start_time} ))
 result_name="sentiment"
 
-echo "RESULT,$result_name,$seed,$result,$USER,$start_fmt"
+echo "RESULT,$result_name,$SEED,$result,$USER,$start_fmt"
