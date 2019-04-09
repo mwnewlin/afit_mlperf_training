@@ -23,11 +23,11 @@ if [ ${NUM_GPUS} -eq 0 ] ; then
 		exit 1
 fi
 echo "Discovered ${NUM_GPUS} NVIDA GPUs"
-# Remove offset
+# GPU numbers start at 0 not 1.
 NUM_GPUS=$(expr ${NUM_GPUS} - 1)
 
-#RUN_START="$(date --date "now" +"%Y-%m-%d-%H-%M")"
-RUN_START="$(date --date "now" +"%s")"
+RUN_START="$(date --date "now" +"%Y-%m-%d-%H-%M")"
+#RUN_START="$(date --date "now" +"%s")"
 for i in $(seq 1 ${BATCH_SIZE})
 do
 	# Run native

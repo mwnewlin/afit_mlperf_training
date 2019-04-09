@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# $1 is the GPU (integer)
+# $2 is the RUN_DATE
+# $3 is the batch number
+
 # Run singularity
 # Note: need sudo on DL/ML boxes due to permission configuration on NAS.
 
