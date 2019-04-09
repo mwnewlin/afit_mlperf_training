@@ -27,5 +27,5 @@ do
         grep RESULT ${BENCHMARK}/nid*.singularity.log 2>/dev/null | cut -d',' -f4 > ${OUT_FILE}
         git add -f ${OUT_FILE}
 
+	git commit -m"Updating onyx  results for ${BENCHMARK}."
 done
-
