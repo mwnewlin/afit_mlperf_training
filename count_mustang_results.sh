@@ -4,12 +4,6 @@ BENCHMARKS=( sentiment_analysis
         recommendation
         translation object_detection )
 
-SERVERS=( mustang
-        nvidia_box
-        ovechkin )
-
-# mustang*.log is an interactive run
-#
 for BENCHMARK in "${BENCHMARKS[@]}"
 do
 	# mustang compute node (Type 1)
