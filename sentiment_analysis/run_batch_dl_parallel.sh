@@ -26,15 +26,16 @@ echo "Discovered ${NUM_GPUS} NVIDA GPUs"
 # Remove offset
 NUM_GPUS=$(expr ${NUM_GPUS} - 1)
 
-RUN_START="$(date --date "now" +"%Y-%m-%d-%H-%M")"
+#RUN_START="$(date --date "now" +"%Y-%m-%d-%H-%M")"
+RUN_START="$(date --date "now" +"%s")"
 for i in $(seq 1 ${BATCH_SIZE})
 do
 	# Run native
 	echo "sentiment_analysis: native, run ${i} of ${BATCH_SIZE}"
-	seq 0 ${NUM_GPUS} | parallel "bash run_batch_dl_parallel.native.sh {} ${i}"
+	seq 0 ${NUM_GPUS} | parallel "bash run_batch_dl_parallel.native.sh {} ${RUN_START} ${i}"
 	
 	# Run singularity
 	echo "sentiment_analysis: singularity, run ${i} of ${BATCH_SIZE}"
-	seq 0 ${NUM_GPUS} | parallel "bash run_batch_dl_parallel.singularity.sh {} ${i}"
+	seq 0 ${NUM_GPUS} | parallel "bash run_batch_dl_parallel.singularity.sh {} ${RUN_START} ${i}"
 done
 
