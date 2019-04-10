@@ -6,13 +6,6 @@ BATCH_SIZE=${1:-${BATCH_SIZE}}
 
 cd ${HOME}/git/afit_mlperf_training/rnn_translator
 
-source ${MODULESHOME}/init/bash
-
-# conda init bash
-source ${HOME}/.bashrc
-
-conda activate pytorch-gpu
-
 if [ "$CONDA_DEFAULT_ENV" != "pytorch-gpu" ]
 then
 	echo "Error: not in the correct conda environment."

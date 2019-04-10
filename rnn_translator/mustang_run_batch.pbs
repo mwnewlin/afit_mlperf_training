@@ -13,8 +13,13 @@
 
 source ${MODULESHOME}/init/bash
 
+module load cuda/9.1
+module load cudnn/cuda9.0/7.4.2
+
 # conda init bash
 source ${HOME}/.bashrc
+
+conda activate pytorch-gpu
 
 
 SOURCE_DIR="${HOME}/git/afit_mlperf_training/rnn_translator"
