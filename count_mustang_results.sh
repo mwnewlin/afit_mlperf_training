@@ -1,15 +1,9 @@
 #!/bin/bash
-BENCHMARKS=( sentimement_analysis
+BENCHMARKS=( sentiment_analysis
         rnn_translator
         recommendation
         translation object_detection )
 
-SERVERS=( mustang
-        nvidia_box
-        ovechkin )
-
-# mustang*.log is an interactive run
-#
 for BENCHMARK in "${BENCHMARKS[@]}"
 do
 	# mustang compute node (Type 1)

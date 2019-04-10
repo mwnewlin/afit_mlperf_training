@@ -20,11 +20,11 @@ RUN_START="$(date --date "now" +"%Y-%m-%d-%H-%M")"
 for i in $(seq 1 ${BATCH_SIZE})
 do
 	# Run native
-	echo "sentiment_analysis: native, run ${i}"
+	echo "sentiment_analysis: native, run ${i} of ${BATCH_SIZE}"
 	bash paddle/run_and_time.sh &> "$(hostname).${RUN_START}.${i}.native.log"
 
 	# Run singularity
-	echo "sentiment_analysis: singularity, run ${i}"
+	echo "sentiment_analysis: singularity, run ${i} of ${BATCH_SIZE}"
 	singularity exec \
 		--nv \
 		--bind $(pwd):/benchmark \

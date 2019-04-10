@@ -1,8 +1,13 @@
 #!/bin/bash
+# Default batch size is 5 or $1
+BATCH_SIZE=5
+BATCH_SIZE=${1:-${BATCH_SIZE}}
+
 cd ${HOME}/git/afit_mlperf_training/translation
 
-#module unload devel/cuda/9.1
-#module load devel/cuda/9.0
+echo "loading CUDA 9.0 for Tensorflow 1.9.0"
+module unload devel/cuda/9.1
+module load devel/cuda/9.0
 
 # Be sure to
 #   conda activate tensorflow-1.9.0-gpu
@@ -15,21 +20,21 @@ then
 	exit 1
 fi
 
-for i in {1..100}
+RUN_START="$(date --date "now" +"%Y-%m-%d-%H-%M")"
+for i in $(seq 1 ${BATCH_SIZE})
 do
 	# Run native
-	echo "translation: native, run ${i}"
-	bash tensorflow/run_and_time.sh &> "$(hostname).$(date --date "now" +"%Y-%m-%d-%H-%M").native.log"
+	echo "translation: native, run ${i} of ${BATCH_SIZE}"
+	bash tensorflow/run_and_time.sh &> "$(hostname).${RUN_START}.${i}.native.log"
 
 	# Run singularity
-	# Note: need sudo on DL/ML boxes due to permission configuration on NAS.
-	echo "translation: singularity, run ${i}"
+	echo "translation: singularity, run ${i} of ${BATCH_SIZE}"
 	singularity exec \
 		--nv \
 		--bind $(pwd):/benchmark \
 		--bind ${MLPERF_DATA_DIR}:/data \
 		${SINGULARITY_CONTAINER_PATH}/translation.simg \
-		/bin/bash  /benchmark/tensorflow/run_and_time.sh &> "$(hostname).$(date --date "now" +"%Y-%m-%d-%H-%M").singularity.log"
+		/bin/bash  /benchmark/tensorflow/run_and_time.sh &> "$(hostname).${RUN_START}.${i}.singularity.log"
 done
 
 
