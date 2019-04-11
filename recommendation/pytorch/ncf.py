@@ -52,6 +52,10 @@ def parse_args():
                         help='Number of processes for evaluating model')
     parser.add_argument('--workers', '-w', type=int, default=8,
                         help='Number of workers for training DataLoader')
+    
+    parser.add_argument('--progress-bar', default=False, action='store_true',
+                             help='enables tqdm progress bar')
+
     return parser.parse_args()
 
 
@@ -240,7 +244,7 @@ def main():
                              value=train_dataset.nb_neg)
         mlperf_log.ncf_print(key=mlperf_log.INPUT_STEP_TRAIN_NEG_GEN)
         begin = time.time()
-        loader = tqdm.tqdm(train_dataloader)
+        loader = tqdm.tqdm(train_dataloader,disable=args.progress_bar)
         for batch_index, (user, item, label) in enumerate(loader):
             user = torch.autograd.Variable(user, requires_grad=False)
             item = torch.autograd.Variable(item, requires_grad=False)
