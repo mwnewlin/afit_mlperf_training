@@ -35,7 +35,7 @@ def parse_args():
     parser.add_argument('-s', '--seed', type=int, default=0,
                         help='Random seed to reproduce same negative samples')
     
-    # By default want to set the tqdm progress bar disabled=True
+    # By default want to set the tqdm progress bar disable=True
     parser.add_argument('--progress-bar', default=True, action='store_false',
                              help='enables tqdm progress bar')
     return parser.parse_args()

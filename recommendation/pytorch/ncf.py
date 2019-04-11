@@ -53,7 +53,7 @@ def parse_args():
     parser.add_argument('--workers', '-w', type=int, default=8,
                         help='Number of workers for training DataLoader')    
     
-    # By default want to set the tqdm progress bar disabled=True
+    # By default want to set the tqdm progress bar disable=True
     parser.add_argument('--progress-bar', default=True, action='store_false',
                              help='enables tqdm progress bar')
 
