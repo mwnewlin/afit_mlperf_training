@@ -72,7 +72,7 @@ def main():
     df.sort_values(by='timestamp', inplace=True)
     all_ratings = set(zip(df[USER_COLUMN], df[ITEM_COLUMN]))
     user_to_items = defaultdict(list)
-    for row in tqdm(df.itertuples(), desc='Ratings', total=len(df),disabled=args.progress_bar):
+    for row in tqdm(df.itertuples(), desc='Ratings', total=len(df),disable=args.progress_bar):
         user_to_items[getattr(row, USER_COLUMN)].append(getattr(row, ITEM_COLUMN))  # noqa: E501
 
     test_ratings = []
@@ -94,7 +94,7 @@ def main():
     mlperf_log.ncf_print(key=mlperf_log.RUN_START)
     mlperf_log.ncf_print(key=mlperf_log.INPUT_STEP_EVAL_NEG_GEN)
 
-    for user in tqdm(range(len(original_users)), desc='Users', total=len(original_users),disabled=args.progress_bar):  # noqa: E501
+    for user in tqdm(range(len(original_users)), desc='Users', total=len(original_users),disable=args.progress_bar):  # noqa: E501
         test_item = user_to_items[user].pop()
 
         all_ratings.remove((user, test_item))
