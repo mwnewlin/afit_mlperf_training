@@ -1,8 +1,8 @@
 #!/bin/bash
 #PBS -l select=1:ncpus=22:mpiprocs=22:ngpus=1
 #PBS -A AFSNW27526A21
-#PBS -q standard_sm
-#PBS -l walltime=24:00:00
+#PBS -q standard_lw
+#PBS -l walltime=96:00:00
 #PBS -N rnn_translator
 #PBS -V
 #PBS -M mdeyoung@afit.edu
