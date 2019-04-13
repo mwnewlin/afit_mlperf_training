@@ -31,8 +31,8 @@ RUN_START="$(date --date "now" +"%Y-%m-%d-%H-%M")"
 for i in $(seq 1 ${BATCH_SIZE})
 do
 	# Run native
-	echo "recommendation: native, run ${i} of ${BATCH_SIZE}"
-	seq 0 ${NUM_GPUS} | parallel "bash run_batch_dl_parallel.native.sh {} ${RUN_START} ${i}"
+	#echo "recommendation: native, run ${i} of ${BATCH_SIZE}"
+	#seq 0 ${NUM_GPUS} | parallel "bash run_batch_dl_parallel.native.sh {} ${RUN_START} ${i}"
 	
 	# Run singularity
 	echo "recommendation: singularity, run ${i} of ${BATCH_SIZE}"
