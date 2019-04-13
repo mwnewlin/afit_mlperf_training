@@ -3,7 +3,7 @@
 BATCH_SIZE=5
 BATCH_SIZE=${1:-${BATCH_SIZE}}
 
-cd ${HOME}/git/afit_mlperf_training/recommendation
+cd "${HOME}"/git/afit_mlperf_training/recommendation || exit
 
 # Be sure to
 #   conda activate pytorch-gpu
@@ -18,7 +18,7 @@ fi
 
 
 RUN_START="$(date --date "now" +"%Y-%m-%d-%H-%M")"
-for i in $(seq 1 ${BATCH_SIZE})
+for i in $(seq 1 "${BATCH_SIZE}")
 do
 	# Run native
 	echo "recommendation: native, run ${i} of ${BATCH_SIZE}"
@@ -29,11 +29,8 @@ do
 	echo "recommendation: singularity, run ${i} of ${BATCH_SIZE}"
 	sudo MLPERF_DATA_DIR="/mnt/NAS/shared_data/afit_mlperf/training"  singularity exec \
 		--nv \
-		--bind $(pwd):/benchmark \
-		--bind ${MLPERF_DATA_DIR}:/data \
-		${SINGULARITY_CONTAINER_PATH}/recommendation.simg \
+		--bind "$(pwd)":/benchmark \
+		--bind "${MLPERF_DATA_DIR}":/data \
+		"${SINGULARITY_CONTAINER_PATH}"/recommendation.simg \
 		/bin/bash  /benchmark/pytorch/run_and_time.sh &> "$(hostname).${RUN_START}.${i}.singularity.log"
 done
-
-
-
