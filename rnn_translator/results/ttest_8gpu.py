@@ -35,15 +35,28 @@ print(t_val_rel)
 t_val_ind = stats.ttest_ind(native_df.loc[:,'Native Runtime (Seconds)'],singularity_df.loc[:,'Singularity Runtime (Seconds)'])
 print(t_val_ind)
 
-ax = plt.gca()
 
-native_df.plot(kind='hist', y='Native Runtime (Seconds)', color='red', ax=ax)
-singularity_df.plot(kind='hist', y='Singularity Runtime (Seconds)', color='blue', ax=ax)
+#native_df.plot(kind='hist', y='Native Runtime (Seconds)', color='red', ax=ax)
+#singularity_df.plot(kind='hist', y='Singularity Runtime (Seconds)', color='blue', ax=ax)
 
+
+fig1 = plt.figure(figsize=(5,5))
+native_min = native_df['Native Runtime (Seconds)'].min()
+native_max = native_df['Native Runtime (Seconds)'].max()
+native_bins = np.linspace(native_min,native_max+1,10)
+#bins_best
+singularity_min = singularity_df['Singularity Runtime (Seconds)'].min()
+singularity_max = singularity_df['Singularity Runtime (Seconds)'].max()
+singularity_bins = np.linspace(singularity_min, singularity_max+1,10)
+plt.hist(native_df['Native Runtime (Seconds)'], bins=10, color='red', label='Native Runtime (Seconds)',
+                           alpha=0.6, ec='red')
+plt.hist(singularity_df['Singularity Runtime (Seconds)'],bins=10, color='blue',
+                                label='Singularity Runtime (Seconds)', alpha=0.6, ec='blue')
+plt.legend()
 
 plt.savefig('rnn_translator_8gpu_Histogram.png')
 plt.savefig('rnn_translator_8gpu_Histogram.eps')
-
+plt.show()
 
 
 
